@@ -5,10 +5,11 @@
     <xs:element name="generator">
         <xs:complexType>
             <xs:sequence>
-
+                <xs:element name="type" type="xs:string" minOccurs="0"/>
                 <xs:element name="tables" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
+
                             <!--生成模型-->
                             <xs:element name="model" minOccurs="0">
                                 <xs:complexType>
@@ -43,7 +44,7 @@
                             </xs:element>
                         </xs:sequence>
 
-                        <xs:attribute name="tableNames" type="xs:string" use="required"/>
+                        <xs:attribute name="tableNames" type="xs:string"/>
                         <xs:attribute name="allTables" type="xs:boolean"/>
                         <xs:attribute name="outRootPath" type="xs:string" use="required"/>
                         <xs:attribute name="parentPackage" type="xs:string" use="required"/>

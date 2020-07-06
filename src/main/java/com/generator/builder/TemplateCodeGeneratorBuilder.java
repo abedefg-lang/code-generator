@@ -3,8 +3,8 @@ package com.generator.builder;
 
 import com.config.SimpleTemplateFactory;
 import com.config.TemplateConfig;
-import com.generator.VelocityEngineCodeGenerator;
 import com.generator.TemplateCodeGenerator;
+import com.generator.VelocityEngineCodeGenerator;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
@@ -43,7 +43,6 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             URL url = Thread.currentThread().getContextClassLoader().getResource(classPath);
             Objects.requireNonNull(url, "找不到文件: " + classPath);
             root = reader.read(url).getRootElement();
-            codeGenerator = new VelocityEngineCodeGenerator();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -52,6 +51,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
     @Override
     public TemplateCodeGenerator build() {
         try{
+            createInstance();
             buildBasicConfig();
             buildModelConfig();
             buildTemplates();
@@ -61,22 +61,31 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         return codeGenerator;
     }
 
+    /**创建实例*/
+    private void createInstance() throws Exception{
+        //查看有没有配置type标签
+        Element type = root.element("type");
+        //如果没有配置使用Velocity模板引擎
+        codeGenerator = (type == null) ? new VelocityEngineCodeGenerator() : (TemplateCodeGenerator) Class.forName(type.getTextTrim()).newInstance();
+    }
+
     /**构建基本的配置   输入路径,父级包,是否覆盖文件,表信息*/
     private void buildBasicConfig() throws Exception {
         Element tables = root.element("tables");
         //获取属性
         Map<String, String> map = this.parseAttribute(tables);
-        //进行注入
+        //注入属性配置
         ReflectUtils.simpleInject(codeGenerator, map);
-        //构建TableSource
+        //获取tableInfos
+        //首先需要创建TableSource
         TableSource tableSource = new TableSourceImpl(buildDataSource(tables.element("dataSource")));
-        //获取tableInfo
-        //全表生成  优先于 指定生成
+        //查看是否需要转换成驼峰式
         boolean convertCamel = "true".equals(map.get("convertCamel"));
+        //全表生成  优先于 指定生成
         boolean allTables = "true".equals(map.get("allTables"));
-        List<TableInfo> tableInfos = allTables ? tableSource.getAll(convertCamel) : tableSource.getTableInfos(convertCamel, map.get("tableNames").split(","));
+        String[] tableNames = map.containsKey("tableNames") ? map.get("tableNames").split(",") : new String[0];
+        List<TableInfo> tableInfos = allTables ? tableSource.getAll(convertCamel) : tableSource.getTableInfos(convertCamel, tableNames);
         codeGenerator.setTableInfos(tableInfos);
-        System.out.println(tableInfos);
     }
 
 
