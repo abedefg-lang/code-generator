@@ -18,7 +18,7 @@ import java.util.Map;
  * 使用velocity模板生成代码
  */
 @Data
-public class CodeGenerator4Velocity extends TemplateCodeGenerator{
+public class VelocityEngineCodeGenerator extends TemplateCodeGenerator{
 
     /**context*/
     private VelocityContext context = new VelocityContext();

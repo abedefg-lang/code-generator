@@ -3,7 +3,7 @@ package com.generator.builder;
 
 import com.config.SimpleTemplateFactory;
 import com.config.TemplateConfig;
-import com.generator.CodeGenerator4Velocity;
+import com.generator.VelocityEngineCodeGenerator;
 import com.generator.TemplateCodeGenerator;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
@@ -43,7 +43,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             URL url = Thread.currentThread().getContextClassLoader().getResource(classPath);
             Objects.requireNonNull(url, "找不到文件: " + classPath);
             root = reader.read(url).getRootElement();
-            codeGenerator = new CodeGenerator4Velocity();
+            codeGenerator = new VelocityEngineCodeGenerator();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
