@@ -1,0 +1,54 @@
+package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+
+#if($model.springModel)
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+#end
+import ${parentPackage}#if(${parentPackage} != "").#end${configMap.service.packageName}.$configMap.service.fileName.replace('$', $table.className);
+import ${parentPackage}#if(${parentPackage} != "").#end${configMap.dao.packageName}.$configMap.dao.fileName.replace('$', $table.className);
+import ${parentPackage}#if(${parentPackage} != "").#end${configMap.entity.packageName}.$configMap.entity.fileName.replace('$', $table.className);
+#if($model.mybatisPlusModel)
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+#end
+
+/**
+ * (${table.tableName})表  业务层
+ * @date ${date}
+ */
+#if($model.springModel)
+@Service
+#end
+#if($model.mybatisPlusModel)
+public class $config.fileName.replace('$', $table.className) extends ServiceImpl<$configMap.dao.fileName.replace('$', $table.className), $configMap.entity.fileName.replace('$', $table.className)>{
+
+}
+#else
+public class $config.fileName.replace('$', $table.className){
+
+#if($model.springModel)
+    @Autowired
+#end
+    private $configMap.dao.fileName.replace('$', $table.className) ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))};
+
+
+    public $configMap.entity.fileName.replace('$', $table.className) getById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.selectById(id);
+    }
+
+
+    public int insertOne($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})}){
+        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.insertOne(${NameUtils.initialLowercase(${table.className})});
+    }
+
+
+    public int updateById($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})}){
+        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.updateById(${NameUtils.initialLowercase(${table.className})});
+    }
+
+
+    public int deleteById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.deleteById(id);
+    }
+
+}
+#end

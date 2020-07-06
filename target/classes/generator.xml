@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<generator xmlns="http://www.w3school.com.cn">
+
+    <tables outRootPath="D:\work\git\Git\git-source\code-generator\src\main\java"
+            parentPackage="com.test.demo"
+            convertCamel="true"
+            allTables="true"
+            tableNames="">
+
+        <dataSource url="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                    user="root" password="root"/>
+
+<!--        <model lombokModel="true" mybatisPlusModel="true" springModel="true"/>-->
+
+        <templates>
+            <template name="entity" packageName="domain" fileName="$Domain"/>
+            <template name="dao" packageName="mapper" fileName="$Mapper"/>
+            <template name="service"/>
+        </templates>
+    </tables>
+</generator>

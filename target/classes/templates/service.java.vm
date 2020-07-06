@@ -1,0 +1,40 @@
+package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+
+import ${parentPackage}#if(${parentPackage} != "").#end${configMap.entity.packageName}.$configMap.entity.fileName.replace('$', $table.className);
+#if($model.mybatisPlusModel)
+import com.baomidou.mybatisplus.extension.service.IService;
+#end
+
+/**
+ * (${table.tableName})表  业务层接口
+ * @date ${date}
+ */
+#if($model.mybatisPlusModel)
+public interface $config.fileName.replace('$', $table.className) extends IService<$configMap.entity.fileName.replace('$', $table.className)>{
+
+}
+#else
+public interface $config.fileName.replace('$', $table.className) {
+
+    /**
+     * 通过id查询单条数据
+     */
+    $configMap.entity.fileName.replace('$', $table.className) getById(${table.primary.javaType.getSimpleName()} id);
+
+    /**
+     * 新增单条数据
+     */
+    int insertOne($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})});
+
+
+    /**
+     * 通过id修改单条数据
+     */
+    int updateById($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})});
+
+    /**
+     * 通过id删除单条数据
+     */
+    int deleteById(${table.primary.javaType.getSimpleName()} id);
+}
+#end

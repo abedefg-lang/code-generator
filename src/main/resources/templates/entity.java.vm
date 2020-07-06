@@ -1,0 +1,52 @@
+package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+
+import java.io.Serializable;
+#if($model.lombokModel)
+import lombok.Data;
+#end
+#if($model.mybatisPlusModel)
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+#end
+
+/**
+ * (${table.tableName})表  实体类
+ * ${table.comment}
+ * @date ${date}
+ */
+#if($model.lombokModel)
+@Data
+#end
+#if($model.mybatisPlusModel)
+@TableName("$table.tableName")
+#end
+public class $config.fileName.replace('$', $table.className) implements Serializable{
+#foreach($column in $table.columnList)
+
+  #if($column.comment != "")
+  /**$column.comment*/
+  #end
+#if($model.mybatisPlusModel)
+#if($column.columnName == $table.primary.columnName)
+  @TableId(value="$column.columnName", type = IdType.AUTO)
+#else
+  @TableField("$column.columnName")
+#end
+  #end
+  private $column.javaType.getSimpleName() $column.fieldName;
+#end
+#if(!$model.lombokModel)
+#foreach($column in $table.columnList)
+
+    public void set$NameUtils.initialUppercase($column.fieldName)(${column.javaType.getSimpleName()} ${column.fieldName}){
+        this.$column.fieldName = $column.fieldName;
+    }
+
+    public ${column.javaType.getSimpleName()} get$NameUtils.initialUppercase($column.fieldName)(){
+        return this.$column.fieldName;
+    }
+#end
+#end
+}
