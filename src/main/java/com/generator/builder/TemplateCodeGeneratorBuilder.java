@@ -61,7 +61,9 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         return codeGenerator;
     }
 
-    /**创建实例*/
+    /**
+     * 创建实例
+     * */
     private void createInstance() throws Exception{
         //查看有没有配置type标签
         Element type = root.element("type");
@@ -69,7 +71,9 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         codeGenerator = (type == null) ? new VelocityEngineCodeGenerator() : (TemplateCodeGenerator) Class.forName(type.getTextTrim()).newInstance();
     }
 
-    /**构建基本的配置   输入路径,父级包,是否覆盖文件,表信息*/
+    /**
+     * 构建基本的配置   输入路径,父级包,是否覆盖文件,表信息
+     * */
     private void buildBasicConfig() throws Exception {
         Element tables = root.element("tables");
         //获取属性
@@ -89,23 +93,25 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
     }
 
 
-    /**构建dataSource*/
+    /**
+     * 构建dataSource
+     * */
     private DataSource buildDataSource(Element dataSource){
-        MysqlDataSource source = null;
-        if(dataSource != null && "dataSource".equals(dataSource.getName())){
-            //获取property内容
-            Map<String, String> attributeMap = parseAttribute(dataSource);
-            //创建DataSource 默认使用MysqlDataSource
-            source = new MysqlDataSource();
-            source.setUrl(attributeMap.get("url"));
-            source.setUser(attributeMap.get("user"));
-            source.setPassword(attributeMap.get("password"));
-        }
+        Objects.requireNonNull(dataSource, "必须配置dataSource");
+        //获取property内容
+        Map<String, String> attributeMap = parseAttribute(dataSource);
+        //创建DataSource 默认使用MysqlDataSource
+        MysqlDataSource source = new MysqlDataSource();
+        source.setUrl(attributeMap.get("url"));
+        source.setUser(attributeMap.get("user"));
+        source.setPassword(attributeMap.get("password"));
         return source;
     }
 
 
-    /**构建model配置*/
+    /**
+     * 构建model配置
+     * */
     private void buildModelConfig() throws Exception {
         Element tables = root.element("tables");
         //获取Model标签
@@ -116,7 +122,9 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         }
     }
 
-    /**构建模板配置*/
+    /**
+     * 构建模板配置
+     * */
     private void buildTemplates() throws Exception {
         Element tables = root.element("tables");
         //获取templates标签

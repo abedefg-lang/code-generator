@@ -44,12 +44,13 @@
                             </xs:element>
                         </xs:sequence>
 
-                        <xs:attribute name="tableNames" type="xs:string"/>
-                        <xs:attribute name="allTables" type="xs:boolean"/>
                         <xs:attribute name="outRootPath" type="xs:string" use="required"/>
                         <xs:attribute name="parentPackage" type="xs:string" use="required"/>
+                        <xs:attribute name="tableNames" type="xs:string"/>
+                        <xs:attribute name="allTables" type="xs:boolean"/>
                         <xs:attribute name="convertCamel" type="xs:boolean"/>
                         <xs:attribute name="overwriteFile" type="xs:boolean"/>
+                        <xs:attribute name="author" type="xs:string"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

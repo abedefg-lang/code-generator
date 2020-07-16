@@ -17,14 +17,17 @@ import java.util.List;
 @Accessors(chain = true)
 public abstract class AbstractCodeGenerator implements CodeGenerator{
 
-    /**代码写入的根路径*/
+    /**代码写入的根路径  默认是项目的根路径*/
     protected String outRootPath = System.getProperty("user.dir");
 
-    /**代码存放的父级包*/
+    /**代码存放的父级包  默认时以com为父级包*/
     protected String parentPackage = "com";
 
     /**当文件已经存在时  是否重写文件*/
     protected boolean overwriteFile;
+
+    /**作者*/
+    protected String author = "";
 
     /**需要生成的表的信息*/
     protected List<TableInfo> tableInfos;
@@ -35,7 +38,6 @@ public abstract class AbstractCodeGenerator implements CodeGenerator{
      * @param path  写入路径
      */
     protected void writeCode(String code, String path){
-        System.out.println(path);
         File file = new File(path);
         //判断执行写入逻辑的条件
         //当file不存在时 或者 overwriteFile为true的时候
@@ -55,5 +57,4 @@ public abstract class AbstractCodeGenerator implements CodeGenerator{
             }
         }
     }
-
 }

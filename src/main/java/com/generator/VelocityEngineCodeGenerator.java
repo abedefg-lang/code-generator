@@ -29,9 +29,12 @@ public class VelocityEngineCodeGenerator extends TemplateCodeGenerator{
         if(tableInfos != null && !tableInfos.isEmpty() && !templateConfigMap.isEmpty()) {
             //put配置
             this.putConfig();
+            System.out.println("-------------开始生成----------------");
+            long startTime = System.currentTimeMillis();
             //循环生成
             for(Map.Entry<String, TemplateConfig> entry : templateConfigMap.entrySet()) {
                 TemplateConfig config = entry.getValue();
+                System.out.println("template: "+config.getName());
                 Template template = Velocity.getTemplate(config.getTemplateClassPath(), "UTF-8");
                 context.put("config", config);
                 for(TableInfo tableInfo : tableInfos) {
@@ -41,6 +44,8 @@ public class VelocityEngineCodeGenerator extends TemplateCodeGenerator{
                     writeCode(writer.toString(), getWritePath(tableInfo.getClassName(), config));
                 }
             }
+            long endTime = System.currentTimeMillis();
+            System.out.println("-------生成完毕 耗时: "+(endTime-startTime)+"毫秒----------");
         }
     }
 
@@ -52,6 +57,7 @@ public class VelocityEngineCodeGenerator extends TemplateCodeGenerator{
         context.put("configMap", templateConfigMap);
         context.put("NameUtils", NameUtils.class);
         context.put("model", model);
+        context.put("author", author);
         context.put("date", TimeUtil.getCurrentTime());
     }
 

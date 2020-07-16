@@ -2,7 +2,9 @@ package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
 
 import java.io.Serializable;
 #if($model.lombokModel)
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 #end
 #if($model.mybatisPlusModel)
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -14,10 +16,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 /**
  * (${table.tableName})表  实体类
  * ${table.comment}
+ * @author ${author}
  * @date ${date}
  */
 #if($model.lombokModel)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 #end
 #if($model.mybatisPlusModel)
 @TableName("$table.tableName")

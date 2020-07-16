@@ -8,6 +8,7 @@ import ${parentPackage}#if(${parentPackage} != "").#end${configMap.service.packa
 
 /**
  * (${table.tableName})表  控制层
+ * @author ${author}
  * @date  ${date}
  */
 #if($model.springModel)

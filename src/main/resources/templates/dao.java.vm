@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * (${table.tableName})表  数据访问层
+ * @author ${author}
  * @date  ${date}
  */
 @Mapper

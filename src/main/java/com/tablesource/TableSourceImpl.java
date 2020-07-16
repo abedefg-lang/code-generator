@@ -7,10 +7,13 @@ import com.tablesource.dao.impl.TableInfoDaoImpl;
 import com.tablesource.info.ColumnInfo;
 import com.tablesource.info.TableInfo;
 import com.utils.NameUtils;
+import lombok.Data;
 
 import javax.sql.DataSource;
 import java.util.List;
 
+
+@Data
 public class TableSourceImpl implements TableSource{
 
     private TableInfoDao tableInfoDao;

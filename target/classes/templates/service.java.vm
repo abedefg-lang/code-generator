@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * (${table.tableName})表  业务层接口
+ * @author ${author}
  * @date ${date}
  */
 #if($model.mybatisPlusModel)
