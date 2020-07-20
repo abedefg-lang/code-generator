@@ -35,9 +35,12 @@ public abstract class AbstractCodeGenerator implements CodeGenerator{
     /**
      * 将代码写入指定的位置
      * @param code  生成的代码
-     * @param path  写入路径
+     * @param posteriorPath  后半段路径  由于这个类中可以获取到outRootPath parentPackage
+     *                      所以对于一个文件路径来说  会变化的就是后面的部分
      */
-    protected void writeCode(String code, String path){
+    protected void writeCode(String code, String posteriorPath){
+        //拼接全路径
+        String path = outRootPath+"\\"+parentPackage.replace(".", "\\")+"\\"+posteriorPath;
         File file = new File(path);
         //判断执行写入逻辑的条件
         //当file不存在时 或者 overwriteFile为true的时候

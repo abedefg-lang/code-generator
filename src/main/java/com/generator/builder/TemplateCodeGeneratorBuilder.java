@@ -1,10 +1,9 @@
 package com.generator.builder;
 
 
-import com.config.SimpleTemplateFactory;
-import com.config.TemplateConfig;
 import com.generator.TemplateCodeGenerator;
-import com.generator.VelocityEngineCodeGenerator;
+import com.template.SimpleTemplateFactory;
+import com.template.TemplateConfig;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
@@ -43,6 +42,8 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             URL url = Thread.currentThread().getContextClassLoader().getResource(classPath);
             Objects.requireNonNull(url, "找不到文件: " + classPath);
             root = reader.read(url).getRootElement();
+            //创建实例对象
+            codeGenerator = new TemplateCodeGenerator();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -51,7 +52,6 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
     @Override
     public TemplateCodeGenerator build() {
         try{
-            createInstance();
             buildBasicConfig();
             buildModelConfig();
             buildTemplates();
@@ -59,16 +59,6 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             e.printStackTrace();
         }
         return codeGenerator;
-    }
-
-    /**
-     * 创建实例
-     * */
-    private void createInstance() throws Exception{
-        //查看有没有配置type标签
-        Element type = root.element("type");
-        //如果没有配置使用Velocity模板引擎
-        codeGenerator = (type == null) ? new VelocityEngineCodeGenerator() : (TemplateCodeGenerator) Class.forName(type.getTextTrim()).newInstance();
     }
 
     /**

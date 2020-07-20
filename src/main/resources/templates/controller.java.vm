@@ -1,10 +1,10 @@
-package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+package ${packageMap.controller};
 
 #if($model.springModel)
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 #end
-import ${parentPackage}#if(${parentPackage} != "").#end${configMap.service.packageName}.$configMap.service.fileName.replace('$', $table.className);
+import ${packageMap.service}.${fileNameMap.service};
 
 /**
  * (${table.tableName})表  控制层
@@ -13,9 +13,9 @@ import ${parentPackage}#if(${parentPackage} != "").#end${configMap.service.packa
  */
 #if($model.springModel)
 @Controller
-@RequestMapping("/$table.tableName")
+@RequestMapping("/$table.className")
 #end
-public class $config.fileName.replace('$', $table.className){
+public class ${fileNameMap.controller}{
 
     /**
      * 服务层对象
@@ -23,5 +23,5 @@ public class $config.fileName.replace('$', $table.className){
 #if($model.springModel)
     @Autowired
 #end
-    private $configMap.service.fileName.replace('$', $table.className) ${NameUtils.initialLowercase($configMap.service.fileName.replace('$', $table.className))};
+    private ${fileNameMap.service} ${NameUtils.initialLowercase(${fileNameMap.service})};
 }

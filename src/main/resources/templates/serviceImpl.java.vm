@@ -1,12 +1,12 @@
-package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+package ${packageMap.serviceImpl};
 
 #if($model.springModel)
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 #end
-import ${parentPackage}#if(${parentPackage} != "").#end${configMap.service.packageName}.$configMap.service.fileName.replace('$', $table.className);
-import ${parentPackage}#if(${parentPackage} != "").#end${configMap.dao.packageName}.$configMap.dao.fileName.replace('$', $table.className);
-import ${parentPackage}#if(${parentPackage} != "").#end${configMap.entity.packageName}.$configMap.entity.fileName.replace('$', $table.className);
+import ${packageMap.service}.${fileNameMap.service};
+import ${packageMap.dao}.${fileNameMap.dao};
+import ${packageMap.entity}.${fileNameMap.entity};
 #if($model.mybatisPlusModel)
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 #end
@@ -20,35 +20,35 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 @Service
 #end
 #if($model.mybatisPlusModel)
-public class $config.fileName.replace('$', $table.className) extends ServiceImpl<$configMap.dao.fileName.replace('$', $table.className), $configMap.entity.fileName.replace('$', $table.className)>{
+public class ${fileNameMap.serviceImpl} extends ServiceImpl<${fileNameMap.dao}, ${fileNameMap.entity}>{
 
 }
 #else
-public class $config.fileName.replace('$', $table.className){
+public class ${fileNameMap.serviceImpl}{
 
 #if($model.springModel)
     @Autowired
 #end
-    private $configMap.dao.fileName.replace('$', $table.className) ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))};
+    private ${fileNameMap.dao} ${NameUtils.initialLowercase(${fileNameMap.dao})};
 
 
-    public $configMap.entity.fileName.replace('$', $table.className) getById(${table.primary.javaType.getSimpleName()} id){
-        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.selectById(id);
+    public ${fileNameMap.entity} getById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.selectById(id);
     }
 
 
-    public int insertOne($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})}){
-        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.insertOne(${NameUtils.initialLowercase(${table.className})});
+    public int insertOne(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.insertOne(${NameUtils.initialLowercase(${fileNameMap.entity})});
     }
 
 
-    public int updateById($configMap.entity.fileName.replace('$', $table.className) ${NameUtils.initialLowercase(${table.className})}){
-        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.updateById(${NameUtils.initialLowercase(${table.className})});
+    public int updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})});
     }
 
 
     public int deleteById(${table.primary.javaType.getSimpleName()} id){
-        return ${NameUtils.initialLowercase($configMap.dao.fileName.replace('$', $table.className))}.deleteById(id);
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.deleteById(id);
     }
 
 }

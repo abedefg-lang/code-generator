@@ -1,4 +1,4 @@
-package ${parentPackage}#if(${parentPackage} != "").#end${config.packageName};
+package ${packageMap.entity};
 
 import java.io.Serializable;
 #if($model.lombokModel)
@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 #if($model.mybatisPlusModel)
 @TableName("$table.tableName")
 #end
-public class $config.fileName.replace('$', $table.className) implements Serializable{
+public class ${fileNameMap.entity} implements Serializable{
 #foreach($column in $table.columnList)
 
   #if($column.comment != "")

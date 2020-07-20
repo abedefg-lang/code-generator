@@ -5,7 +5,7 @@
     <xs:element name="generator">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="type" type="xs:string" minOccurs="0"/>
+<!--                <xs:element name="type" type="xs:string" minOccurs="0"/>-->
                 <xs:element name="tables" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
@@ -66,8 +66,9 @@
 
     <!--模板的通用配置-->
     <xs:attributeGroup name="templateConfig">
-        <xs:attribute name="packageName" type="xs:string"/>
-        <xs:attribute name="fileName" type="xs:string"/>
+        <xs:attribute name="targetPackage" type="xs:string"/>
+        <xs:attribute name="targetFileName" type="xs:string"/>
         <xs:attribute name="templateClassPath" type="xs:string"/>
+        <xs:attribute name="engine" type="xs:string"/>
     </xs:attributeGroup>
 </xs:schema>

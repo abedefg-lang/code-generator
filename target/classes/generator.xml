@@ -2,24 +2,25 @@
 
 <generator xmlns="http://www.w3school.com.cn">
 
-<!--    <type>com.generator.MyCodeGenerator</type>-->
 
     <tables outRootPath="D:\work\git\Git\git-source\code-generator\src\main\java"
             parentPackage="com.test.demo"
             convertCamel="true"
-            allTables="true"
-            author="TOM">
-
+            tableNames="admin"
+            author="TOM"
+            overwriteFile="true">
 
         <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
                     user="root" password="root"/>
 
-        <model lombokModel="true"/>
+        <model lombokModel="true" />
 
         <templates>
-            <template name="entity" packageName="domain"/>
+            <template name="entity" targetPackage="domain" targetFileName="$Entity"/>
 <!--            <template name="dao" />-->
 <!--            <template name="service" />-->
+<!--            <template name="serviceImpl"/>-->
+<!--            <template name="controller"/>-->
         </templates>
 
     </tables>
