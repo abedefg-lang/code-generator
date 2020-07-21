@@ -17,7 +17,9 @@
 
         <templates>
             <template name="entity" />
-<!--            <template name="dao" />-->
+            <template name="dao">
+                <property name="mybatisAnnotation" value="true"/>
+            </template>
 <!--            <template name="service" />-->
 <!--            <template name="serviceImpl"/>-->
 <!--            <template name="controller"/>-->
