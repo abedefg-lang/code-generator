@@ -7,6 +7,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
 import com.tablesource.info.TableInfo;
+import com.utils.TypeMappingUtil;
 import com.utils.reflect.ReflectUtils;
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
@@ -64,6 +65,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
     @Override
     public TemplateCodeGenerator build() {
         try{
+            parseTypeMappings();
             buildBasicConfig();
             buildModelConfig();
             buildTemplates();
@@ -71,6 +73,22 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             e.printStackTrace();
         }
         return codeGenerator;
+    }
+
+    /**
+     * 解析typeMappings标签
+     */
+    private void parseTypeMappings() throws Exception{
+        Element typeMappings = root.element("typeMappings");
+        if(typeMappings != null){
+            //获取子标签
+            List<Element> typeMappingList = typeMappings.elements("typeMapping");
+            Map<String, String> map;
+            for(Element element : typeMappingList){
+                map = parseAttribute(element);
+                TypeMappingUtil.register(map.get("dbType"), Class.forName(map.get("javaType")));
+            }
+        }
     }
 
     /**
@@ -146,6 +164,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
                 ReflectUtils.simpleInject(config, attributeMap);
                 //解析property标签并且进行设置
                 config.setPropertyMap(parseProperties(template));
+                codeGenerator.putTemplateConfig(config);
             }
         }
     }

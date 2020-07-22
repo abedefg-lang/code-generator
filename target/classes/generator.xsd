@@ -5,7 +5,22 @@
     <xs:element name="generator">
         <xs:complexType>
             <xs:sequence>
-<!--                <xs:element name="type" type="xs:string" minOccurs="0"/>-->
+
+                <!--类型映射-->
+                <xs:element name="typeMappings" minOccurs="0">
+                   <xs:complexType>
+                       <xs:sequence>
+                           <xs:element name="typeMapping" minOccurs="0">
+                               <xs:complexType>
+                                   <xs:attribute name="dbType" type="xs:string" use="required"/>
+                                   <xs:attribute name="javaType" type="xs:string" use="required"/>
+                               </xs:complexType>
+                           </xs:element>
+                       </xs:sequence>
+                   </xs:complexType>
+                </xs:element>
+
+                <!--table-->
                 <xs:element name="tables" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
@@ -59,8 +74,8 @@
 
     <xs:element name="property">
         <xs:complexType>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="value" type="xs:string"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="value" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
 

@@ -25,7 +25,7 @@ public class ColumnInfoDaoImpl implements ColumnInfoDao {
         List<ColumnInfo> result = null;
 
         try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = \""+connection.getCatalog()+"\" AND `TABLE_NAME` = \""+tableName+"\"");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = \""+connection.getCatalog()+"\" AND `TABLE_NAME` = \""+tableName+"\" ORDER BY ORDINAL_POSITION");
             ResultSet set = statement.executeQuery()){
             //创建集合
             ColumnInfo info;

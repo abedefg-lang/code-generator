@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ColumnTypeUtil {
+public class TypeMappingUtil {
 
     /**存储字段类型  和java类型的映射*/
     private static Map<String, Class<?>> typeConverter;
@@ -66,5 +66,9 @@ public class ColumnTypeUtil {
             }
         }
         return result;
+    }
+
+    public static void register(String dbType, Class<?> javaType){
+        typeConverter.put(dbType, javaType);
     }
 }

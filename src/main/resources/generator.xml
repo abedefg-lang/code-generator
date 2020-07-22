@@ -7,25 +7,26 @@
             parentPackage="com.test.demo"
             convertCamel="true"
             author="TOM"
-            overwriteFile="true">
+            overwriteFile="true"
+            tableNames="admin">
 
-        <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
-                    user="root" password="root"/>
+        <dataSource url="jdbc:mysql://123.57.11.70:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                    user="root" password="root123456"/>
 
         <model lombokModel="true" />
 
-<!--        <templates>-->
-<!--&lt;!&ndash;            <template name="test" targetPackage="test" templateClassPath="test.txt.vm" targetFileName="$">&ndash;&gt;-->
-<!--&lt;!&ndash;                <property name="test" value="abc"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            </template>&ndash;&gt;-->
-<!--&lt;!&ndash;            <template name="entity" />&ndash;&gt;-->
-<!--&lt;!&ndash;            <template name="dao">&ndash;&gt;-->
-<!--&lt;!&ndash;                <property name="mybatisAnnotation" value="true"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            </template>&ndash;&gt;-->
-<!--&lt;!&ndash;            <template name="service" />&ndash;&gt;-->
-<!--&lt;!&ndash;            <template name="serviceImpl"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <template name="controller"/>&ndash;&gt;-->
-<!--        </templates>-->
+        <templates>
+<!--            <template name="test" targetPackage="test" templateClassPath="test.txt.vm" targetFileName="$">-->
+<!--                <property name="test" value="abc"/>-->
+<!--            </template>-->
+            <template name="entity" />
+<!--            <template name="dao">-->
+<!--                <property name="mybatisAnnotation" value="true"/>-->
+<!--            </template>-->
+<!--            <template name="service" />-->
+<!--            <template name="serviceImpl"/>-->
+<!--            <template name="controller"/>-->
+        </templates>
 
     </tables>
 </generator>

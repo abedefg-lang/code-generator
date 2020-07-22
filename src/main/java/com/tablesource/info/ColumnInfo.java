@@ -1,6 +1,6 @@
 package com.tablesource.info;
 
-import com.utils.ColumnTypeUtil;
+import com.utils.TypeMappingUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -34,7 +34,7 @@ public class ColumnInfo {
      */
     public ColumnInfo setDataType(String dataType){
         this.dataType = dataType;
-        this.javaType = ColumnTypeUtil.getJavaType(dataType);
+        this.javaType = TypeMappingUtil.getJavaType(dataType);
         return this;
     }
 }
