@@ -7,6 +7,7 @@ import java.util.Map;
  */
 public interface TemplateRender {
 
+    String DEFAULT_ENCODING = "UTF-8";
 
     /**
      * 渲染模板
@@ -15,4 +16,10 @@ public interface TemplateRender {
      * @return 返回渲染之后的内容
      */
     String rendering(String classpath, Map<String, Object> map);
+
+    /**
+     * 获取模板引擎的名称
+     * @return 返回名称
+     */
+    String getName();
 }

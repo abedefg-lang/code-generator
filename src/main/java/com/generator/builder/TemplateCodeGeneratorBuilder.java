@@ -1,14 +1,13 @@
 package com.generator.builder;
 
-
 import com.generator.TemplateCodeGenerator;
-import com.template.SimpleTemplateFactory;
+import com.template.BasicTemplate;
 import com.template.TemplateConfig;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
 import com.tablesource.info.TableInfo;
-import com.utils.ReflectUtils;
+import com.utils.reflect.ReflectUtils;
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -25,13 +24,26 @@ import java.util.Objects;
 /**
  * 构建templateCodeGenerator
  */
+@SuppressWarnings("unchecked")
 public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
+
+    /**存放基础的模板*/
+    private static final Map<String, TemplateConfig> basicTemplateMap;
 
     /**需要构建的生成器*/
     private TemplateCodeGenerator codeGenerator;
 
     /**根标签*/
     private Element root;
+
+    static {
+        //初始化map
+        BasicTemplate[] basicTemplates = BasicTemplate.values();
+        basicTemplateMap = new HashMap<>(basicTemplates.length);
+        for(BasicTemplate bt : basicTemplates){
+            basicTemplateMap.put(bt.getConfig().getName(), bt.getConfig());
+        }
+    }
 
 
     public TemplateCodeGeneratorBuilder(String classPath){
@@ -88,7 +100,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
      * */
     private DataSource buildDataSource(Element dataSource){
         Objects.requireNonNull(dataSource, "必须配置dataSource");
-        //获取property内容
+        //获取属性的内容
         Map<String, String> attributeMap = parseAttribute(dataSource);
         //创建DataSource 默认使用MysqlDataSource
         MysqlDataSource source = new MysqlDataSource();
@@ -123,60 +135,44 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             //获取所有template标签
             List<Element> list = templates.elements("template");
             //循环解析
+            Map<String, String> attributeMap;
+            TemplateConfig config;
             for(Element template : list){
-                TemplateConfig config = buildTemplate(template);
-                if(config != null) {
-                    codeGenerator.putTemplateConfig(config);
-                }
+                //解析参数
+                attributeMap = this.parseAttribute(template);
+                //通过名字判断是否是基础模板  如果不是创建一个新的模板配置类
+                config = basicTemplateMap.containsKey(attributeMap.get("name")) ? basicTemplateMap.get(attributeMap.get("name")) : new TemplateConfig();
+                //进行注入
+                ReflectUtils.simpleInject(config, attributeMap);
+                //解析property标签并且进行设置
+                config.setPropertyMap(parseProperties(template));
             }
         }
     }
 
-    /**解析单个template标签*/
-    private TemplateConfig buildTemplate(Element template) throws Exception {
-        TemplateConfig config = null;
-        //判断传递进来的是否是template标签
-        if(template != null && "template".equals(template.getName())){
-            Map<String, String> map = this.parseAttribute(template);
-            //首先通过name属性到SimpleTemplateFactory工厂查看 有没有这个config
-            config = SimpleTemplateFactory.getTemplateConfig(map.get("name"));
-            //如果工厂中没有进行创建
-            if(config == null){
-                config = new TemplateConfig();
-            }
-            //解析attribute  进行注入
-            ReflectUtils.simpleInject(config, map);
-            //解析property标签并且进行设置
-            config.setPropertyMap(parseProperties(template));
-        }
-        return config;
-    }
 
-
-    /**解析一个标签的属性 封装成一个Map*/
+    /**
+     * 解析一个标签的属性 封装成一个Map
+     */
     private Map<String, String> parseAttribute(Element element){
-        Map<String, String> map = null;
-        if(element != null){
-            List<Attribute> list = element.attributes();
-            map = new HashMap<>(list.size());
-            for(Attribute attribute : list){
-                map.put(attribute.getName(), attribute.getValue());
-            }
+        List<Attribute> list = element.attributes();
+        Map<String, String> map = new HashMap<>(list.size());
+        for(Attribute attribute : list){
+            map.put(attribute.getName(), attribute.getValue());
         }
         return map;
     }
 
-    /**解析一个标签下的所有property标签*/
+    /**
+     * 解析一个标签下的所有property标签
+     */
     private Map<String, String> parseProperties(Element parent){
-        Map<String, String> map = null;
-        if(parent != null){
-            //获取所有property标签
-            List<Element> properties = parent.elements("property");
-            map = new HashMap<>(properties.size());
-            for(Element property : properties){
-                //获取name属性  value属性
-                map.put(property.attributeValue("name"), property.attributeValue("value"));
-            }
+        //获取所有property标签
+        List<Element> properties = parent.elements("property");
+        Map<String, String> map = new HashMap<>(properties.size());
+        for(Element property : properties){
+            //获取name属性  value属性
+            map.put(property.attributeValue("name"), property.attributeValue("value"));
         }
         return map;
     }

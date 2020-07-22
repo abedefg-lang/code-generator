@@ -14,10 +14,10 @@ import java.util.Map;
 public class TemplateConfig {
 
     /**默认的生成的文件格式*/
-    private static final String DEFAULT_TARGET_FILE_FORMAT = "java";
+    public static final String DEFAULT_TARGET_FILE_FORMAT = "java";
 
     /**占位符*/
-    private static final String TARGET_NAME_PLACEHOLDER = "$";
+    public static final String TARGET_NAME_PLACEHOLDER = "$";
 
     /**模板名称 */
     private String name;

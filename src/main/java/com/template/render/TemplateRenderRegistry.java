@@ -27,4 +27,8 @@ public class TemplateRenderRegistry {
     public static TemplateRender register(String engineName, TemplateRender engine){
         return engineMap.put(engineName, engine);
     }
+
+    public static boolean hasRender(String engineName){
+        return engineMap.containsKey(engineName);
+    }
 }

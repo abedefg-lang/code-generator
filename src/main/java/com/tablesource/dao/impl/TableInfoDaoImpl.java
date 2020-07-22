@@ -3,11 +3,13 @@ package com.tablesource.dao.impl;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.info.TableInfo;
 
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TableInfoDaoImpl implements TableInfoDao {
@@ -22,6 +24,9 @@ public class TableInfoDaoImpl implements TableInfoDao {
 
     @Override
     public List<TableInfo> selectListByName(String... tableNames) {
+        if(tableNames.length == 0){
+            return Collections.emptyList();
+        }
         //如果调用的是这个方法  使用in关键字
         //需要先拼接in的内容
         StringBuilder in = new StringBuilder();

@@ -6,7 +6,6 @@
     <tables outRootPath="D:\work\git\Git\git-source\code-generator\src\main\java"
             parentPackage="com.test.demo"
             convertCamel="true"
-            tableNames="admin"
             author="TOM"
             overwriteFile="true">
 
@@ -15,15 +14,18 @@
 
         <model lombokModel="true" />
 
-        <templates>
-            <template name="entity" />
-            <template name="dao">
-                <property name="mybatisAnnotation" value="true"/>
-            </template>
-<!--            <template name="service" />-->
-<!--            <template name="serviceImpl"/>-->
-<!--            <template name="controller"/>-->
-        </templates>
+<!--        <templates>-->
+<!--&lt;!&ndash;            <template name="test" targetPackage="test" templateClassPath="test.txt.vm" targetFileName="$">&ndash;&gt;-->
+<!--&lt;!&ndash;                <property name="test" value="abc"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </template>&ndash;&gt;-->
+<!--&lt;!&ndash;            <template name="entity" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <template name="dao">&ndash;&gt;-->
+<!--&lt;!&ndash;                <property name="mybatisAnnotation" value="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </template>&ndash;&gt;-->
+<!--&lt;!&ndash;            <template name="service" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <template name="serviceImpl"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <template name="controller"/>&ndash;&gt;-->
+<!--        </templates>-->
 
     </tables>
 </generator>

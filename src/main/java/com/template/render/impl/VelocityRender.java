@@ -15,21 +15,27 @@ import java.util.Map;
  */
 public class VelocityRender implements TemplateRender {
 
+    static {
+        Velocity.addProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+        Velocity.addProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        Velocity.init();
+    }
+
     @Override
     public String rendering(String classpath, Map<String, Object> map) {
         VelocityContext context = new VelocityContext();
         for(Map.Entry<String, Object> entry : map.entrySet()){
             context.put(entry.getKey(), entry.getValue());
         }
-        Template template = Velocity.getTemplate(classpath, "UTF-8");
+        Template template = Velocity.getTemplate(classpath, DEFAULT_ENCODING);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();
     }
 
-    static {
-        Velocity.addProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-        Velocity.addProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-        Velocity.init();
+    @Override
+    public String getName() {
+        return "velocity";
     }
+
 }

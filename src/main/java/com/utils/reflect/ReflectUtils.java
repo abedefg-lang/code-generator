@@ -1,4 +1,6 @@
-package com.utils;
+package com.utils.reflect;
+
+import com.utils.NameUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,7 +27,7 @@ public class ReflectUtils {
                     Object value = BasicTypeUtil.getValue(fieldType, valueMap.get(field.getName()));
                     if(value != null){
                         //获取set方法
-                        Method setMethod = target.getClass().getMethod("set"+NameUtils.initialUppercase(field.getName()), fieldType);
+                        Method setMethod = target.getClass().getMethod("set"+ NameUtils.initialUppercase(field.getName()), fieldType);
                         setMethod.invoke(target, value);
                     }
                 }

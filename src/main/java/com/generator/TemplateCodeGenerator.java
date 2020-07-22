@@ -43,7 +43,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
                     //通过config中的engine属性获取对应的engine
                     TemplateRender engine = TemplateRenderRegistry.getEngine(config.getEngine());
                     if(engine == null){
-                        throw new RuntimeException("找不到模板引擎: " + config.getEngine());
+                        throw new RuntimeException("找不到模板渲染器: " + config.getEngine());
                     }
                     //执行渲染逻辑
                     String content = engine.rendering(config.getTemplateClassPath(), map);

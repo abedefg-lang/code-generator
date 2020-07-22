@@ -10,4 +10,9 @@ public class FreemarkerRender implements TemplateRender {
     public String rendering(String classpath, Map<String, Object> map) {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return "freemarker";
+    }
 }
