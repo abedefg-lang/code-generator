@@ -1,12 +1,12 @@
 package com.tablesource;
 
+import com.tablesource.converter.NameConverter;
 import com.tablesource.dao.ColumnInfoDao;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.dao.impl.ColumnInfoDaoImpl;
 import com.tablesource.dao.impl.TableInfoDaoImpl;
 import com.tablesource.info.ColumnInfo;
 import com.tablesource.info.TableInfo;
-import com.utils.NameUtils;
 import lombok.Data;
 
 import javax.sql.DataSource;
@@ -31,18 +31,18 @@ public class TableSourceImpl implements TableSource{
     }
 
     @Override
-    public List<TableInfo> getTableInfos(boolean convertCamel, String... tableNames) {
+    public List<TableInfo> getTableInfos(NameConverter converter, String... tableNames) {
         //获取指定表名的info
         List<TableInfo> tableInfos = tableInfoDao.selectListByName(tableNames);
-        this.improveInfo(tableInfos, convertCamel);
+        this.improveInfo(tableInfos, converter);
         return tableInfos;
     }
 
     @Override
-    public List<TableInfo> getAll(boolean convertCamel) {
+    public List<TableInfo> getAll(NameConverter converter) {
         //获取所有的tableInfo
         List<TableInfo> tableInfos = tableInfoDao.selectAll();
-        this.improveInfo(tableInfos, convertCamel);
+        this.improveInfo(tableInfos, converter);
         return tableInfos;
     }
 
@@ -50,24 +50,22 @@ public class TableSourceImpl implements TableSource{
     /**
      * 完善tableInfo的信息  设置这张表对应的字段信息进行
      * @param tableInfos  需要完善的tableInfos
-     * @param convertCamel  是否转化成驼峰式
+     * @param converter  是否转化成驼峰式
      */
-    private void improveInfo(List<TableInfo> tableInfos, boolean convertCamel){
+    private void improveInfo(List<TableInfo> tableInfos, NameConverter converter){
         //循环获取column
         List<ColumnInfo> columnBeanList;
         String className;
         for(TableInfo tableInfo : tableInfos){
-            className = tableInfo.getTableName();
+            String tableName = tableInfo.getTableName();
             columnBeanList = columnInfoDao.selectListByTableName(tableInfo.getTableName());
-            if(convertCamel){
+            if(converter != null){
                 //说明需要转化
                 //将字段全部转换成驼峰式
-                columnBeanList.forEach(columnBean -> columnBean.setFieldName(NameUtils.convertCamel(columnBean.getColumnName(), "_")));
+                columnBeanList.forEach(columnBean -> columnBean.setFieldName(converter.getFiledName(columnBean.getColumnName())));
                 //将类名转换成大驼峰式
-                className = NameUtils.convertClassName(tableInfo.getTableName(), "_");
+                tableInfo.setClassName(converter.getClassName(tableName));
             }
-            //设置className
-            tableInfo.setClassName(className);
             //最后添加字段
             tableInfo.setColumnList(columnBeanList);
         }

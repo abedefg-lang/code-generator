@@ -3,6 +3,7 @@ package ${packageMap.controller};
 #if($model.springModel)
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 #end
 import ${packageMap.service}.${fileNameMap.service};
 

@@ -1,12 +1,14 @@
 package com.generator.builder;
 
+import com.generator.CodeGenerator;
 import com.generator.TemplateCodeGenerator;
-import com.template.BasicTemplate;
-import com.template.TemplateConfig;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
+import com.tablesource.converter.NameConverter;
 import com.tablesource.info.TableInfo;
+import com.template.BasicTemplate;
+import com.template.TemplateConfig;
 import com.utils.TypeMappingUtil;
 import com.utils.reflect.ReflectUtils;
 import org.dom4j.Attribute;
@@ -21,21 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
-/**
- * 构建templateCodeGenerator
- */
 @SuppressWarnings("unchecked")
-public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
+public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
 
     /**存放基础的模板*/
-    private static final Map<String, TemplateConfig> basicTemplateMap;
+    private static Map<String, TemplateConfig> basicTemplateMap;
 
-    /**需要构建的生成器*/
+    /**codeGenerator*/
     private TemplateCodeGenerator codeGenerator;
 
-    /**根标签*/
-    private Element root;
+    /**context标签*/
+    private Element context;
 
     static {
         //初始化map
@@ -46,7 +44,6 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         }
     }
 
-
     public TemplateCodeGeneratorBuilder(String classPath){
         try {
             //解析传递进来的文件路径
@@ -54,7 +51,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
             //获取url
             URL url = Thread.currentThread().getContextClassLoader().getResource(classPath);
             Objects.requireNonNull(url, "找不到文件: " + classPath);
-            root = reader.read(url).getRootElement();
+            context = reader.read(url).getRootElement().element("context");
             //创建实例对象
             codeGenerator = new TemplateCodeGenerator();
         } catch (DocumentException e) {
@@ -62,24 +59,19 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         }
     }
 
-    @Override
-    public TemplateCodeGenerator build() {
-        try{
-            parseTypeMappings();
-            buildBasicConfig();
-            buildModelConfig();
-            buildTemplates();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return codeGenerator;
+    /**
+     * 创建基本的信息
+     */
+    private void builderBasicConfig() throws Exception {
+        //注入属性
+        ReflectUtils.simpleInject(codeGenerator, parseAttribute(context));
     }
 
     /**
-     * 解析typeMappings标签
+     * 解析typeMapping标签进行注册
      */
-    private void parseTypeMappings() throws Exception{
-        Element typeMappings = root.element("typeMappings");
+    private void registerTypeMapping() throws ClassNotFoundException {
+        Element typeMappings = context.element("typeMappings");
         if(typeMappings != null){
             //获取子标签
             List<Element> typeMappingList = typeMappings.elements("typeMapping");
@@ -92,30 +84,26 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
     }
 
     /**
-     * 构建基本的配置   输入路径,父级包,是否覆盖文件,表信息
-     * */
-    private void buildBasicConfig() throws Exception {
-        Element tables = root.element("tables");
-        //获取属性
-        Map<String, String> map = this.parseAttribute(tables);
-        //注入属性配置
-        ReflectUtils.simpleInject(codeGenerator, map);
-        //获取tableInfos
-        //首先需要创建TableSource
+     * 解析tables标签  创建tableInfo
+     */
+    private void builderTableInfos() throws Exception {
+        Element tables = context.element("tables");
+        //解析属性
+        Map<String, String> map = parseAttribute(tables);
+        //通过配置创建转换器
+        NameConverter converter = !map.containsKey("nameConverter") ? NameConverter.NOTHING_CONVERTER : (NameConverter) Class.forName(map.get("nameConverter")).newInstance();
+        //获取dataSource标签
         TableSource tableSource = new TableSourceImpl(buildDataSource(tables.element("dataSource")));
-        //查看是否需要转换成驼峰式
-        boolean convertCamel = "true".equals(map.get("convertCamel"));
         //全表生成  优先于 指定生成
         boolean allTables = "true".equals(map.get("allTables"));
         String[] tableNames = map.containsKey("tableNames") ? map.get("tableNames").split(",") : new String[0];
-        List<TableInfo> tableInfos = allTables ? tableSource.getAll(convertCamel) : tableSource.getTableInfos(convertCamel, tableNames);
+        List<TableInfo> tableInfos = allTables ? tableSource.getAll(converter) : tableSource.getTableInfos(converter, tableNames);
         codeGenerator.setTableInfos(tableInfos);
     }
 
-
     /**
      * 构建dataSource
-     * */
+     */
     private DataSource buildDataSource(Element dataSource){
         Objects.requireNonNull(dataSource, "必须配置dataSource");
         //获取属性的内容
@@ -130,25 +118,11 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
 
 
     /**
-     * 构建model配置
-     * */
-    private void buildModelConfig() throws Exception {
-        Element tables = root.element("tables");
-        //获取Model标签
-        Element model = tables.element("model");
-        if(model != null){
-            //进行注入
-            ReflectUtils.simpleInject(codeGenerator.getModel(), parseAttribute(model));
-        }
-    }
-
-    /**
-     * 构建模板配置
-     * */
-    private void buildTemplates() throws Exception {
-        Element tables = root.element("tables");
+     * 解析并创建templates
+     */
+    private void builderTemplates() throws Exception {
         //获取templates标签
-        Element templates = tables.element("templates");
+        Element templates = context.element("templates");
         if(templates != null){
             //获取所有template标签
             List<Element> list = templates.elements("template");
@@ -160,7 +134,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
                 attributeMap = this.parseAttribute(template);
                 //通过名字判断是否是基础模板  如果不是创建一个新的模板配置类
                 config = basicTemplateMap.containsKey(attributeMap.get("name")) ? basicTemplateMap.get(attributeMap.get("name")) : new TemplateConfig();
-                //进行注入
+                //注入属性
                 ReflectUtils.simpleInject(config, attributeMap);
                 //解析property标签并且进行设置
                 config.setPropertyMap(parseProperties(template));
@@ -169,6 +143,18 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         }
     }
 
+    @Override
+    public CodeGenerator build() {
+        try{
+            registerTypeMapping();
+            builderBasicConfig();
+            builderTableInfos();
+            builderTemplates();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return codeGenerator;
+    }
 
     /**
      * 解析一个标签的属性 封装成一个Map
@@ -195,5 +181,4 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder {
         }
         return map;
     }
-
 }

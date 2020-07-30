@@ -3,29 +3,114 @@
            xmlns="http://www.w3school.com.cn"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="generator">
+<!--        <xs:complexType>-->
+<!--            <xs:sequence>-->
+
+<!--                &lt;!&ndash;类型映射&ndash;&gt;-->
+<!--                <xs:element name="typeMappings" minOccurs="0">-->
+<!--                   <xs:complexType>-->
+<!--                       <xs:sequence>-->
+<!--                           <xs:element name="typeMapping" minOccurs="0">-->
+<!--                               <xs:complexType>-->
+<!--                                   <xs:attribute name="dbType" type="xs:string" use="required"/>-->
+<!--                                   <xs:attribute name="javaType" type="xs:string" use="required"/>-->
+<!--                               </xs:complexType>-->
+<!--                           </xs:element>-->
+<!--                       </xs:sequence>-->
+<!--                   </xs:complexType>-->
+<!--                </xs:element>-->
+
+<!--                &lt;!&ndash;table&ndash;&gt;-->
+<!--                <xs:element name="tables" minOccurs="0">-->
+<!--                    <xs:complexType>-->
+<!--                        <xs:sequence>-->
+
+<!--                            &lt;!&ndash;生成模型&ndash;&gt;-->
+<!--                            <xs:element name="model" minOccurs="0">-->
+<!--                                <xs:complexType>-->
+<!--                                    <xs:attribute name="springModel" type="xs:boolean"/>-->
+<!--                                    <xs:attribute name="lombokModel" type="xs:boolean"/>-->
+<!--                                    <xs:attribute name="mybatisPlusModel" type="xs:boolean"/>-->
+<!--                                </xs:complexType>-->
+<!--                            </xs:element>-->
+<!--                            &lt;!&ndash;数据相关的配置&ndash;&gt;-->
+<!--                            <xs:element name="dataSource">-->
+<!--                                <xs:complexType>-->
+<!--                                    <xs:attribute name="url" type="xs:string" use="required"/>-->
+<!--                                    <xs:attribute name="user" type="xs:string" use="required"/>-->
+<!--                                    <xs:attribute name="password" type="xs:string" use="required"/>-->
+<!--                                </xs:complexType>-->
+<!--                            </xs:element>-->
+<!--                            &lt;!&ndash;使用模板的配置&ndash;&gt;-->
+<!--                            <xs:element name="templates" minOccurs="0">-->
+<!--                                <xs:complexType>-->
+<!--                                    <xs:sequence>-->
+<!--                                        <xs:element name="template" minOccurs="0">-->
+<!--                                            <xs:complexType>-->
+<!--                                                <xs:sequence>-->
+<!--                                                    <xs:element ref="property" minOccurs="0"/>-->
+<!--                                                </xs:sequence>-->
+<!--                                                <xs:attribute name="name" type="xs:string" use="required"/>-->
+<!--                                                <xs:attributeGroup ref="templateConfig"/>-->
+<!--                                            </xs:complexType>-->
+<!--                                        </xs:element>-->
+<!--                                    </xs:sequence>-->
+<!--                                </xs:complexType>-->
+<!--                            </xs:element>-->
+<!--                        </xs:sequence>-->
+
+<!--                        <xs:attribute name="outRootPath" type="xs:string" use="required"/>-->
+<!--                        <xs:attribute name="parentPackage" type="xs:string" use="required"/>-->
+<!--                        <xs:attribute name="tableNames" type="xs:string"/>-->
+<!--                        <xs:attribute name="allTables" type="xs:boolean"/>-->
+<!--                        <xs:attribute name="convertCamel" type="xs:boolean"/>-->
+<!--                        <xs:attribute name="overwriteFile" type="xs:boolean"/>-->
+<!--                        <xs:attribute name="author" type="xs:string"/>-->
+<!--                    </xs:complexType>-->
+<!--                </xs:element>-->
+<!--            </xs:sequence>-->
+<!--        </xs:complexType>-->
         <xs:complexType>
             <xs:sequence>
-
-                <!--类型映射-->
-                <xs:element name="typeMappings" minOccurs="0">
-                   <xs:complexType>
-                       <xs:sequence>
-                           <xs:element name="typeMapping" minOccurs="0">
-                               <xs:complexType>
-                                   <xs:attribute name="dbType" type="xs:string" use="required"/>
-                                   <xs:attribute name="javaType" type="xs:string" use="required"/>
-                               </xs:complexType>
-                           </xs:element>
-                       </xs:sequence>
-                   </xs:complexType>
-                </xs:element>
-
-                <!--table-->
-                <xs:element name="tables" minOccurs="0">
+                <xs:element name="context">
                     <xs:complexType>
                         <xs:sequence>
+                            <!--类型映射 配置-->
+                            <xs:element name="typeMappings" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="typeMapping" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:attribute name="dbType" type="xs:string" use="required"/>
+                                                <xs:attribute name="javaType" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
 
-                            <!--生成模型-->
+                            <!--表信息 配置-->
+                            <xs:element name="tables">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="nameConverterType" type="xs:string" minOccurs="0"/>
+                                        <!--数据相关的配置-->
+                                        <xs:element name="dataSource">
+                                            <xs:complexType>
+<!--                                                <xs:attribute name="driver" type="xs:string" use="required"/>-->
+                                                <xs:attribute name="url" type="xs:string" use="required"/>
+                                                <xs:attribute name="user" type="xs:string" use="required"/>
+                                                <xs:attribute name="password" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="tableNames" type="xs:string"/>
+                                    <xs:attribute name="allTables" type="xs:boolean"/>
+                                    <xs:attribute name="nameConverterClass" type="xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!--生成的model 配置-->
                             <xs:element name="model" minOccurs="0">
                                 <xs:complexType>
                                     <xs:attribute name="springModel" type="xs:boolean"/>
@@ -33,15 +118,8 @@
                                     <xs:attribute name="mybatisPlusModel" type="xs:boolean"/>
                                 </xs:complexType>
                             </xs:element>
-                            <!--数据相关的配置-->
-                            <xs:element name="dataSource">
-                                <xs:complexType>
-                                    <xs:attribute name="url" type="xs:string" use="required"/>
-                                    <xs:attribute name="user" type="xs:string" use="required"/>
-                                    <xs:attribute name="password" type="xs:string" use="required"/>
-                                </xs:complexType>
-                            </xs:element>
-                            <!--使用模板的配置-->
+
+                            <!--使用的模板配置-->
                             <xs:element name="templates" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
@@ -51,7 +129,10 @@
                                                     <xs:element ref="property" minOccurs="0"/>
                                                 </xs:sequence>
                                                 <xs:attribute name="name" type="xs:string" use="required"/>
-                                                <xs:attributeGroup ref="templateConfig"/>
+                                                <xs:attribute name="targetPackage" type="xs:string"/>
+                                                <xs:attribute name="targetFileName" type="xs:string"/>
+                                                <xs:attribute name="templateClassPath" type="xs:string"/>
+                                                <xs:attribute name="engine" type="xs:string"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
@@ -61,9 +142,6 @@
 
                         <xs:attribute name="outRootPath" type="xs:string" use="required"/>
                         <xs:attribute name="parentPackage" type="xs:string" use="required"/>
-                        <xs:attribute name="tableNames" type="xs:string"/>
-                        <xs:attribute name="allTables" type="xs:boolean"/>
-                        <xs:attribute name="convertCamel" type="xs:boolean"/>
                         <xs:attribute name="overwriteFile" type="xs:boolean"/>
                         <xs:attribute name="author" type="xs:string"/>
                     </xs:complexType>
