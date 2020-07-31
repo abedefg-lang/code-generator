@@ -5,7 +5,7 @@ import com.generator.TemplateCodeGenerator;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
-import com.tablesource.converter.NameConverter;
+import com.utils.converter.NameConverter;
 import com.tablesource.info.TableInfo;
 import com.template.BasicTemplate;
 import com.template.TemplateConfig;
@@ -88,15 +88,14 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
      */
     private void builderTableInfos() throws Exception {
         Element tables = context.element("tables");
-        //解析属性
-        Map<String, String> map = parseAttribute(tables);
         //通过配置创建转换器
-        NameConverter converter = !map.containsKey("nameConverter") ? NameConverter.NOTHING_CONVERTER : (NameConverter) Class.forName(map.get("nameConverter")).newInstance();
+        NameConverter converter = builderNameConverter(tables.element("nameConverter"));
         //获取dataSource标签
         TableSource tableSource = new TableSourceImpl(buildDataSource(tables.element("dataSource")));
         //全表生成  优先于 指定生成
-        boolean allTables = "true".equals(map.get("allTables"));
-        String[] tableNames = map.containsKey("tableNames") ? map.get("tableNames").split(",") : new String[0];
+        boolean allTables = "true".equals(tables.attributeValue("allTables"));
+        String tableNamesStr = tables.attributeValue("tableNames");
+        String[] tableNames = tableNamesStr != null ? tableNamesStr.split(",") : new String[0];
         List<TableInfo> tableInfos = allTables ? tableSource.getAll(converter) : tableSource.getTableInfos(converter, tableNames);
         codeGenerator.setTableInfos(tableInfos);
     }
@@ -114,6 +113,24 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
         source.setUser(attributeMap.get("user"));
         source.setPassword(attributeMap.get("password"));
         return source;
+    }
+
+    /**
+     * 创建nameConverter
+     * @param nameConverter 标签
+     * @return 返回实体类
+     */
+    private NameConverter builderNameConverter(Element nameConverter) throws Exception {
+        if(nameConverter != null){
+            //获取类型
+            String className = nameConverter.attributeValue("class");
+            NameConverter converter = (NameConverter) Class.forName(className).newInstance();
+            //对属性进行注入
+            ReflectUtils.simpleInject(converter, parseProperties(nameConverter));
+            return converter;
+        }
+        //如果为null 返回nothing
+        return NameConverter.NOTHING_CONVERTER;
     }
 
 

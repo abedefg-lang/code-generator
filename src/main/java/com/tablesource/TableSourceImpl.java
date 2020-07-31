@@ -1,6 +1,6 @@
 package com.tablesource;
 
-import com.tablesource.converter.NameConverter;
+import com.utils.converter.NameConverter;
 import com.tablesource.dao.ColumnInfoDao;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.dao.impl.ColumnInfoDaoImpl;
@@ -62,9 +62,9 @@ public class TableSourceImpl implements TableSource{
             if(converter != null){
                 //说明需要转化
                 //将字段全部转换成驼峰式
-                columnBeanList.forEach(columnBean -> columnBean.setFieldName(converter.getFiledName(columnBean.getColumnName())));
+                columnBeanList.forEach(columnBean -> columnBean.setFieldName(converter.toPropertyName(columnBean.getColumnName())));
                 //将类名转换成大驼峰式
-                tableInfo.setClassName(converter.getClassName(tableName));
+                tableInfo.setClassName(converter.toClassName(tableName));
             }
             //最后添加字段
             tableInfo.setColumnList(columnBeanList);

@@ -1,6 +1,6 @@
 package com.tablesource;
 
-import com.tablesource.converter.NameConverter;
+import com.utils.converter.NameConverter;
 import com.tablesource.info.TableInfo;
 
 import java.util.List;

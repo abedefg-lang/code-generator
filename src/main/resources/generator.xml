@@ -4,16 +4,22 @@
 
     <context outRootPath="src/main/java" parentPackage="com.test.demo" author="TOM">
 
-        <tables allTables="true" nameConverter="com.tablesource.converter.CamelNameConverter">
+        <tables allTables="true">
 
-            <dataSource url="jdbc:mysql://123.57.11.70:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
-                        user="root" password="root123456"/>
+            <nameConverter class="">
+
+            </nameConverter>
+
+            <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        user="root" password="root"/>
         </tables>
+
         <templates>
             <template name="entity"/>
             <template name="dao"/>
             <template name="service"/>
             <template name="serviceImpl"/>
         </templates>
+
     </context>
 </generator>

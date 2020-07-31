@@ -26,6 +26,14 @@
                             <xs:element name="tables">
                                 <xs:complexType>
                                     <xs:sequence>
+                                        <xs:element name="nameConverter">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element ref="property" minOccurs="0"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="class" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
                                         <!--数据相关的配置-->
                                         <xs:element name="dataSource">
                                             <xs:complexType>
@@ -38,7 +46,6 @@
                                     </xs:sequence>
                                     <xs:attribute name="tableNames" type="xs:string"/>
                                     <xs:attribute name="allTables" type="xs:boolean"/>
-                                    <xs:attribute name="nameConverter" type="xs:string"/>
                                 </xs:complexType>
                             </xs:element>
 
