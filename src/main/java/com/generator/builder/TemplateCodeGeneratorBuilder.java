@@ -149,8 +149,9 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
             for(Element template : list){
                 //解析参数
                 attributeMap = this.parseAttribute(template);
-                //通过名字判断是否是基础模板  如果不是创建一个新的模板配置类
-                config = basicTemplateMap.containsKey(attributeMap.get("name")) ? basicTemplateMap.get(attributeMap.get("name")) : new TemplateConfig();
+                //通过名字判断是否是基础模板  如果不是到模板工厂获取一个模板
+                String name = attributeMap.get("name");
+                config = basicTemplateMap.containsKey(name) ? basicTemplateMap.get(name) : TemplateConfig.SimpleFactory.get(name);
                 //注入属性
                 ReflectUtils.simpleInject(config, attributeMap);
                 //解析property标签并且进行设置

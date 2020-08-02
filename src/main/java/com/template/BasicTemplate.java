@@ -11,6 +11,7 @@ public enum BasicTemplate {
             .setName("entity")
             .setTargetPackage("entity")
             .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER)
+            .setEngine("velocity")
             .setTemplateClassPath("templates/entity.java.vm")),
 
     /**dao*/
@@ -18,6 +19,7 @@ public enum BasicTemplate {
             .setName("dao")
             .setTargetPackage("dao")
             .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+"Dao")
+            .setEngine("velocity")
             .setTemplateClassPath("templates/dao.java.vm")),
 
     /**service*/
@@ -25,6 +27,7 @@ public enum BasicTemplate {
             .setName("service")
             .setTargetPackage("service")
             .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+"Service")
+            .setEngine("velocity")
             .setTemplateClassPath("templates/service.java.vm")),
 
     /**serviceImpl*/
@@ -32,6 +35,7 @@ public enum BasicTemplate {
             .setName("serviceImpl")
             .setTargetPackage("service.impl")
             .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+"ServiceImpl")
+            .setEngine("velocity")
             .setTemplateClassPath("templates/serviceImpl.java.vm")),
 
     /**controller*/
@@ -39,6 +43,7 @@ public enum BasicTemplate {
             .setName("controller")
             .setTargetPackage("controller")
             .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+"Controller")
+            .setEngine("velocity")
             .setTemplateClassPath("templates/controller.java.vm"));
 
 

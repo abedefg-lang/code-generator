@@ -19,6 +19,9 @@ public class TemplateConfig {
     /**占位符*/
     public static final String TARGET_NAME_PLACEHOLDER = "$";
 
+    /**默认使用的引擎*/
+    public static final String DEFAULT_ENGINE = "velocity";
+
     /**模板名称 */
     private String name;
 
@@ -35,7 +38,7 @@ public class TemplateConfig {
     private String templateClassPath;
 
     /**这个模板使用的引擎  默认是velocity*/
-    private String engine = "velocity";
+    private String engine;
 
     /**如果使用自己写的模板  但是想传递一些配置  可以添加到这个Map中*/
     private Map<String, String> propertyMap;
@@ -80,6 +83,28 @@ public class TemplateConfig {
         //包名+文件完整名+文件后缀
         return targetPackage.replace(".", "\\")+"\\"+getCompleteTargetFileName(targetName)+"."+getTargetFileFormat();
     }
+
+
+    /**
+     * 简单工厂
+     */
+    public static class SimpleFactory{
+        /**
+         * 核心获取方法
+         * @param name 模板名称
+         * @return 返回一个config
+         */
+        public static TemplateConfig get(String name){
+            return new TemplateConfig()//创建实体类
+                    .setName(name)//设置模板名称
+                    .setTargetPackage(name)//设置生成的包名称  设置为name
+                    .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER)//设置生成的文件名 设置为不加任何内容使用转换后的className
+                    .setEngine(TemplateConfig.DEFAULT_ENGINE);//设置模板引擎  设置为默认的模板引擎
+        }
+    }
+
+
+
 
 
 }
