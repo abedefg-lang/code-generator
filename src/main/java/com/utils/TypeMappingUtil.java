@@ -19,7 +19,7 @@ public class TypeMappingUtil {
     //将jdbc中的数据类型和对应的java类型存储
     static{
         typeConverter = new HashMap<>(32);
-        typeConverter.put("int", Integer.class);
+        typeConverter.put("int", int.class);
         typeConverter.put("varchar", String.class);
         typeConverter.put("date", Date.class);
         typeConverter.put("datetime", Date.class);
@@ -30,15 +30,15 @@ public class TypeMappingUtil {
         typeConverter.put("longvarchar", String.class);
         typeConverter.put("numeric", BigDecimal.class);
         typeConverter.put("decimal", BigDecimal.class);
-        typeConverter.put("bit", Boolean.class);
-        typeConverter.put("tinyint", Byte.class);
-        typeConverter.put("smallint", Short.class);
-        typeConverter.put("integer", Integer.class);
-        typeConverter.put("bigint", Long.class);
-        typeConverter.put("real", Float.class);
-        typeConverter.put("float", Float.class);
-        typeConverter.put("double", Double.class);
-        typeConverter.put("binary", Byte[].class);
+        typeConverter.put("bit", boolean.class);
+        typeConverter.put("tinyint", byte.class);
+        typeConverter.put("smallint", short.class);
+        typeConverter.put("integer", int.class);
+        typeConverter.put("bigint", long.class);
+        typeConverter.put("real", float.class);
+        typeConverter.put("float", float.class);
+        typeConverter.put("double", double.class);
+        typeConverter.put("binary", byte[].class);
         typeConverter.put("time", Time.class);
 
     }

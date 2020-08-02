@@ -1,23 +1,26 @@
 package com.utils.converter;
 
 import com.utils.NameUtils;
+import lombok.Data;
 
 /**
  * 转换成驼峰式
  */
+@Data
 public class CamelNameConverter implements NameConverter{
-
 
     private static final String REGEX = "_";
 
+    /**是否转化为驼峰式*/
+    private boolean camel;
 
     @Override
     public String toClassName(String str) {
-        return NameUtils.convertClassName(str, REGEX);
+        return camel ? NameUtils.convertClassName(str, REGEX) : NameUtils.initialUppercase(str);
     }
 
     @Override
     public String toPropertyName(String str) {
-        return NameUtils.convertCamel(str, REGEX);
+        return camel ? NameUtils.convertCamel(str, REGEX) : str;
     }
 }
