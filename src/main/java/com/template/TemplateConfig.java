@@ -89,12 +89,28 @@ public class TemplateConfig {
      * 简单工厂
      */
     public static class SimpleFactory{
+
+        /**存放基础的模板*/
+        private static Map<String, TemplateConfig> basicTemplateMap;
+
+        static {
+            //初始化map
+            BasicTemplate[] basicTemplates = BasicTemplate.values();
+            basicTemplateMap = new HashMap<>(basicTemplates.length);
+            for(BasicTemplate bt : basicTemplates){
+                basicTemplateMap.put(bt.getConfig().getName(), bt.getConfig());
+            }
+        }
         /**
          * 核心获取方法
          * @param name 模板名称
          * @return 返回一个config
          */
         public static TemplateConfig get(String name){
+            //首先判断是否是基础模板  如果是基础模板直接返回  如果不是创建一个模板
+            if(basicTemplateMap.containsKey(name)){
+                return basicTemplateMap.get(name);
+            }
             return new TemplateConfig()//创建实体类
                     .setName(name)//设置模板名称
                     .setTargetPackage(name)//设置生成的包名称  设置为name

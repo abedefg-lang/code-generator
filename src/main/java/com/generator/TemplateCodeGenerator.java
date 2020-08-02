@@ -15,16 +15,17 @@ import java.util.Objects;
 
 /**
  * 基于模板的方式生成代码
+
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TemplateCodeGenerator extends AbstractCodeGenerator{
 
     /**存放需要生成模板*/
-    protected Map<String, TemplateConfig> templateConfigMap = new HashMap<>(8);
+    private Map<String, TemplateConfig> templateConfigMap = new HashMap<>(8);
 
     /**生成的模型配置*/
-    protected ModelConfig model = new ModelConfig();
+    private ModelConfig model = new ModelConfig();
 
     @Override
     public void generate() {
@@ -34,19 +35,18 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
             Map<String, Object> map = putBasicConfig();
             //开始循环生成
             for(TableInfo tableInfo : tableInfos){
-                System.out.println("table: "+tableInfo.getTableName());
                 map.put("table", tableInfo);
                 //每张表都会有自己的一套对应的模板生成的文件名
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));
                 for(TemplateConfig config : templateConfigMap.values()){
                     map.put("template", config);
-                    //通过config中的engine属性获取对应的engine
-                    TemplateRender engine = TemplateRenderRegistry.getEngine(config.getEngine());
-                    if(engine == null){
-                        throw new RuntimeException("找不到模板渲染器: engine " + config.getEngine() + "");
+                    //通过config中的engine属性获取对应的engineRender
+                    TemplateRender render = TemplateRenderRegistry.getEngine(config.getEngine());
+                    if(render == null){
+                        throw new RuntimeException("找不到模板渲染器: engine " + config.getEngine() + " ,template : " + config.getName());
                     }
-                    //执行渲染逻辑
-                    String content = engine.rendering(config.getTemplateClassPath(), map);
+                    //执行渲染逻辑  获取渲染之后的字符串
+                    String content = render.rendering(config.getTemplateClassPath(), map);
                     //写入文件
                     writeCode(content, config.getPath(tableInfo.getClassName()));
                 }

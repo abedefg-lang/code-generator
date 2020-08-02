@@ -4,7 +4,7 @@ import com.utils.NameUtils;
 import lombok.Data;
 
 /**
- * 转换成驼峰式
+ * 驼峰式的转换器
  */
 @Data
 public class CamelNameConverter implements NameConverter{

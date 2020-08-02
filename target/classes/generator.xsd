@@ -44,8 +44,8 @@
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
-                                    <xs:attribute name="tableNames" type="xs:string"/>
-                                    <xs:attribute name="allTables" type="xs:boolean"/>
+                                    <xs:attribute name="namePatterns" type="xs:string"/>
+<!--                                    <xs:attribute name="allTables" type="xs:boolean"/>-->
                                 </xs:complexType>
                             </xs:element>
 
@@ -53,7 +53,6 @@
                             <xs:element name="model" minOccurs="0">
                                 <xs:complexType>
                                     <xs:attribute name="springModel" type="xs:boolean"/>
-                                    <xs:attribute name="lombokModel" type="xs:boolean"/>
                                     <xs:attribute name="mybatisPlusModel" type="xs:boolean"/>
                                 </xs:complexType>
                             </xs:element>

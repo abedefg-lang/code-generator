@@ -3,11 +3,8 @@ package com.generator.builder;
 import com.generator.CodeGenerator;
 import com.generator.TemplateCodeGenerator;
 import com.mysql.cj.jdbc.MysqlDataSource;
-import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
 import com.utils.converter.NameConverter;
-import com.tablesource.info.TableInfo;
-import com.template.BasicTemplate;
 import com.template.TemplateConfig;
 import com.utils.TypeMappingUtil;
 import com.utils.reflect.ReflectUtils;
@@ -26,8 +23,6 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
 
-    /**存放基础的模板*/
-    private static Map<String, TemplateConfig> basicTemplateMap;
 
     /**codeGenerator*/
     private TemplateCodeGenerator codeGenerator;
@@ -35,14 +30,6 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**context标签*/
     private Element context;
 
-    static {
-        //初始化map
-        BasicTemplate[] basicTemplates = BasicTemplate.values();
-        basicTemplateMap = new HashMap<>(basicTemplates.length);
-        for(BasicTemplate bt : basicTemplates){
-            basicTemplateMap.put(bt.getConfig().getName(), bt.getConfig());
-        }
-    }
 
     public TemplateCodeGeneratorBuilder(String classPath){
         try {
@@ -86,18 +73,15 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析tables标签  创建tableInfo
      */
-    private void builderTableInfos() throws Exception {
+    private void buildTableInfos() throws Exception {
         Element tables = context.element("tables");
-        //通过配置创建转换器
+        //创建转换器
         NameConverter converter = builderNameConverter(tables.element("nameConverter"));
         //获取dataSource标签
-        TableSource tableSource = new TableSourceImpl(buildDataSource(tables.element("dataSource")));
-        //全表生成  优先于 指定生成
-        boolean allTables = "true".equals(tables.attributeValue("allTables"));
-        String tableNamesStr = tables.attributeValue("tableNames");
-        String[] tableNames = tableNamesStr != null ? tableNamesStr.split(",") : new String[0];
-        List<TableInfo> tableInfos = allTables ? tableSource.getAll(converter) : tableSource.getTableInfos(converter, tableNames);
-        codeGenerator.setTableInfos(tableInfos);
+        TableSourceImpl tableSource = new TableSourceImpl(buildDataSource(tables.element("dataSource")));
+        tableSource.setTableNamePatterns(tables.attributeValue("namePatterns").split(","));
+        //获取tableInfo 进行设置
+        codeGenerator.setTableInfos(tableSource.getTableInfos(converter));
     }
 
     /**
@@ -149,9 +133,8 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
             for(Element template : list){
                 //解析参数
                 attributeMap = this.parseAttribute(template);
-                //通过名字判断是否是基础模板  如果不是到模板工厂获取一个模板
-                String name = attributeMap.get("name");
-                config = basicTemplateMap.containsKey(name) ? basicTemplateMap.get(name) : TemplateConfig.SimpleFactory.get(name);
+                //获取name 到工厂获取config
+                config = TemplateConfig.SimpleFactory.get(attributeMap.get("name"));
                 //注入属性
                 ReflectUtils.simpleInject(config, attributeMap);
                 //解析property标签并且进行设置
@@ -166,7 +149,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
         try{
             registerTypeMapping();
             builderBasicConfig();
-            builderTableInfos();
+            buildTableInfos();
             builderTemplates();
         }catch (Exception e){
             e.printStackTrace();

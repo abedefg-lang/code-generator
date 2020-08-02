@@ -3,7 +3,6 @@ package com.tablesource.dao.impl;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.info.TableInfo;
 
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,15 +19,13 @@ public class TableInfoDaoImpl implements TableInfoDao {
         this.dataSource = dataSource;
     }
 
-    public TableInfoDaoImpl(){}
 
     @Override
     public List<TableInfo> selectListByName(String... tableNames) {
         if(tableNames.length == 0){
             return Collections.emptyList();
         }
-        //如果调用的是这个方法  使用in关键字
-        //需要先拼接in的内容
+        //拼接sql
         StringBuilder in = new StringBuilder();
         for(String tableName : tableNames){
             in.append("'").append(tableName).append("',");
@@ -37,8 +34,18 @@ public class TableInfoDaoImpl implements TableInfoDao {
     }
 
     @Override
-    public List<TableInfo> selectAll() {
-        return selectList("SELECT * FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_SCHEMA`=\""+getDatabasesName()+"\"");
+    public List<String> selectAllTables() {
+        List<String> list = new ArrayList<>();
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SHOW TABLES");
+            ResultSet resultSet = statement.executeQuery()){
+            while(resultSet.next()){
+                list.add(resultSet.getString(1));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
     }
 
     /**
@@ -48,13 +55,12 @@ public class TableInfoDaoImpl implements TableInfoDao {
      * @return 返回list
      */
     private List<TableInfo> selectList(String sql){
-        List<TableInfo> result = null;
+        List<TableInfo> result = new ArrayList<>();
         //查询出所有的表
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet set = statement.executeQuery()){
             //创建集合
-            result = new ArrayList<>();
             TableInfo info;
             while(set.next()){
                 info = new TableInfo()

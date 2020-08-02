@@ -18,7 +18,6 @@ public class ColumnInfoDaoImpl implements ColumnInfoDao {
         this.dataSource = dataSource;
     }
 
-    public ColumnInfoDaoImpl(){}
 
     @Override
     public List<ColumnInfo> selectListByTableName(String tableName) {
@@ -47,11 +46,4 @@ public class ColumnInfoDaoImpl implements ColumnInfoDao {
         return result;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
 }

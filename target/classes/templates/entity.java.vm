@@ -1,7 +1,7 @@
 package ${packageMap.entity};
 
 import java.io.Serializable;
-#if($model.lombokModel)
+#if($template.propertyMap.lombok)
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
  * @author ${author}
  * @date ${date}
  */
-#if($model.lombokModel)
+#if($template.propertyMap.lombok == true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +42,7 @@ public class ${fileNameMap.entity} implements Serializable{
   #end
   private $column.javaType.getSimpleName() $column.fieldName;
 #end
-#if(!$model.lombokModel)
+#if($template.propertyMap.lombok != true)
 #foreach($column in $table.columnList)
 
     public void set$NameUtils.initialUppercase($column.fieldName)(${column.javaType.getSimpleName()} ${column.fieldName}){

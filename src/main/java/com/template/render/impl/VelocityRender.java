@@ -23,13 +23,13 @@ public class VelocityRender implements TemplateRender {
 
     @Override
     public String rendering(String classpath, Map<String, Object> map) {
-        VelocityContext context = new VelocityContext();
-        for(Map.Entry<String, Object> entry : map.entrySet()){
-            context.put(entry.getKey(), entry.getValue());
-        }
+        //创建context
+        VelocityContext context = new VelocityContext(map);
+        //获取模板
         Template template = Velocity.getTemplate(classpath, DEFAULT_ENCODING);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
+        //返回渲染之后的内容
         return writer.toString();
     }
 

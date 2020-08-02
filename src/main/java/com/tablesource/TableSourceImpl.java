@@ -10,41 +10,63 @@ import com.tablesource.info.TableInfo;
 import lombok.Data;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
 public class TableSourceImpl implements TableSource{
 
+    /**TableInfoDao  获取table的相关信息*/
     private TableInfoDao tableInfoDao;
 
+    /**ColumnInfoDao 获取某个表的字段的相关信息*/
     private ColumnInfoDao columnInfoDao;
 
-    public TableSourceImpl(TableInfoDao tableInfoDao, ColumnInfoDao columnInfoDao){
-        this.tableInfoDao = tableInfoDao;
-        this.columnInfoDao = columnInfoDao;
-    }
+    /**表名称的正则匹配数组*/
+    private String[] namePatterns;
+
+    public TableSourceImpl(){}
 
     public TableSourceImpl(DataSource dataSource){
         this.tableInfoDao = new TableInfoDaoImpl(dataSource);
         this.columnInfoDao = new ColumnInfoDaoImpl(dataSource);
     }
 
+
     @Override
-    public List<TableInfo> getTableInfos(NameConverter converter, String... tableNames) {
-        //获取指定表名的info
-        List<TableInfo> tableInfos = tableInfoDao.selectListByName(tableNames);
-        this.improveInfo(tableInfos, converter);
+    public List<TableInfo> getTableInfos(NameConverter converter) {
+        //获取匹配成功的表的信息
+        List<TableInfo> tableInfos = tableInfoDao.selectListByName(getMatchingTableNames());
+        //完善信息
+        improveInfo(tableInfos, converter);
         return tableInfos;
     }
 
-    @Override
-    public List<TableInfo> getAll(NameConverter converter) {
-        //获取所有的tableInfo
-        List<TableInfo> tableInfos = tableInfoDao.selectAll();
-        this.improveInfo(tableInfos, converter);
-        return tableInfos;
+    /**
+     * 获取匹配的表名
+     * @return 返回表名
+     */
+    private String[] getMatchingTableNames(){
+        if(namePatterns != null && namePatterns.length > 0){
+            List<String> matchNames = new ArrayList<>();
+            //获取所有的表名进行匹配
+            for(String table : tableInfoDao.selectAllTables()){
+                for(String pattern : namePatterns){
+                    pattern = pattern.trim();
+                    if(table.matches(pattern)){
+                        //匹配成功 停止循环  只需要满足一个条件即可
+                        matchNames.add(table);
+                        break;
+                    }
+                }
+            }
+            //返回数组
+            return matchNames.toArray(new String[0]);
+        }
+        return new String[0];
     }
+
 
 
     /**
@@ -55,7 +77,6 @@ public class TableSourceImpl implements TableSource{
     private void improveInfo(List<TableInfo> tableInfos, NameConverter converter){
         //循环获取column
         List<ColumnInfo> columnBeanList;
-        String className;
         for(TableInfo tableInfo : tableInfos){
             String tableName = tableInfo.getTableName();
             columnBeanList = columnInfoDao.selectListByTableName(tableInfo.getTableName());
@@ -69,5 +90,9 @@ public class TableSourceImpl implements TableSource{
             //最后添加字段
             tableInfo.setColumnList(columnBeanList);
         }
+    }
+
+    public void setTableNamePatterns(String... namePatterns){
+        this.namePatterns = namePatterns;
     }
 }

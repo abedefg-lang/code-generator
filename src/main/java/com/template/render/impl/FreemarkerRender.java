@@ -8,7 +8,7 @@ public class FreemarkerRender implements TemplateRender {
 
     @Override
     public String rendering(String classpath, Map<String, Object> map) {
-        return null;
+        return "freemarker模板引擎 暂时还没有实现";
     }
 
     @Override

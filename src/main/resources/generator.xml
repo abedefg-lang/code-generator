@@ -2,9 +2,10 @@
 
 <generator xmlns="http://www.w3school.com.cn">
 
-    <context outRootPath="src/main/java" parentPackage="com.test.demo" author="TOM">
+    <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true">
 
-        <tables tableNames="user">
+
+        <tables namePatterns="user.* , admin.*">
 
             <nameConverter class="com.utils.converter.CamelNameConverter">
                 <property name="camel" value="true"/>
@@ -17,6 +18,9 @@
         <templates>
             <template name="entity">
                 <property name="lombok" value="true"/>
+            </template>
+            <template name="dao">
+                <property name="mybatisAnnotation" value="true"/>
             </template>
         </templates>
 

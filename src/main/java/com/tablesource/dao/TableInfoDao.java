@@ -14,9 +14,9 @@ public interface TableInfoDao {
     List<TableInfo> selectListByName(String... tableNames);
 
     /**
-     * 获取所有的表信息
+     * 获取所有表名
      * @return 返回list
      */
-    List<TableInfo> selectAll();
+    List<String> selectAllTables();
 
 }
