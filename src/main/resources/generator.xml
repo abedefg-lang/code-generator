@@ -2,10 +2,10 @@
 
 <generator xmlns="http://www.w3school.com.cn">
 
-    <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true">
+    <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true" author="TOM">
 
 
-        <tables namePatterns=".*">
+        <tables namePatterns="sys_.*">
 
             <nameConverter class="com.utils.converter.CamelNameConverter">
                 <property name="toCamel" value="true"/>
@@ -23,6 +23,7 @@
             <template name="dao"/>
             <template name="service"/>
             <template name="serviceImpl"/>
+            <template name="controller"/>
         </templates>
 
     </context>

@@ -25,17 +25,17 @@ public interface ${fileNameMap.service} {
     /**
      * 新增单条数据
      */
-    int save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+    boolean save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
 
 
     /**
      * 通过id修改单条数据
      */
-    int updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+    boolean updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
 
     /**
      * 通过id删除单条数据
      */
-    int removeById(${table.primary.javaType.getSimpleName()} id);
+    boolean removeById(${table.primary.javaType.getSimpleName()} id);
 }
 #end

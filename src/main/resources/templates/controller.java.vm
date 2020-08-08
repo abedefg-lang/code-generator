@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 #end
 import ${packageMap.service}.${fileNameMap.service};
+import com.utils.AjaxResult;
+import ${packageMap.entity}.${fileNameMap.entity};
+import org.springframework.web.bind.annotation.*;
 
 /**
  * (${table.tableName})表  控制层
@@ -27,9 +30,57 @@ public class ${fileNameMap.controller}{
     private ${fileNameMap.service} ${NameUtils.initialLowercase(${fileNameMap.service})};
 
 
-###if($template.propertyMap.restfulStyle == true)
-##
-###else
-##
-###end
+    /**
+     * 通过主键查询单条数据
+     * @param id 主键
+     * @return result
+     */
+    @GetMapping("/{id}")
+    public AjaxResult query(@PathVariable("id") ${table.primary.javaType.getSimpleName()} id){
+        ${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})} = ${NameUtils.initialLowercase(${fileNameMap.service})}.getById(id);
+        if(${NameUtils.initialLowercase(${fileNameMap.entity})} != null){
+            return AjaxResult.ok("query success").putData("${NameUtils.initialLowercase(${fileNameMap.entity})}", ${NameUtils.initialLowercase(${fileNameMap.entity})});
+        }
+        return AjaxResult.error("query fail");
+    }
+
+    /**
+     * 保存单条数据
+     * @param ${NameUtils.initialLowercase(${fileNameMap.entity})} 实体类
+     * @return result
+     */
+    @PostMapping
+    public AjaxResult save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        if(${NameUtils.initialLowercase(${fileNameMap.service})}.save(${NameUtils.initialLowercase(${fileNameMap.entity})})){
+            return AjaxResult.ok("save success");
+        }
+        return AjaxResult.error("save fail");
+    }
+
+    /**
+     * 修改单条数据
+     * @param ${NameUtils.initialLowercase(${fileNameMap.entity})} 实体类
+     * @return result
+     */
+    @PutMapping
+    public AjaxResult update(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        if(${NameUtils.initialLowercase(${fileNameMap.service})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})})){
+            return AjaxResult.ok("update success");
+        }
+        return AjaxResult.error("update fail");
+    }
+
+    /**
+     * 通过主键删除数据
+     * @param id 主键
+     * @return result
+     */
+    @DeleteMapping("/{id}")
+    public AjaxResult remove(@PathVariable("id") ${table.primary.javaType.getSimpleName()} id){
+        if(${NameUtils.initialLowercase(${fileNameMap.service})}.removeById(id)){
+            return AjaxResult.ok("remove success");
+        }
+        return AjaxResult.error("remove fail");
+    }
+
 }

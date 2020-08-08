@@ -35,6 +35,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
             Map<String, Object> map = putBasicConfig();
             //开始循环生成
             for(TableInfo tableInfo : tableInfos){
+                System.out.println("开始生成 table: " + tableInfo.getTableName());
                 map.put("table", tableInfo);
                 //每张表都会有自己的一套对应的模板生成的文件名
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));

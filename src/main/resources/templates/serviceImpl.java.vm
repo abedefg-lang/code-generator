@@ -37,18 +37,18 @@ public class ${fileNameMap.serviceImpl} implements ${fileNameMap.service}{
     }
 
     @Override
-    public int save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
-        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.insert(${NameUtils.initialLowercase(${fileNameMap.entity})});
+    public boolean save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.insert(${NameUtils.initialLowercase(${fileNameMap.entity})}) > 0;
     }
 
     @Override
-    public int updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
-        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})});
+    public boolean updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})}) > 0;
     }
 
     @Override
-    public int removeById(${table.primary.javaType.getSimpleName()} id){
-        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.deleteById(id);
+    public boolean removeById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.deleteById(id) > 0;
     }
 
 }

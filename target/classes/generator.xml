@@ -23,6 +23,7 @@
             <template name="dao"/>
             <template name="service"/>
             <template name="serviceImpl"/>
+            <template name="controller"/>
         </templates>
 
     </context>
