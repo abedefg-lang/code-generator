@@ -9,20 +9,18 @@ import com.utils.TimeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 基于模板的方式生成代码
-
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TemplateCodeGenerator extends AbstractCodeGenerator{
 
-    /**存放需要生成模板*/
-    private Map<String, TemplateConfig> templateConfigMap = new HashMap<>(8);
+
+    /**模板*/
+    private List<TemplateConfig> templateConfigList = new ArrayList<>(8);
 
     /**生成的模型配置*/
     private ModelConfig model = new ModelConfig();
@@ -30,24 +28,24 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
     @Override
     public void generate() {
         Objects.requireNonNull(tableInfos, "tableInfos不能为null");
-        if(!tableInfos.isEmpty() && !templateConfigMap.isEmpty()){
+        if(!tableInfos.isEmpty() && !templateConfigList.isEmpty()){
             //将一些基本的信息添加到map
             Map<String, Object> map = putBasicConfig();
             //开始循环生成
+            TemplateRender render;
             for(TableInfo tableInfo : tableInfos){
                 System.out.println("开始生成 table: " + tableInfo.getTableName());
                 map.put("table", tableInfo);
                 //每张表都会有自己的一套对应的模板生成的文件名
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));
-                for(TemplateConfig config : templateConfigMap.values()){
-                    map.put("template", config);
+                for(TemplateConfig config : templateConfigList){
                     //通过config中的engine属性获取对应的engineRender
-                    TemplateRender render = TemplateRenderRegistry.getEngine(config.getEngine());
+                    render = TemplateRenderRegistry.getEngine(config.getEngine());
                     if(render == null){
                         throw new RuntimeException("找不到模板渲染器: engine " + config.getEngine() + " ,template : " + config.getName());
                     }
                     //执行渲染逻辑  获取渲染之后的字符串
-                    String content = render.rendering(config.getTemplateClassPath(), map);
+                    String content = render.rendering(config, map);
                     //写入文件
                     writeCode(content, config.getPath(tableInfo.getClassName()));
                 }
@@ -55,12 +53,12 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
         }
     }
 
-    /***
+    /**
      * 添加模板配置
      * @param config 模板配置
      */
     public void putTemplateConfig(TemplateConfig config){
-        templateConfigMap.put(config.getName(), config);
+        templateConfigList.add(config);
     }
 
 
@@ -85,8 +83,8 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
     private Map<String, String> paresPackage(){
         //如果父级包名部位空串 加上"."
         String packagePrefix = "".equals(parentPackage) ? parentPackage : parentPackage + ".";
-        Map<String, String> map = new HashMap<>(templateConfigMap.size());
-        for(TemplateConfig config : templateConfigMap.values()){
+        Map<String, String> map = new HashMap<>();
+        for(TemplateConfig config : templateConfigList){
             map.put(config.getName(), packagePrefix+config.getTargetPackage());
         }
         return map;
@@ -98,8 +96,8 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
      * @return 返回Map
      */
     private Map<String, String> parseFileName(String className){
-        Map<String, String> fileNameMap = new HashMap<>(templateConfigMap.size());
-        for(TemplateConfig config : templateConfigMap.values()){
+        Map<String, String> fileNameMap = new HashMap<>();
+        for(TemplateConfig config : templateConfigList){
             fileNameMap.put(config.getName(), config.getCompleteTargetFileName(className));
         }
         return fileNameMap;

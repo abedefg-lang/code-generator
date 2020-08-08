@@ -1,5 +1,6 @@
 package com.template.render.impl;
 
+import com.template.TemplateConfig;
 import com.template.render.TemplateRender;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -22,11 +23,12 @@ public class VelocityRender implements TemplateRender {
     }
 
     @Override
-    public String rendering(String classpath, Map<String, Object> map) {
+    public String rendering(TemplateConfig config, Map<String, Object> map) {
         //创建context
         VelocityContext context = new VelocityContext(map);
+        context.put("template", config);
         //获取模板
-        Template template = Velocity.getTemplate(classpath, DEFAULT_ENCODING);
+        Template template = Velocity.getTemplate(config.getTemplateClassPath(), DEFAULT_ENCODING);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         //返回渲染之后的内容

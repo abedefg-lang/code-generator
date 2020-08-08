@@ -26,6 +26,7 @@ public class ${fileNameMap.serviceImpl} extends ServiceImpl<${fileNameMap.dao}, 
 #else
 public class ${fileNameMap.serviceImpl} implements ${fileNameMap.service}{
 
+    /**数据访问层对象*/
 #if($model.springModel)
     @Autowired
 #end

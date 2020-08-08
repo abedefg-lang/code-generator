@@ -2,10 +2,13 @@
 
 <generator xmlns="http://www.w3school.com.cn">
 
-    <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true" author="TOM">
+    <context outRootPath="src/main/java"
+             parentPackage="com.test.demo"
+             overwriteFile="true"
+             author="TOM">
 
 
-        <tables namePatterns="sys_.*">
+        <tables namePatterns=".*">
 
             <nameConverter class="com.utils.converter.CamelNameConverter">
                 <property name="toCamel" value="true"/>
@@ -20,11 +23,16 @@
             <template name="entity">
                 <property name="lombok" value="true"/>
             </template>
-            <template name="dao"/>
-            <template name="service"/>
-            <template name="serviceImpl"/>
-            <template name="controller"/>
+<!--            <template name="dao"/>-->
+<!--            <template name="service"/>-->
+<!--            <template name="serviceImpl"/>-->
+<!--            <template name="controller"/>-->
         </templates>
+
+        <typeMappings>
+            <typeMapping dbType="int" javaType="java.lang.Integer"/>
+            <typeMapping dbType="bigint" javaType="java.lang.String"/>
+        </typeMappings>
 
     </context>
 </generator>

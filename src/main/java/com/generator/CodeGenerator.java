@@ -5,6 +5,5 @@ package com.generator;
  */
 public interface CodeGenerator {
 
-
     void generate();
 }

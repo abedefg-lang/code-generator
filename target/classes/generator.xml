@@ -2,7 +2,10 @@
 
 <generator xmlns="http://www.w3school.com.cn">
 
-    <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true">
+    <context outRootPath="src/main/java"
+             parentPackage="com.test.demo"
+             overwriteFile="true"
+             author="TOM">
 
 
         <tables namePatterns=".*">
@@ -17,14 +20,19 @@
         </tables>
 
         <templates>
-            <template name="entity">
+            <template name="entity" targetPackage="domain" targetFileName="Test${className}Domain">
                 <property name="lombok" value="true"/>
             </template>
-            <template name="dao"/>
-            <template name="service"/>
-            <template name="serviceImpl"/>
-            <template name="controller"/>
+<!--            <template name="dao"/>-->
+<!--            <template name="service"/>-->
+<!--            <template name="serviceImpl"/>-->
+<!--            <template name="controller"/>-->
         </templates>
+
+        <typeMappings>
+            <typeMapping dbType="int" javaType="java.lang.Integer"/>
+            <typeMapping dbType="bigint" javaType="java.lang.String"/>
+        </typeMappings>
 
     </context>
 </generator>

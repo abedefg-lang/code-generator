@@ -49,7 +49,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 创建基本的信息
      */
-    private void builderBasicConfig() throws Exception {
+    protected void builderBasicConfig() throws Exception {
         //注入属性
         ReflectUtils.simpleInject(codeGenerator, parseAttribute(context));
     }
@@ -57,7 +57,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析typeMapping标签进行注册
      */
-    private void registerTypeMapping() throws ClassNotFoundException {
+    protected void registerTypeMapping() throws ClassNotFoundException {
         Element typeMappings = context.element("typeMappings");
         if(typeMappings != null){
             //获取子标签
@@ -73,7 +73,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析tables标签  创建tableInfo
      */
-    private void buildTableInfos() throws Exception {
+    protected void buildTableInfos() throws Exception {
         Element tables = context.element("tables");
         //创建转换器
         NameConverter converter = builderNameConverter(tables.element("nameConverter"));
@@ -87,7 +87,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 构建dataSource
      */
-    private DataSource buildDataSource(Element dataSource){
+    protected DataSource buildDataSource(Element dataSource){
         Objects.requireNonNull(dataSource, "必须配置dataSource");
         //获取属性的内容
         Map<String, String> attributeMap = parseAttribute(dataSource);
@@ -104,7 +104,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
      * @param nameConverter 标签
      * @return 返回实体类
      */
-    private NameConverter builderNameConverter(Element nameConverter) throws Exception {
+    protected NameConverter builderNameConverter(Element nameConverter) throws Exception {
         if(nameConverter != null){
             //获取类型
             String className = nameConverter.attributeValue("class");
@@ -121,7 +121,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析并创建templates
      */
-    private void builderTemplates() throws Exception {
+    protected void builderTemplates() throws Exception {
         //获取templates标签
         Element templates = context.element("templates");
         if(templates != null){
@@ -160,7 +160,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析一个标签的属性 封装成一个Map
      */
-    private Map<String, String> parseAttribute(Element element){
+    protected Map<String, String> parseAttribute(Element element){
         List<Attribute> list = element.attributes();
         Map<String, String> map = new HashMap<>(list.size());
         for(Attribute attribute : list){
@@ -172,7 +172,7 @@ public class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
     /**
      * 解析一个标签下的所有property标签
      */
-    private Map<String, String> parseProperties(Element parent){
+    protected Map<String, String> parseProperties(Element parent){
         //获取所有property标签
         List<Element> properties = parent.elements("property");
         Map<String, String> map = new HashMap<>(properties.size());

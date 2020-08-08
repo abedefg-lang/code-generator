@@ -27,7 +27,6 @@ public interface ${fileNameMap.service} {
      */
     boolean save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
 
-
     /**
      * 通过id修改单条数据
      */

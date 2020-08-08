@@ -1,5 +1,7 @@
 package com.template.render;
 
+import com.template.TemplateConfig;
+
 import java.util.Map;
 
 /**
@@ -11,11 +13,11 @@ public interface TemplateRender {
 
     /**
      * 渲染模板
-     * @param classpath 模板的classpath路径
-     * @param map 一些参数
+     * @param config 模板配置
+     * @param map 参数
      * @return 返回渲染之后的内容
      */
-    String rendering(String classpath, Map<String, Object> map);
+    String rendering(TemplateConfig config, Map<String, Object> map);
 
     /**
      * 获取模板引擎的名称
