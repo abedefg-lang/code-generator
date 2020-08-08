@@ -25,7 +25,7 @@ public interface ${fileNameMap.service} {
     /**
      * 新增单条数据
      */
-    int insertOne(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+    int save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
 
 
     /**
@@ -36,6 +36,6 @@ public interface ${fileNameMap.service} {
     /**
      * 通过id删除单条数据
      */
-    int deleteById(${table.primary.javaType.getSimpleName()} id);
+    int removeById(${table.primary.javaType.getSimpleName()} id);
 }
 #end

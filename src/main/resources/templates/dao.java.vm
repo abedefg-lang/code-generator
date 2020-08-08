@@ -40,7 +40,7 @@ public interface ${fileNameMap.dao}{
     @Insert("INSERT INTO `${table.tableName.toUpperCase()}` (#foreach($column in $table.columnList)#if($column.columnName != $table.primary.columnName)`$column.columnName.toUpperCase()`#if($velocityCount != ${table.columnList.size()}),#end#end#end) VALUES (#foreach($column in $table.columnList)#if($column.columnName != $table.primary.columnName)#{${column.fieldName}}#if($velocityCount != $table.columnList.size()),#end#end#end)")
     @Options(useGeneratedKeys = true, keyProperty = "$table.primary.fieldName", keyColumn = "$table.primary.columnName")
 #end
-    int insertOne(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+    int insert(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
 
     /**
      * 通过id修改单条数据

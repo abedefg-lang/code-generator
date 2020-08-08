@@ -1,5 +1,6 @@
 package com.template;
 
+import com.utils.NameUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,7 +18,7 @@ public class TemplateConfig {
     public static final String DEFAULT_TARGET_FILE_FORMAT = "java";
 
     /**占位符*/
-    public static final String TARGET_NAME_PLACEHOLDER = "$";
+    public static final String TARGET_NAME_PLACEHOLDER = "${className}";
 
     /**默认使用的引擎*/
     public static final String DEFAULT_ENGINE = "velocity";
@@ -114,7 +115,7 @@ public class TemplateConfig {
             return new TemplateConfig()//创建实体类
                     .setName(name)//设置模板名称
                     .setTargetPackage(name)//设置生成的包名称  设置为name
-                    .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER)//设置生成的文件名 设置为不加任何内容使用转换后的className
+                    .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+ NameUtils.initialUppercase(name))//设置生成的文件名 加上后缀
                     .setEngine(TemplateConfig.DEFAULT_ENGINE);//设置模板引擎  设置为默认的模板引擎
         }
     }

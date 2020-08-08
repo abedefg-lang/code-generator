@@ -25,4 +25,11 @@ public class ${fileNameMap.controller}{
     @Autowired
 #end
     private ${fileNameMap.service} ${NameUtils.initialLowercase(${fileNameMap.service})};
+
+
+###if($template.propertyMap.restfulStyle == true)
+##
+###else
+##
+###end
 }

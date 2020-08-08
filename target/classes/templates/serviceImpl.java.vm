@@ -20,34 +20,34 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 @Service
 #end
 #if($model.mybatisPlusModel)
-public class ${fileNameMap.serviceImpl} extends ServiceImpl<${fileNameMap.dao}, ${fileNameMap.entity}>{
+public class ${fileNameMap.serviceImpl} extends ServiceImpl<${fileNameMap.dao}, ${fileNameMap.entity}> implements ${fileNameMap.service}{
 
 }
 #else
-public class ${fileNameMap.serviceImpl}{
+public class ${fileNameMap.serviceImpl} implements ${fileNameMap.service}{
 
 #if($model.springModel)
     @Autowired
 #end
     private ${fileNameMap.dao} ${NameUtils.initialLowercase(${fileNameMap.dao})};
 
-
+    @Override
     public ${fileNameMap.entity} getById(${table.primary.javaType.getSimpleName()} id){
         return ${NameUtils.initialLowercase(${fileNameMap.dao})}.selectById(id);
     }
 
-
-    public int insertOne(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
-        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.insertOne(${NameUtils.initialLowercase(${fileNameMap.entity})});
+    @Override
+    public int save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.dao})}.insert(${NameUtils.initialLowercase(${fileNameMap.entity})});
     }
 
-
+    @Override
     public int updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
         return ${NameUtils.initialLowercase(${fileNameMap.dao})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})});
     }
 
-
-    public int deleteById(${table.primary.javaType.getSimpleName()} id){
+    @Override
+    public int removeById(${table.primary.javaType.getSimpleName()} id){
         return ${NameUtils.initialLowercase(${fileNameMap.dao})}.deleteById(id);
     }
 

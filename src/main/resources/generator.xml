@@ -5,10 +5,11 @@
     <context outRootPath="src/main/java" parentPackage="com.test.demo" overwriteFile="true">
 
 
-        <tables namePatterns="user.* , admin.*">
+        <tables namePatterns=".*">
 
             <nameConverter class="com.utils.converter.CamelNameConverter">
-                <property name="camel" value="true"/>
+                <property name="toCamel" value="true"/>
+                <property name="tablePrefix" value="sys_"/>
             </nameConverter>
 
             <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
@@ -19,9 +20,9 @@
             <template name="entity">
                 <property name="lombok" value="true"/>
             </template>
-            <template name="dao">
-                <property name="mybatisAnnotation" value="true"/>
-            </template>
+            <template name="dao"/>
+            <template name="service"/>
+            <template name="serviceImpl"/>
         </templates>
 
     </context>
