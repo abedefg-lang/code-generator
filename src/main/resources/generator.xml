@@ -8,11 +8,11 @@
              author="TOM">
 
 
-        <tables namePatterns=".*">
+        <tables allTables="true">
 
-            <nameConverter class="com.utils.converter.CamelNameConverter">
+            <nameConverter class="com.generator.nameconverter.CamelNameConverter">
                 <property name="toCamel" value="true"/>
-                <property name="tablePrefix" value="sys_"/>
+                <property name="tablePrefixes" value="sys_"/>
             </nameConverter>
 
             <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
@@ -23,16 +23,12 @@
             <template name="entity">
                 <property name="lombok" value="true"/>
             </template>
-<!--            <template name="dao"/>-->
-<!--            <template name="service"/>-->
-<!--            <template name="serviceImpl"/>-->
-<!--            <template name="controller"/>-->
+            <template name="dao"/>
+            <template name="service"/>
+            <template name="serviceImpl"/>
+            <template name="controller"/>
         </templates>
 
-        <typeMappings>
-            <typeMapping dbType="int" javaType="java.lang.Integer"/>
-            <typeMapping dbType="bigint" javaType="java.lang.String"/>
-        </typeMappings>
 
     </context>
 </generator>

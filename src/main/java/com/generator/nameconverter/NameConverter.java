@@ -1,4 +1,4 @@
-package com.utils.converter;
+package com.generator.nameconverter;
 
 import com.utils.NameUtils;
 

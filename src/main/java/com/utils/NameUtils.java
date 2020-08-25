@@ -5,7 +5,9 @@ package com.utils;
  */
 public class NameUtils {
 
-    /**首字母大写*/
+    /**
+     * 首字母大写
+     */
     public static String initialUppercase(String str){
         //判断如果字符串为空  或者为空串  或者首字母本身就是大写  返回原字符串
         if(str == null || "".equals(str) || isUppercase(str.charAt(0))) return str;
@@ -14,7 +16,10 @@ public class NameUtils {
         return new String(chars);
     }
 
-    /**首字母小写*/
+
+    /**
+     * 首字母小写
+     */
     public static String initialLowercase(String str){
         //判断如果字符串为空  或者为空串  或者首字母本身就是小写写  返回原字符串
         if(str == null || "".equals(str) || isLowerCase(str.charAt(0))) return str;
@@ -23,7 +28,9 @@ public class NameUtils {
         return new String(chars);
     }
 
-    /**将其他命名规则转化为驼峰式  比如下划线  中划线  空格等于连接的方式*/
+    /**
+     * 将其他命名规则转化为驼峰式  比如下划线  中划线  空格等于连接的方式
+     */
     public static String convertCamel(String str, String regex){
         String[] strings = str.split(regex);
         StringBuilder builder = new StringBuilder(strings[0]);
@@ -33,13 +40,20 @@ public class NameUtils {
         return new String(builder);
     }
 
-    /**将一个字符串变成类名   也就是大驼峰式*/
+
+    /**
+     * 将一个字符串变成类名   也就是大驼峰式
+     * 先将字符串转化为小驼峰然后首字母大写
+     */
     public static String convertClassName(String str, String regex){
         String className = convertCamel(str, regex);
         return initialUppercase(className);
     }
 
-    /**驼峰式转化为另外一种命名方式*/
+
+    /**
+     * 驼峰式转化为另外一种命名方式
+     */
     public static String camelConvertAnotherType(String name, String regex){
         //特判
         if(name == null || "".equals(name) || regex == null || "".equals(regex)) return name;
@@ -64,7 +78,11 @@ public class NameUtils {
         return builder.toString();
     }
 
-    /**将一种命名方式转化为另外一种方式*/
+    /**
+     * 将一种命名方式转化为另外一种方式
+     * 比如将下划线命名方式转化成 中划线命名方式
+     * 可以调用converterAnotherType(str, "_", "-");
+     */
     public static String convertAnotherType(String str, String oriRegex, String newRegex){
         String[] strings = str.split(oriRegex);
         StringBuilder builder = new StringBuilder(strings[0]);
@@ -74,7 +92,10 @@ public class NameUtils {
         return new String(builder);
     }
 
-    /**获取一个类全名的简单名字*/
+
+    /**
+     * 获取一个类全名的简单名字  去掉前面的包名
+     */
     public static String getSimpleName(String className){
         int index = className.lastIndexOf(".");
         return (index > 0) ? className.substring(index+1) : className;
@@ -88,8 +109,17 @@ public class NameUtils {
         return 'A' <= word && 'Z' >= word;
     }
 
-    /**判断是否是小写字母*/
+    /**
+     * 判断是否是小写字母
+     */
     public static boolean  isLowerCase(char word){
         return 'a' <= word && 'z' >= word;
+    }
+
+    /**
+     * 判断一个字符是否是字母
+     */
+    public static boolean isLetter(char word){
+        return isUppercase(word) || isLowerCase(word);
     }
 }

@@ -1,7 +1,9 @@
-package com.utils.converter;
+package com.generator.nameconverter;
 
 import com.utils.NameUtils;
 import lombok.Data;
+
+import java.util.Arrays;
 
 /**
  * 驼峰式的转换器
@@ -15,13 +17,17 @@ public class CamelNameConverter implements NameConverter{
     private boolean toCamel;
 
     /**表前缀 默认空串*/
-    private String tablePrefix;
+    private String[] tablePrefixes;
 
     @Override
     public String toClassName(String str) {
-        if(tablePrefix != null && str.startsWith(tablePrefix)){
-            //包含指定前缀  进行截取
-            str = str.substring(tablePrefix.length());
+        if(tablePrefixes != null && tablePrefixes.length > 0){
+            for(String prefix : tablePrefixes){
+                if(str.startsWith(prefix)){
+                    str = str.substring(prefix.length());
+                    break;
+                }
+            }
         }
         return toCamel ? NameUtils.convertClassName(str, REGEX) : NameUtils.initialUppercase(str);
     }

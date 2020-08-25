@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TableInfoDaoImpl implements TableInfoDao {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public TableInfoDaoImpl(DataSource dataSource){
         this.dataSource = dataSource;

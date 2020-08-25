@@ -1,6 +1,8 @@
 package com.utils.reflect;
 
 import com.utils.NameUtils;
+import com.utils.converter.StringConverter;
+import com.utils.converter.StringConverterRegistry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -20,16 +22,22 @@ public class ReflectUtils {
         if(target != null && valueMap != null){
             //获取属性
             Field[] fields = getAllField(target.getClass());
+            StringConverter<?> converter;
+            Method setMethod;
             for(Field field : fields){
                 Class<?> fieldType = field.getType();
-                //当这个field没有被final修饰的时候才进行注入
-                if((field.getModifiers() | Modifier.FINAL) != field.getModifiers()){
-                    Object value = BasicTypeUtil.getValue(fieldType, valueMap.get(field.getName()));
-                    if(value != null){
-                        //获取set方法
-                        Method setMethod = target.getClass().getMethod("set"+ NameUtils.initialUppercase(field.getName()), fieldType);
-                        setMethod.invoke(target, value);
+                //当这个属性有对应的值时  并且当前属性没有被final修饰 才进行操作
+                if(valueMap.containsKey(field.getName()) && (field.getModifiers() | Modifier.FINAL) != field.getModifiers()){
+                    //获取转换器
+                    converter = StringConverterRegistry.getStringConverter(fieldType);
+                    //如果转换器为null 抛出异常
+                    if(converter == null){
+                        throw new RuntimeException("找不到对应类型的com.utils.converter.StringConverter, fieldName " + field.getName() + ", fieldType " + fieldType);
                     }
+                    //获取对应的set方法
+                    setMethod = target.getClass().getMethod("set" + NameUtils.initialUppercase(field.getName()), fieldType);
+                    //执行set方法
+                    setMethod.invoke(target, converter.convert(valueMap.get(field.getName())));
                 }
             }
         }

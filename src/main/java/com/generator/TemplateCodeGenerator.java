@@ -39,6 +39,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
                 //每张表都会有自己的一套对应的模板生成的文件名
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));
                 for(TemplateConfig config : templateConfigList){
+                    map.put("template", config);
                     //通过config中的engine属性获取对应的engineRender
                     render = TemplateRenderRegistry.getEngine(config.getEngine());
                     if(render == null){

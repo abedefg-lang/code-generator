@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 #end
 import ${packageMap.service}.${fileNameMap.service};
-import com.utils.AjaxResult;
 import ${packageMap.entity}.${fileNameMap.entity};
 
 /**

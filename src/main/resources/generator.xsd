@@ -45,7 +45,7 @@
                                         </xs:element>
                                     </xs:sequence>
                                     <xs:attribute name="namePatterns" type="xs:string"/>
-<!--                                    <xs:attribute name="allTables" type="xs:boolean"/>-->
+                                    <xs:attribute name="allTables" type="xs:boolean"/>
                                 </xs:complexType>
                             </xs:element>
 
@@ -92,6 +92,7 @@
         <xs:complexType>
             <xs:attribute name="name" type="xs:string" use="required"/>
             <xs:attribute name="value" type="xs:string" use="required"/>
+<!--            <xs:attribute name="type" type="xs:string"/>-->
         </xs:complexType>
     </xs:element>
 

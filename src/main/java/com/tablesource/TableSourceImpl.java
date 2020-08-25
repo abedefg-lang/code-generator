@@ -1,12 +1,13 @@
 package com.tablesource;
 
-import com.utils.converter.NameConverter;
+import com.generator.nameconverter.NameConverter;
 import com.tablesource.dao.ColumnInfoDao;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.dao.impl.ColumnInfoDaoImpl;
 import com.tablesource.dao.impl.TableInfoDaoImpl;
 import com.tablesource.info.ColumnInfo;
 import com.tablesource.info.TableInfo;
+import com.utils.StringArrayUtils;
 import lombok.Data;
 
 import javax.sql.DataSource;
@@ -25,6 +26,9 @@ public class TableSourceImpl implements TableSource{
 
     /**表名称的正则匹配数组*/
     private String[] namePatterns;
+
+    /**是否生成全表*/
+    private boolean allTables;
 
     public TableSourceImpl(){}
 
@@ -45,20 +49,21 @@ public class TableSourceImpl implements TableSource{
 
     /**
      * 获取匹配的表名
+     * 全表生成优先于 名字匹配
      * @return 返回表名
      */
     private String[] getMatchingTableNames(){
-        if(namePatterns != null && namePatterns.length > 0){
+        //获取所有表名
+        List<String> tableNames = tableInfoDao.selectAllTables();
+        //如果是全表 直接返回
+        if(allTables) return tableNames.toArray(new String[0]);
+
+        if(!StringArrayUtils.isEmpty(namePatterns)){
             List<String> matchNames = new ArrayList<>();
             //获取所有的表名进行匹配
-            for(String table : tableInfoDao.selectAllTables()){
-                for(String pattern : namePatterns){
-                    pattern = pattern.trim();
-                    if(table.matches(pattern)){
-                        //匹配成功 停止循环  只需要满足一个条件即可
-                        matchNames.add(table);
-                        break;
-                    }
+            for(String table : tableNames){
+                if(StringArrayUtils.isMatches(namePatterns, table)){
+                    matchNames.add(table);
                 }
             }
             //返回数组

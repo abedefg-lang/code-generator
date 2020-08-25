@@ -7,9 +7,9 @@ import java.util.HashMap;
  */
 public class AjaxResult extends HashMap<String, Object> {
 
-    public static final int OK_CODE = 200;
+    private static final int OK_CODE = 200;
 
-    public static final int ERROR_CODE = 500;
+    private static final int ERROR_CODE = 400;
 
     public static AjaxResult ok(){
             return codeAndMsg(OK_CODE, "success");
@@ -33,6 +33,7 @@ public class AjaxResult extends HashMap<String, Object> {
         ajaxResult.put("msg", message);
         return ajaxResult;
     }
+
 
     public AjaxResult putData(String name, Object data){
         super.put(name, data);
