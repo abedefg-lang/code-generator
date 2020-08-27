@@ -1,6 +1,7 @@
 package com.generator;
 
 import com.tablesource.info.TableInfo;
+import com.utils.file.FileUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,9 +10,8 @@ import java.util.List;
 
 /**
  * 生成代码的逻辑有很多种
- * 但是有很多配置 比如需要生成的表  写入的路径等都是相同的
- * 还有不管是生成的逻辑的怎样最后都要落地到文件  也就是需要写入文件的逻辑
- * 将这些重合的部分放到这个类中
+ * 但是有很多配置是固定的 比如需要生成的表  写入的路径...
+ * 还有不管是生成的逻辑的怎样最后都要写入到文件
  */
 @Data
 @Accessors(chain = true)
@@ -50,14 +50,7 @@ public abstract class AbstractCodeGenerator implements CodeGenerator{
                 file.getParentFile().mkdirs();
             }
             //开始写入内容
-            try (FileOutputStream outStream = new FileOutputStream(file);
-                 OutputStreamWriter writer = new OutputStreamWriter(outStream);
-                 BufferedWriter sw = new BufferedWriter(writer)) {
-                sw.write(code);
-                sw.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            FileUtils.write(file, code, false);
         }
     }
 }

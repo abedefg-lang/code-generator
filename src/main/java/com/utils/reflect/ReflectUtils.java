@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class ReflectUtils {
 
@@ -56,6 +57,13 @@ public class ReflectUtils {
             clazz = clazz.getSuperclass();
         }
         return fieldList.toArray(new Field[0]);
+    }
+
+    /**
+     * 获取默认的classLoader 也就是当前线程的classLoader
+     */
+    public static ClassLoader getDefaultClassLoader(){
+        return Thread.currentThread().getContextClassLoader();
     }
 
 

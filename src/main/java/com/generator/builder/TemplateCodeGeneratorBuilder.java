@@ -5,10 +5,9 @@ import com.generator.TemplateCodeGenerator;
 
 /**
  * TemplateCodeGenerator的Builder
- * 定义了一些子类需要实现的build逻辑
+ * 定义了一些子类需要实现的build流程
  */
 public abstract class TemplateCodeGeneratorBuilder implements CodeGeneratorBuilder{
-
 
     /**codeGenerator*/
     protected TemplateCodeGenerator codeGenerator;

@@ -19,7 +19,7 @@ public class TemplateRenderRegistry {
         engineMap.put("freemarker", new FreemarkerRender());
     }
 
-    public static TemplateRender getEngine(String engineName){
+    public static TemplateRender getRender(String engineName){
         return engineMap.get(engineName);
     }
 

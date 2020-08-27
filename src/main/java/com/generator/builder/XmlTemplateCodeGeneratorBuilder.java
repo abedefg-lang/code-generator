@@ -8,6 +8,7 @@ import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;
 import com.template.TemplateConfig;
 import com.utils.TypeMappingUtil;
+import com.utils.file.FileUtils;
 import com.utils.reflect.ReflectUtils;
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
@@ -15,7 +16,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import javax.sql.DataSource;
-import java.net.URL;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,24 +27,24 @@ import java.util.Objects;
  * 并且传递的xml路径是classPath形式的
  */
 @SuppressWarnings("unchecked")
-public class XmlClassPathTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilder {
+public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilder {
 
     /**xml中的跟标签*/
     protected Element context;
 
 
-    public XmlClassPathTemplateCodeGeneratorBuilder(String classPath){
-        try {
+    public XmlTemplateCodeGeneratorBuilder(File generatorXml){
+        try{
             SAXReader reader = new SAXReader();
-            //获取url
-            URL url = Thread.currentThread().getContextClassLoader().getResource(classPath);
-            Objects.requireNonNull(url, "找不到文件: " + classPath);
-            context = reader.read(url).getRootElement().element("context");
-            //创建实例对象
+            context = reader.read(generatorXml).getRootElement().element("context");
             codeGenerator = new TemplateCodeGenerator();
-        } catch (DocumentException e) {
-            e.printStackTrace();
+        }catch (DocumentException d){
+            d.printStackTrace();
         }
+    }
+
+    public XmlTemplateCodeGeneratorBuilder(String path){
+        this(FileUtils.createFile(path));
     }
 
 

@@ -9,19 +9,20 @@ import java.util.Map;
  */
 public interface TemplateRender {
 
+    /**默认的字符集*/
     String DEFAULT_ENCODING = "UTF-8";
 
     /**
      * 渲染模板
-     * @param config 模板配置
-     * @param map 参数
+     * @param config 模板配置类
+     * @param map 一些基本的参数
      * @return 返回渲染之后的内容
      */
-    String rendering(TemplateConfig config, Map<String, Object> map);
+    String render(TemplateConfig config, Map<String, Object> map);
 
     /**
      * 获取模板引擎的名称
      * @return 返回名称
      */
-    String getName();
+    String getTemplateEngine();
 }

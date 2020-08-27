@@ -23,7 +23,7 @@ public class VelocityRender implements TemplateRender {
     }
 
     @Override
-    public String rendering(TemplateConfig config, Map<String, Object> map) {
+    public String render(TemplateConfig config, Map<String, Object> map) {
         //创建context
         VelocityContext context = new VelocityContext(map);
         context.put("template", config);
@@ -36,7 +36,7 @@ public class VelocityRender implements TemplateRender {
     }
 
     @Override
-    public String getName() {
+    public String getTemplateEngine() {
         return "velocity";
     }
 

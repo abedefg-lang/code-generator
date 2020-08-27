@@ -18,7 +18,6 @@ import java.util.*;
 @Data
 public class TemplateCodeGenerator extends AbstractCodeGenerator{
 
-
     /**模板*/
     private List<TemplateConfig> templateConfigList = new ArrayList<>(8);
 
@@ -40,13 +39,13 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));
                 for(TemplateConfig config : templateConfigList){
                     map.put("template", config);
-                    //通过config中的engine属性获取对应的engineRender
-                    render = TemplateRenderRegistry.getEngine(config.getEngine());
+                    //通过config中的engine属性获取对应的render
+                    render = TemplateRenderRegistry.getRender(config.getEngine());
                     if(render == null){
                         throw new RuntimeException("找不到模板渲染器: engine " + config.getEngine() + " ,template : " + config.getName());
                     }
                     //执行渲染逻辑  获取渲染之后的字符串
-                    String content = render.rendering(config, map);
+                    String content = render.render(config, map);
                     //写入文件
                     writeCode(content, config.getPath(tableInfo.getClassName()));
                 }
