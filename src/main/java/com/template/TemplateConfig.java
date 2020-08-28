@@ -33,8 +33,8 @@ public class TemplateConfig {
     private String targetFileName;
 
     /**
-     * 模板的路径  路径规定为 name.生成的文件格式.该文件的格式
-     * 就是说在普通文件的后缀前多了一个生成的文件格式
+     * 模板的路径  路径规定为 【name.生成的文件格式.该文件的格式】
+     * 就是说在模板文件的后缀前多了一个生成的文件格式
      */
     private String templateClassPath;
 
@@ -102,6 +102,7 @@ public class TemplateConfig {
                 basicTemplateMap.put(bt.getConfig().getName(), bt.getConfig());
             }
         }
+
         /**
          * 核心获取方法
          * @param name 模板名称

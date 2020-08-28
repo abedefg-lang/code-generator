@@ -1,6 +1,7 @@
 package com.generator.builder;
 
-import com.generator.ModelConfig;
+import com.generator.config.GlobalConfig;
+import com.generator.config.ModelConfig;
 import com.generator.TemplateCodeGenerator;
 import com.generator.nameconverter.NameConverter;
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -49,9 +50,11 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
 
 
     @Override
-    protected void buildBasicConfig() throws Exception{
-        //解析context中的属性信息  然后进行注入
-        ReflectUtils.simpleInject(codeGenerator, parseAttribute(context));
+    protected void buildGlobal() throws Exception {
+        GlobalConfig global = new GlobalConfig();
+        //进行注入
+        ReflectUtils.simpleInject(global, parseAttribute(context));
+        codeGenerator.setGlobal(global);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.generator;
 
+import com.generator.config.GlobalConfig;
+import com.generator.config.ModelConfig;
 import com.tablesource.info.TableInfo;
 import com.template.TemplateConfig;
 import com.template.render.TemplateRender;
@@ -22,12 +24,13 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
     private List<TemplateConfig> templateConfigList = new ArrayList<>(8);
 
     /**生成的模型配置*/
-    private ModelConfig model = new ModelConfig();
+    private ModelConfig model;
 
     @Override
-    public void generate() {
-        Objects.requireNonNull(tableInfos, "tableInfos不能为null");
-        if(!tableInfos.isEmpty() && !templateConfigList.isEmpty()){
+    public void generate(){
+        //判断是否开启生成器
+        if(global.isOpen()){
+            validate();
             //将一些基本的信息添加到map
             Map<String, Object> map = putBasicConfig();
             //开始循环生成
@@ -47,7 +50,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
                     //执行渲染逻辑  获取渲染之后的字符串
                     String content = render.render(config, map);
                     //写入文件
-                    writeCode(content, config.getPath(tableInfo.getClassName()));
+                    writeCode(content, getParentWritePath()+"\\"+config.getPath(tableInfo.getClassName()));
                 }
             }
         }
@@ -61,6 +64,21 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
         templateConfigList.add(config);
     }
 
+    /**
+     * 验证 这个方法会在执行生成方法之前执行
+     * 判断一些属性
+     */
+    protected void validate(){
+        if(tableInfos == null){
+            throw new RuntimeException("tableInfos不能为null");
+        }
+        if(global == null){
+            global = new GlobalConfig();
+        }
+        if(model == null){
+            model = new ModelConfig();
+        }
+    }
 
     /**
      * 将一些基本的配置添加到map
@@ -69,7 +87,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
     private Map<String, Object> putBasicConfig(){
         Map<String, Object> map = new HashMap<>();
         map.put("packageMap", paresPackage());
-        map.put("author", author);
+        map.put("author", global.getAuthor());
         map.put("model", model);
         map.put("date", TimeUtil.getCurrentTime());
         map.put("NameUtils", NameUtils.class);
@@ -81,6 +99,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
      * @return 返回Map
      */
     private Map<String, String> paresPackage(){
+        String parentPackage = global.getParentPackage();
         //如果父级包名部位空串 加上"."
         String packagePrefix = "".equals(parentPackage) ? parentPackage : parentPackage + ".";
         Map<String, String> map = new HashMap<>();

@@ -1,4 +1,4 @@
-package com.generator;
+package com.generator.config;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -13,10 +13,9 @@ public abstract class TemplateCodeGeneratorBuilder implements CodeGeneratorBuild
     protected TemplateCodeGenerator codeGenerator;
 
     /**
-     * build基本的配置信息
-     * 包括rootPath parentPackage author...
+     * build全局的配置
      */
-    protected abstract void buildBasicConfig() throws Exception;
+    protected abstract void buildGlobal() throws Exception;
 
     /**
      * build tableInfos
@@ -46,7 +45,7 @@ public abstract class TemplateCodeGeneratorBuilder implements CodeGeneratorBuild
     public CodeGenerator build() {
         try {
             parseTypeMappings();
-            buildBasicConfig();
+            buildGlobal();
             buildTableInfos();
             buildTemplates();
             buildModel();

@@ -82,6 +82,7 @@
                         <xs:attribute name="parentPackage" type="xs:string" use="required"/>
                         <xs:attribute name="overwriteFile" type="xs:boolean"/>
                         <xs:attribute name="author" type="xs:string"/>
+                        <xs:attribute name="open" type="xs:boolean"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
