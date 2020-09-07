@@ -1,12 +1,12 @@
 package com.tablesource;
 
-import com.generator.nameconverter.NameConverter;
+import com.tablesource.nameconverter.NameConverter;
 import com.tablesource.dao.ColumnInfoDao;
 import com.tablesource.dao.TableInfoDao;
 import com.tablesource.dao.impl.ColumnInfoDaoImpl;
 import com.tablesource.dao.impl.TableInfoDaoImpl;
-import com.tablesource.info.ColumnInfo;
-import com.tablesource.info.TableInfo;
+import com.tablesource.entity.ColumnInfo;
+import com.tablesource.entity.TableInfo;
 import com.utils.StringArrayUtils;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Data
-public class TableSourceImpl implements TableSource{
+public class TableSourceImpl implements TableSource {
 
     /**TableInfoDao  获取table的相关信息*/
     private TableInfoDao tableInfoDao;
@@ -35,6 +35,11 @@ public class TableSourceImpl implements TableSource{
     public TableSourceImpl(DataSource dataSource){
         this.tableInfoDao = new TableInfoDaoImpl(dataSource);
         this.columnInfoDao = new ColumnInfoDaoImpl(dataSource);
+    }
+
+    public TableSourceImpl(TableInfoDao tableInfoDao, ColumnInfoDao columnInfoDao){
+        this.tableInfoDao = tableInfoDao;
+        this.columnInfoDao = columnInfoDao;
     }
 
 

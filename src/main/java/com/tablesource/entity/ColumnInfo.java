@@ -1,4 +1,4 @@
-package com.tablesource.info;
+package com.tablesource.entity;
 
 import com.utils.TypeMappingUtil;
 import lombok.Data;

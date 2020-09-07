@@ -1,9 +1,7 @@
-package com.generator.nameconverter;
+package com.tablesource.nameconverter;
 
 import com.utils.NameUtils;
 import lombok.Data;
-
-import java.util.Arrays;
 
 /**
  * 驼峰式的转换器

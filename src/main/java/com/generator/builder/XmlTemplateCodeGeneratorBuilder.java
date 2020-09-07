@@ -3,7 +3,7 @@ package com.generator.builder;
 import com.generator.config.GlobalConfig;
 import com.generator.config.ModelConfig;
 import com.generator.TemplateCodeGenerator;
-import com.generator.nameconverter.NameConverter;
+import com.tablesource.nameconverter.NameConverter;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
 import com.tablesource.TableSourceImpl;

@@ -1,7 +1,7 @@
 package com.tablesource.dao.impl;
 
 import com.tablesource.dao.ColumnInfoDao;
-import com.tablesource.info.ColumnInfo;
+import com.tablesource.entity.ColumnInfo;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

@@ -54,6 +54,7 @@
                                 <xs:complexType>
                                     <xs:attribute name="springModel" type="xs:boolean"/>
                                     <xs:attribute name="mybatisPlusModel" type="xs:boolean"/>
+                                    <xs:attribute name="enableSwagger2" type="xs:boolean"/>
                                 </xs:complexType>
                             </xs:element>
 

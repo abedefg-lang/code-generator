@@ -10,7 +10,7 @@
 
         <tables allTables="true">
 
-            <nameConverter class="com.generator.nameconverter.CamelNameConverter">
+            <nameConverter class="com.tablesource.nameconverter.CamelNameConverter">
                 <property name="toCamel" value="true"/>
                 <property name="tablePrefixes" value="sys_"/>
             </nameConverter>
@@ -18,6 +18,8 @@
             <dataSource url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
                         user="root" password="root"/>
         </tables>
+
+        <model enableSwagger2="true" mybatisPlusModel="true"/>
 
         <templates>
             <template name="entity">

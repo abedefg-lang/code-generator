@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 /**
  * (${table.tableName})表  业务层
  * @author ${author}
- * @date ${date}
+ * @since  ${date}
  */
 #if($model.springModel)
 @Service

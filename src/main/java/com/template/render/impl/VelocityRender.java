@@ -26,7 +26,6 @@ public class VelocityRender implements TemplateRender {
     public String render(TemplateConfig config, Map<String, Object> map) {
         //创建context
         VelocityContext context = new VelocityContext(map);
-        context.put("template", config);
         //获取模板
         Template template = Velocity.getTemplate(config.getTemplateClassPath(), DEFAULT_ENCODING);
         StringWriter writer = new StringWriter();

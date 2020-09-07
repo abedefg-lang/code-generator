@@ -2,15 +2,15 @@ package com.generator;
 
 import com.generator.config.GlobalConfig;
 import com.generator.config.ModelConfig;
-import com.tablesource.info.TableInfo;
+import com.tablesource.entity.TableInfo;
 import com.template.TemplateConfig;
 import com.template.render.TemplateRender;
 import com.template.render.TemplateRenderRegistry;
 import com.utils.NameUtils;
-import com.utils.TimeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -89,7 +89,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
         map.put("packageMap", paresPackage());
         map.put("author", global.getAuthor());
         map.put("model", model);
-        map.put("date", TimeUtil.getCurrentTime());
+        map.put("date", LocalDate.now().toString());
         map.put("NameUtils", NameUtils.class);
         return map;
     }

@@ -1,7 +1,7 @@
 package com.tablesource;
 
-import com.generator.nameconverter.NameConverter;
-import com.tablesource.info.TableInfo;
+import com.tablesource.nameconverter.NameConverter;
+import com.tablesource.entity.TableInfo;
 
 import java.util.List;
 

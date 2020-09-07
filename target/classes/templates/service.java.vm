@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * (${table.tableName})表  业务层接口
  * @author ${author}
- * @date ${date}
+ * @since  ${date}
  */
 #if($model.mybatisPlusModel)
 public interface ${fileNameMap.service} extends IService<${fileNameMap.entity}>{

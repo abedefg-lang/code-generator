@@ -14,6 +14,6 @@ public class Test {
         CodeGeneratorBuilder builder = new XmlTemplateCodeGeneratorBuilder("classpath:generator.xml");
         CodeGenerator codeGenerator = builder.build();
         codeGenerator.generate();
-//        URL url = ReflectUtils.getDefaultClassLoader().getResource("generator.xml");
+
     }
 }

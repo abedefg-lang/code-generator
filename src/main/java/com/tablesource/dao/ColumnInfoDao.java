@@ -1,6 +1,6 @@
 package com.tablesource.dao;
 
-import com.tablesource.info.ColumnInfo;
+import com.tablesource.entity.ColumnInfo;
 
 import java.util.List;
 

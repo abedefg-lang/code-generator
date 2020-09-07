@@ -1,4 +1,4 @@
-package com.generator.nameconverter;
+package com.tablesource.nameconverter;
 
 import com.utils.NameUtils;
 
