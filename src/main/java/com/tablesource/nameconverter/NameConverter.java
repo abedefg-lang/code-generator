@@ -7,7 +7,7 @@ import com.utils.NameUtils;
  */
 public interface NameConverter {
 
-    NameConverter NOTHING_CONVERTER = new NameConverter(){};
+    NameConverter NONE = new NameConverter(){};
 
     /**
      * 转换成类名  默认只将首字母大写

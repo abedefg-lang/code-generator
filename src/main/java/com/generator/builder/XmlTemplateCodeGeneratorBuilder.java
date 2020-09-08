@@ -1,12 +1,11 @@
 package com.generator.builder;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.generator.config.GlobalConfig;
 import com.generator.config.ModelConfig;
 import com.generator.TemplateCodeGenerator;
-import com.tablesource.nameconverter.NameConverter;
-import com.mysql.cj.jdbc.MysqlDataSource;
 import com.tablesource.TableSource;
-import com.tablesource.TableSourceImpl;
+import com.tablesource.nameconverter.NameConverter;
 import com.template.TemplateConfig;
 import com.utils.TypeMappingUtil;
 import com.utils.file.FileUtils;
@@ -64,13 +63,13 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
         Objects.requireNonNull(tables, "tables不能为null");
 
         DataSource dataSource = buildDataSource(tables.element("dataSource"));
-        NameConverter nameConverter = buildNameConverter(tables.element("nameConverter"));
 
         //创建TableSource 然后执行获取TableInfos方法
-        TableSource tableSource = new TableSourceImpl(dataSource);
+        TableSource tableSource = new TableSource(dataSource);
+        tableSource.setNameConverter(buildNameConverter(tables.element("nameConverter")));
         //对属性进行注入
         ReflectUtils.simpleInject(tableSource, parseAttribute(tables));
-        codeGenerator.setTableInfos(tableSource.getTableInfos(nameConverter));
+        codeGenerator.setTableInfos(tableSource.getTableInfos());
     }
 
     /**
@@ -80,11 +79,10 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
      */
     private DataSource buildDataSource(Element dataSource){
 
-        MysqlDataSource source = new MysqlDataSource();
-        Objects.requireNonNull(source, "dataSource不能为null");
-
+        DruidDataSource source = new DruidDataSource();
+        source.setDriverClassName(dataSource.attributeValue("driver"));
         source.setUrl(dataSource.attributeValue("url"));
-        source.setUser(dataSource.attributeValue("user"));
+        source.setUsername(dataSource.attributeValue("username"));
         source.setPassword(dataSource.attributeValue("password"));
         return source;
     }
@@ -104,7 +102,7 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
             return converter;
         }
         //如果为null 返回nothing
-        return NameConverter.NOTHING_CONVERTER;
+        return NameConverter.NONE;
     }
 
     @Override

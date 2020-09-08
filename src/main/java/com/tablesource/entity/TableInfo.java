@@ -45,4 +45,14 @@ public class TableInfo {
         this.columnList = columnList;
         return this;
     }
+
+//    /**
+//     * 不同的数据库查询表内容的字段
+//     */
+//    public static class TableInfoPropertyMapping{
+//
+//        private String tableNameColumnMapping;
+//
+//        private String commentColumnMapping;
+//    }
 }
