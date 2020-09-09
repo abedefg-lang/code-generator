@@ -60,16 +60,16 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
     protected void buildTableInfos() throws Exception {
 
         Element tables = context.element("tables");
-        Objects.requireNonNull(tables, "tables不能为null");
+        if(tables != null) {
+            DataSource dataSource = buildDataSource(tables.element("dataSource"));
 
-        DataSource dataSource = buildDataSource(tables.element("dataSource"));
-
-        //创建TableSource 然后执行获取TableInfos方法
-        TableSource tableSource = new TableSource(dataSource);
-        tableSource.setNameConverter(buildNameConverter(tables.element("nameConverter")));
-        //对属性进行注入
-        ReflectUtils.simpleInject(tableSource, parseAttribute(tables));
-        codeGenerator.setTableInfos(tableSource.getTableInfos());
+            //创建TableSource 然后执行获取TableInfos方法
+            TableSource tableSource = new TableSource(dataSource);
+            tableSource.setNameConverter(buildNameConverter(tables.element("nameConverter")));
+            //对属性进行注入
+            ReflectUtils.simpleInject(tableSource, parseAttribute(tables));
+            codeGenerator.setTableInfos(tableSource.getTableInfos());
+        }
     }
 
     /**

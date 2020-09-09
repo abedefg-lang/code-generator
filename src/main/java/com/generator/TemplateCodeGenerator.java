@@ -21,7 +21,7 @@ import java.util.*;
 public class TemplateCodeGenerator extends AbstractCodeGenerator{
 
     /**模板*/
-    private List<TemplateConfig> templateConfigList = new ArrayList<>(8);
+    private List<TemplateConfig> templateConfigList;
 
     /**生成的模型配置*/
     private ModelConfig model;
@@ -36,7 +36,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
             //开始循环生成
             TemplateRender render;
             for(TableInfo tableInfo : tableInfos){
-                System.out.println("开始生成table: " + tableInfo.getTableName());
+                System.out.println("开始生成表: " + tableInfo.getTableName());
                 map.put("table", tableInfo);
                 //每张表都会有自己的一套对应的模板生成的文件名
                 map.put("fileNameMap", parseFileName(tableInfo.getClassName()));
@@ -61,6 +61,9 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
      * @param config 模板配置
      */
     public void putTemplateConfig(TemplateConfig config){
+        if(templateConfigList == null){
+            templateConfigList = new ArrayList<>();
+        }
         templateConfigList.add(config);
     }
 
@@ -70,7 +73,10 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
      */
     protected void validate(){
         if(tableInfos == null){
-            throw new RuntimeException("tableInfos不能为null");
+            throw new RuntimeException("必须添加需要生成的表信息");
+        }
+        if(templateConfigList == null){
+            throw new RuntimeException("必须添加需要使用到的模板");
         }
         if(global == null){
             global = new GlobalConfig();

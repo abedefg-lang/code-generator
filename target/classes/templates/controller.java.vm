@@ -4,13 +4,13 @@ package ${packageMap.controller};
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.*;
+##import org.springframework.web.bind.annotation.*;
 #end
 #if($model.enableSwagger2)
 import io.swagger.annotations.Api;
 #end
 import ${packageMap.service}.${fileNameMap.service};
-import ${packageMap.entity}.${fileNameMap.entity};
+##import ${packageMap.entity}.${fileNameMap.entity};
 
 /**
  * (${table.tableName})表  控制层
