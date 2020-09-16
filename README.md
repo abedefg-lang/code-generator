@@ -1,6 +1,6 @@
 # code-generator
 代码生成器
-根据数据库中的表信息，生成指定的组件代码，项目本身提供Entity，Dao，Service，ServiceImp，Controller，可以随意选择自己需要的模板。
+根据数据库中的表信息，生成指定的组件代码，项目本身提供Entity，Dao，Mapper，Service，ServiceImp，Controller，可以随意选择自己需要的模板。
 
 可以使用正则表达式匹配表名，不同风格的代码(MybatisPlus风格，使用Lombok，Swagger2等)。
 
@@ -29,7 +29,7 @@
        
         <templates>
             ...
-            <!--name: 组件模板的名称  项目本身提供基本的模板(entity,dao,service,serviceImpl,controller) 如果需要使用这些模板  只需要配置对应的name-->
+            <!--name: 组件模板的名称  项目本身提供基本的模板(entity,dao,mapper,service,serviceImpl,controller) 如果需要使用这些模板  只需要配置对应的name-->
             <!--templateClassPath：使用到的模板的类路径  需要在后缀名前加上生成文件的后缀  比如entity.java.vm  这个模板就是用来生成java文件的-->
             <!--targetFileName：生成的文件名 比如想要这个组件前面加上Test前缀 可以配置targetFileName="Test#{className}" -->
             <!--targetPackage：存放代码的包  并不是全名 比如想要存放dao组件的包名叫mapper 可以配置 targetPackage="mapper"-->
