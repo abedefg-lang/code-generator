@@ -18,7 +18,7 @@ public class TemplateConfig {
     public static final String DEFAULT_TARGET_FILE_FORMAT = "java";
 
     /**占位符*/
-    public static final String TARGET_NAME_PLACEHOLDER = "#";
+    public static final String TARGET_NAME_PLACEHOLDER = "${className}";
 
     /**默认使用的引擎*/
     public static final String DEFAULT_ENGINE = "velocity";
