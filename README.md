@@ -74,8 +74,20 @@
     </context>
 </generator>
 ```
-项目
+可以配置model  生成不同风格的代码
 ```xml
+<generator xmlns="http://www.w3school.com.cn">
+
+    <context>
+        ...
+        <!--springModel：会生成spring相关的基本注解 @Controller @Service @Autowired-->
+        <!--mybatisPlusModel：将不会生成dao，service，serviceImpl中的基本方法  换成继承或实现相关接口或父类   
+            并且会在entity模板中生成相关注解@TableName  @TableId  @TableFiled-->
+        <!--enableSwagger2：生成相关注解-->
+        <model springModel="" mybatisPlusModel="" enableSwagger2=""/>
+        ...  
+    </context>
+</generator>
 ```
 通过以下java代码进行生成
 ```java
