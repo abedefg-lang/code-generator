@@ -1,8 +1,5 @@
 package com.template.render;
 
-import com.template.render.impl.FreemarkerRender;
-import com.template.render.impl.VelocityRender;
-
 import java.util.HashMap;
 import java.util.Map;
 

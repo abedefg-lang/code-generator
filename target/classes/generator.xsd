@@ -23,10 +23,10 @@
                             </xs:element>
 
                             <!--表信息 配置-->
-                            <xs:element name="tables">
+                            <xs:element name="tables" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="nameConverter">
+                                        <xs:element name="nameConverter" minOccurs="0">
                                             <xs:complexType>
                                                 <xs:sequence>
                                                     <xs:element ref="property" minOccurs="0"/>
@@ -35,12 +35,20 @@
                                             </xs:complexType>
                                         </xs:element>
                                         <!--数据相关的配置-->
-                                        <xs:element name="dataSource">
+                                        <xs:element name="dialect">
                                             <xs:complexType>
-                                                <xs:attribute name="driver" type="xs:string" use="required"/>
-                                                <xs:attribute name="url" type="xs:string" use="required"/>
-                                                <xs:attribute name="username" type="xs:string" use="required"/>
-                                                <xs:attribute name="password" type="xs:string" use="required"/>
+                                                <xs:sequence>
+                                                    <xs:element name="dataSource">
+                                                        <xs:complexType>
+                                                            <xs:attribute name="driver" type="xs:string" use="required"/>
+                                                            <xs:attribute name="url" type="xs:string" use="required"/>
+                                                            <xs:attribute name="username" type="xs:string" use="required"/>
+                                                            <xs:attribute name="password" type="xs:string" use="required"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element ref="property" minOccurs="0"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="class" type="xs:string"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>

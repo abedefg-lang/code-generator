@@ -1,4 +1,4 @@
-package com.template.render.impl;
+package com.template.render;
 
 import com.template.TemplateConfig;
 import com.template.render.TemplateRender;

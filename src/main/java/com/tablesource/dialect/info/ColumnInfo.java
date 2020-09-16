@@ -1,4 +1,4 @@
-package com.tablesource.entity;
+package com.tablesource.dialect.info;
 
 import com.utils.TypeMappingUtil;
 import lombok.Data;

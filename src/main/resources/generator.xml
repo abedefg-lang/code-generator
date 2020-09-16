@@ -4,14 +4,22 @@
 
     <context outRootPath="src\main\java"
              parentPackage="com.test"
-             author="TOM">
+             author="TOM" overwriteFile="true">
 
-        <tables allTables="true">
+        <tables namePatterns="user">
 
-            <dataSource driver="com.mysql.cj.jdbc.Driver"
-                        url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
-                        username="root"
-                        password="root"/>
+            <nameConverter class="com.tablesource.nameconverter.CamelNameConverter">
+                <property name="toCamel" value="true"/>
+            </nameConverter>
+
+            <dialect>
+
+                <dataSource driver="com.mysql.cj.jdbc.Driver"
+                            url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                            username="root"
+                            password="root"/>
+            </dialect>
+
         </tables>
 
         <templates>

@@ -5,11 +5,15 @@ import com.generator.config.GlobalConfig;
 import com.generator.config.ModelConfig;
 import com.generator.TemplateCodeGenerator;
 import com.tablesource.TableSource;
+import com.tablesource.dialect.AbstractDialect;
+import com.tablesource.dialect.Dialect;
+import com.tablesource.dialect.MySqlDialect;
 import com.tablesource.nameconverter.NameConverter;
 import com.template.TemplateConfig;
 import com.utils.TypeMappingUtil;
 import com.utils.file.FileUtils;
 import com.utils.reflect.ReflectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -58,33 +62,39 @@ public class XmlTemplateCodeGeneratorBuilder extends TemplateCodeGeneratorBuilde
 
     @Override
     protected void buildTableInfos() throws Exception {
-
         Element tables = context.element("tables");
         if(tables != null) {
-            DataSource dataSource = buildDataSource(tables.element("dataSource"));
-
-            //创建TableSource 然后执行获取TableInfos方法
-            TableSource tableSource = new TableSource(dataSource);
-            tableSource.setNameConverter(buildNameConverter(tables.element("nameConverter")));
-            //对属性进行注入
+            //创建TableSource
+            TableSource tableSource = new TableSource();
+            //设置属性
             ReflectUtils.simpleInject(tableSource, parseAttribute(tables));
+            tableSource.setNameConverter(buildNameConverter(tables.element("nameConverter")));
+            tableSource.setDialect(buildDialect(tables.element("dialect")));
+            //获取tableInfos
             codeGenerator.setTableInfos(tableSource.getTableInfos());
         }
     }
 
     /**
      * 构建dataSource
-     * @param dataSource dataSource标签
+     * @param dialect dialect标签
      * @return 返回dataSource对象
      */
-    private DataSource buildDataSource(Element dataSource){
-
+    private Dialect buildDialect(Element dialect) throws Exception {
+        //获取dataSource标签  创建
+        Element dataSource = dialect.element("dataSource");
         DruidDataSource source = new DruidDataSource();
         source.setDriverClassName(dataSource.attributeValue("driver"));
         source.setUrl(dataSource.attributeValue("url"));
         source.setUsername(dataSource.attributeValue("username"));
         source.setPassword(dataSource.attributeValue("password"));
-        return source;
+
+        String dialectClass = dialect.attributeValue("class");
+        //如果class为null 创建mysql
+        AbstractDialect ad = StringUtils.isEmpty(dialectClass) ? new MySqlDialect(source) : (AbstractDialect) Class.forName(dialectClass).getConstructor(DataSource.class).newInstance(source);
+        //注入属性
+        ReflectUtils.simpleInject(ad, parseProperties(dialect));
+        return ad;
     }
 
     /**

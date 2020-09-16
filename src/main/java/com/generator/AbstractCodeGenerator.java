@@ -1,7 +1,7 @@
 package com.generator;
 
 import com.generator.config.GlobalConfig;
-import com.tablesource.entity.TableInfo;
+import com.tablesource.dialect.info.TableInfo;
 import com.utils.file.FileUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;

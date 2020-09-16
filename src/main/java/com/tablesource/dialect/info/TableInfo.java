@@ -1,4 +1,4 @@
-package com.tablesource.entity;
+package com.tablesource.dialect.info;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

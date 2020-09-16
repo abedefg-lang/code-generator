@@ -2,7 +2,7 @@ package com.generator;
 
 import com.generator.config.GlobalConfig;
 import com.generator.config.ModelConfig;
-import com.tablesource.entity.TableInfo;
+import com.tablesource.dialect.info.TableInfo;
 import com.template.TemplateConfig;
 import com.template.render.TemplateRender;
 import com.template.render.TemplateRenderRegistry;
