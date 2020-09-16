@@ -1,28 +1,20 @@
 package com.tablesource;
 
+import com.tablesource.dialect.Dialect;
+import com.tablesource.dialect.info.ColumnInfo;
+import com.tablesource.dialect.info.TableInfo;
 import com.tablesource.nameconverter.NameConverter;
-import com.tablesource.dao.ColumnInfoDao;
-import com.tablesource.dao.TableInfoDao;
-import com.tablesource.dao.impl.ColumnInfoDaoImpl;
-import com.tablesource.dao.impl.TableInfoDaoImpl;
-import com.tablesource.entity.ColumnInfo;
-import com.tablesource.entity.TableInfo;
 import com.utils.StringArrayUtils;
 import lombok.Data;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
-public class TableSource{
+public class TableSource {
 
-    /**TableInfoDao  获取table的相关信息*/
-    private TableInfoDao tableInfoDao;
-
-    /**ColumnInfoDao 获取某个表的字段的相关信息*/
-    private ColumnInfoDao columnInfoDao;
+    /**方言*/
+    private Dialect dialect;
 
     /**名字转换器*/
     private NameConverter nameConverter;
@@ -36,54 +28,38 @@ public class TableSource{
     /**是否生成全表 全表生成的优先级最高*/
     private boolean allTables;
 
-    public TableSource(){}
-
-    public TableSource(DataSource dataSource){
-        this.tableInfoDao = new TableInfoDaoImpl(dataSource);
-        this.columnInfoDao = new ColumnInfoDaoImpl(dataSource);
-    }
-
-    public TableSource(TableInfoDao tableInfoDao, ColumnInfoDao columnInfoDao){
-        this.tableInfoDao = tableInfoDao;
-        this.columnInfoDao = columnInfoDao;
-    }
-
-
     /**
      * 获取tableInfos
      * @return 返回list
      */
     public List<TableInfo> getTableInfos() {
         //获取匹配成功的表的信息
-        List<TableInfo> tableInfos = tableInfoDao.selectListByName(getMatchingTableNames());
+        List<TableInfo> tableInfos = getMatchingTableInfos();
         //完善信息
-        nameConverter = nameConverter != null ? nameConverter : NameConverter.NONE;
-        improveInfo(tableInfos, nameConverter);
+        improveInfo(tableInfos);
         return tableInfos;
     }
 
     /**
-     * 获取匹配的表名
+     * 获取匹配的表信息
      * 全表生成优先于 名字匹配
      * @return 返回表名
      */
-    private String[] getMatchingTableNames(){
-        //获取所有表名
-        List<String> tableNames = tableInfoDao.selectAllTables();
-        //如果是全表 直接返回
-        if(allTables) return tableNames.toArray(new String[0]);
-
-        List<String> matchNames = new ArrayList<>();
-        //获取所有的表名进行匹配
-        for(String table : tableNames){
+    private List<TableInfo> getMatchingTableInfos(){
+        //获取所有tableInfo
+        List<TableInfo> tableInfos = dialect.selectTableInfos();
+        //如果配置了全表生成  直接返回
+        if(allTables) return tableInfos;
+        //如果不是全表  需要进行筛选
+        List<TableInfo> matchTableInfos = new ArrayList<>();
+        for(TableInfo info : tableInfos){
             //当该表名没有被忽略  并且需要生成添加到list
-            if(!StringArrayUtils.isMatches(ignoreNamePatterns, table) &&
-                    StringArrayUtils.isMatches(namePatterns, table)){
-                matchNames.add(table);
+            if(!StringArrayUtils.isMatches(ignoreNamePatterns, info.getTableName()) &&
+                    StringArrayUtils.isMatches(namePatterns, info.getTableName())){
+                matchTableInfos.add(info);
             }
         }
-        //返回数组
-        return matchNames.toArray(new String[0]);
+        return matchTableInfos;
     }
 
 
@@ -91,21 +67,20 @@ public class TableSource{
     /**
      * 完善tableInfo的信息  设置这张表对应的字段信息进行
      * @param tableInfos  需要完善的tableInfos
-     * @param converter  是否转化成驼峰式
      */
-    private void improveInfo(List<TableInfo> tableInfos, NameConverter converter){
+    private void improveInfo(List<TableInfo> tableInfos){
         //循环获取column
-        List<ColumnInfo> columnBeanList;
+        List<ColumnInfo> columnList;
         for(TableInfo tableInfo : tableInfos){
             String tableName = tableInfo.getTableName();
-            columnBeanList = columnInfoDao.selectListByTableName(tableInfo.getTableName());
-            if(converter != null){
+            columnList = dialect.selectColumnInfos(tableInfo.getTableName());
+            if(nameConverter != null){
                 //进行转化名字
-                columnBeanList.forEach(columnBean -> columnBean.setFieldName(converter.toPropertyName(columnBean.getColumnName())));
-                tableInfo.setClassName(converter.toClassName(tableName));
+                columnList.forEach(columnBean -> columnBean.setFieldName(nameConverter.toPropertyName(columnBean.getColumnName())));
+                tableInfo.setClassName(nameConverter.toClassName(tableName));
             }
             //最后添加字段
-            tableInfo.setColumnList(columnBeanList);
+            tableInfo.setColumnList(columnList);
         }
     }
 }
