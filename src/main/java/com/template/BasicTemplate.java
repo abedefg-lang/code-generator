@@ -22,6 +22,14 @@ public enum BasicTemplate {
             .setEngine("velocity")
             .setTemplateClassPath("templates/dao.java.vm")),
 
+    /**mapper*/
+    MAPPER(new TemplateConfig()
+            .setName("mapper")
+            .setTargetPackage("mapper")
+            .setTargetFileName(TemplateConfig.TARGET_NAME_PLACEHOLDER+"Mapper")
+            .setEngine("velocity")
+            .setTemplateClassPath("templates/mapper.xml.vm")),
+
     /**service*/
     SERVICE(new TemplateConfig()
             .setName("service")

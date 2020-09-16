@@ -24,12 +24,9 @@
 
         <templates>
             <template name="entity"/>
-            <template name="dao" targetFileName="${className}Mapper" targetPackage="mapper"/>
+            <template name="dao"/>
+            <template name="mapper"/>
         </templates>
-
-        <typeMappings>
-            <typeMapping dbType="int" javaType="java.lang.Integer"/>
-        </typeMappings>
 
 
     </context>
