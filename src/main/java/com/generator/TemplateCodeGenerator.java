@@ -26,6 +26,7 @@ public class TemplateCodeGenerator extends AbstractCodeGenerator{
     /**生成的模型配置*/
     private ModelConfig model;
 
+
     @Override
     public void generate(){
         //判断是否开启生成器
