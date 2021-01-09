@@ -1,0 +1,59 @@
+package ${packageMap.entity};
+
+import java.io.Serializable;
+#if($template.propertyMap.lombok)
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+#end
+#if($global.mybatisPlusModel)
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+#end
+
+
+/**
+ * @author ${global.author}
+ * @description ${table.comment}
+ * @date ${date}
+ */
+#if($template.propertyMap.lombok == true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+#end
+#if($global.mybatisPlusModel)
+@TableName("$table.tableName")
+#end
+public class ${fileNameMap.entity} implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+#foreach($column in $table.columnList)
+
+#if($column.comment != "")
+    /**$column.comment*/
+#end
+#if($global.mybatisPlusModel)
+#if($column.columnName == $table.primary.columnName)
+    @TableId(value="$column.columnName", type = IdType.AUTO)
+#else
+    @TableField("$column.columnName")
+#end
+#end
+    private $column.javaType.getSimpleName() $column.fieldName;
+#end
+#if($template.propertyMap.lombok != true)
+#foreach($column in $table.columnList)
+
+    public void set$NameUtils.initialUppercase($column.fieldName)(${column.javaType.getSimpleName()} ${column.fieldName}){
+        this.$column.fieldName = $column.fieldName;
+    }
+
+    public ${column.javaType.getSimpleName()} get$NameUtils.initialUppercase($column.fieldName)(){
+        return this.$column.fieldName;
+    }
+#end
+#end
+}

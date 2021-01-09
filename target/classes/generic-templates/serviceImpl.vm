@@ -1,0 +1,56 @@
+package ${packageMap.serviceImpl};
+
+#if($global.springModel)
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+#end
+import ${packageMap.service}.${fileNameMap.service};
+import ${packageMap.mapper}.${fileNameMap.mapper};
+import ${packageMap.entity}.${fileNameMap.entity};
+#if($global.mybatisPlusModel)
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+#end
+
+/**
+ * @author ${global.author}
+ * @description (${table.tableName})表  业务层
+ * @since  ${date}
+ */
+#if($global.springModel)
+@Service
+#end
+#if($global.mybatisPlusModel)
+public class ${fileNameMap.serviceImpl} extends ServiceImpl<${fileNameMap.mapper}, ${fileNameMap.entity}> implements ${fileNameMap.service}{
+
+}
+#else
+public class ${fileNameMap.serviceImpl} implements ${fileNameMap.service}{
+
+    /**数据访问层对象*/
+#if($global.springModel)
+    @Autowired
+#end
+    private ${fileNameMap.mapper} ${NameUtils.initialLowercase(${fileNameMap.mapper})};
+
+    @Override
+    public ${fileNameMap.entity} getById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase(${fileNameMap.mapper})}.selectById(id);
+    }
+
+    @Override
+    public boolean save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.mapper})}.insert(${NameUtils.initialLowercase(${fileNameMap.entity})}) > 0;
+    }
+
+    @Override
+    public boolean updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+        return ${NameUtils.initialLowercase(${fileNameMap.mapper})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})}) > 0;
+    }
+
+    @Override
+    public boolean removeById(${table.primary.javaType.getSimpleName()} id){
+        return ${NameUtils.initialLowercase(${fileNameMap.mapper})}.deleteById(id) > 0;
+    }
+
+}
+#end

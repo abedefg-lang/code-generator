@@ -1,0 +1,40 @@
+package ${packageMap.service};
+
+import ${packageMap.entity}.${fileNameMap.entity};
+#if($global.mybatisPlusModel)
+import com.baomidou.mybatisplus.extension.service.IService;
+#end
+
+/**
+ * @author ${global.author}
+ * @description (${table.tableName})表  业务层接口
+ * @date  ${date}
+ */
+#if($global.mybatisPlusModel)
+public interface ${fileNameMap.service} extends IService<${fileNameMap.entity}>{
+
+}
+#else
+public interface ${fileNameMap.service} {
+
+    /**
+     * 通过id查询单条数据
+     */
+    ${fileNameMap.entity} getById(${table.primary.javaType.getSimpleName()} id);
+
+    /**
+     * 新增单条数据
+     */
+    boolean save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+
+    /**
+     * 通过id修改单条数据
+     */
+    boolean updateById(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})});
+
+    /**
+     * 通过id删除单条数据
+     */
+    boolean removeById(${table.primary.javaType.getSimpleName()} id);
+}
+#end

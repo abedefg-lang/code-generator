@@ -1,0 +1,102 @@
+package ${packageMap.controller};
+
+#if($global.springModel)
+import org.springframework.stereotype.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+#end
+import ${packageMap.service}.${fileNameMap.service};
+
+/**
+ * @author ${global.author}
+ * @description (${table.tableName})表  控制层
+ * @date ${date}
+ */
+#if($global.springModel)
+@RestController
+@RequestMapping("/$table.className")
+#end
+public class ${fileNameMap.controller} {
+
+    /**服务层对象*/
+#if($global.springModel)
+    @Autowired
+#end
+    private ${fileNameMap.service} ${NameUtils.initialLowercase(${fileNameMap.service})};
+
+##    /**
+##     * 通过主键查询单条数据
+##     * @param id 主键
+##     * @return result
+##     */
+###if($model.enableSwagger)
+##    @ApiOperation("查询单条$table.className数据")
+##    @ApiImplicitParam(name = "id", value = "主键")
+###end
+###if($model.springModel)
+##    @GetMapping("/{id}")
+###end
+##    public AjaxResult query(#if($model.springModel)@PathVariable("id") #end${table.primary.javaType.getSimpleName()} id){
+##        ${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})} = ${NameUtils.initialLowercase(${fileNameMap.service})}.getById(id);
+##        if(${NameUtils.initialLowercase(${fileNameMap.entity})} != null){
+##            return AjaxResult.ok("query success").putData("${NameUtils.initialLowercase(${fileNameMap.entity})}", ${NameUtils.initialLowercase(${fileNameMap.entity})});
+##        }
+##        return AjaxResult.error("query fail");
+##    }
+##
+##    /**
+##     * 保存单条数据
+##     * @param ${NameUtils.initialLowercase(${fileNameMap.entity})} 实体类
+##     * @return result
+##     */
+###if($model.enableSwagger)
+##    @ApiOperation("保存单条$table.className数据")
+###end
+###if($model.springModel)
+##    @PostMapping
+###end
+##    public AjaxResult save(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+##        if(${NameUtils.initialLowercase(${fileNameMap.service})}.save(${NameUtils.initialLowercase(${fileNameMap.entity})})){
+##            return AjaxResult.ok("save success");
+##        }
+##        return AjaxResult.error("save fail");
+##    }
+##
+##    /**
+##     * 修改单条数据
+##     * @param ${NameUtils.initialLowercase(${fileNameMap.entity})} 实体类
+##     * @return result
+##     */
+###if($model.enableSwagger)
+##    @ApiOperation("修改单条$table.className数据")
+###end
+###if($model.springModel)
+##    @PutMapping
+###end
+##    public AjaxResult update(${fileNameMap.entity} ${NameUtils.initialLowercase(${fileNameMap.entity})}){
+##        if(${NameUtils.initialLowercase(${fileNameMap.service})}.updateById(${NameUtils.initialLowercase(${fileNameMap.entity})})){
+##            return AjaxResult.ok("update success");
+##        }
+##        return AjaxResult.error("update fail");
+##    }
+##
+##    /**
+##     * 通过主键删除数据
+##     * @param id 主键
+##     * @return result
+##     */
+###if($model.enableSwagger)
+##    @ApiOperation("删除单条$table.className数据")
+##    @ApiImplicitParam(name = "id", value = "主键")
+###end
+###if($model.springModel)
+##    @DeleteMapping("/{id}")
+###end
+##    public AjaxResult remove(#if($model.springModel)@PathVariable("id") #end${table.primary.javaType.getSimpleName()} id){
+##        if(${NameUtils.initialLowercase(${fileNameMap.service})}.removeById(id)){
+##            return AjaxResult.ok("remove success");
+##        }
+##        return AjaxResult.error("remove fail");
+##    }
+
+}
