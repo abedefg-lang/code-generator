@@ -1,4 +1,3 @@
-com\test\entity\User.class
 com\utils\NameUtils.class
 com\tablesource\dialect\info\ColumnInfo.class
 com\utils\StringArrayUtils.class
@@ -27,7 +26,6 @@ com\generator\config\GlobalConfig.class
 com\template\render\TemplateRender.class
 com\generator\CodeGenerator.class
 com\generator\builder\TemplateCodeGeneratorBuilder.class
-com\test\dao\UserDao.class
 com\test\Test.class
 com\tablesource\nameconverter\NameConverter.class
 com\utils\converter\StringConverterRegistry.class

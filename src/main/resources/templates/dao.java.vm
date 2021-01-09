@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.*;
 #end
 #if($model.mybatisPlusModel)
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-###else
-##import java.util.List;
 #end
 
 /**

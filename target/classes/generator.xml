@@ -13,7 +13,6 @@
             </nameConverter>
 
             <dialect>
-
                 <dataSource driver="com.mysql.cj.jdbc.Driver"
                             url="jdbc:mysql://127.0.0.1:3306/purchase_sale_system?serverTimezone=CST&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
                             username="root"
@@ -27,7 +26,5 @@
             <template name="dao"/>
             <template name="mapper"/>
         </templates>
-
-
     </context>
 </generator>

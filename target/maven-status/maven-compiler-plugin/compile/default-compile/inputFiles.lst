@@ -1,5 +1,4 @@
 D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\info\TableInfo.java
-D:\work\git\Git\git-source\code-generator\src\main\java\com\test\dao\UserDao.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\file\FileUtils.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\builder\TemplateCodeGeneratorBuilder.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\TemplateRenderRegistry.java
@@ -13,7 +12,6 @@ D:\work\git\Git\git-source\code-generator\src\main\java\com\template\TemplateCon
 D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\NameUtils.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\AbstractCodeGenerator.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\TableSource.java
-D:\work\git\Git\git-source\code-generator\src\main\java\com\test\entity\User.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\nameconverter\CamelNameConverter.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\converter\StringConverter.java
 D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\FreemarkerRender.java
