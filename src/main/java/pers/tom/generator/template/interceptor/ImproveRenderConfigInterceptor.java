@@ -36,4 +36,5 @@ public class ImproveRenderConfigInterceptor implements TemplateRenderInterceptor
         config.addParam("date", LocalDate.now().toString());
         return true;
     }
+
 }

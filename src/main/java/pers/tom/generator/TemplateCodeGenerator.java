@@ -1,18 +1,20 @@
 package pers.tom.generator;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.apache.commons.collections.CollectionUtils;
 import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.table.TableInfo;
 import pers.tom.generator.table.factory.TableInfosFactory;
 import pers.tom.generator.template.TemplateInfo;
 import pers.tom.generator.template.TemplateRenderConfig;
-import pers.tom.generator.template.renderer.TemplateRenderer;
 import pers.tom.generator.template.interceptor.ImproveRenderConfigInterceptor;
 import pers.tom.generator.template.interceptor.TemplateRenderInterceptor;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.apache.commons.collections.CollectionUtils;
+import pers.tom.generator.template.interceptor.WritableRenderInterceptor;
+import pers.tom.generator.template.renderer.TemplateRenderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,13 +80,13 @@ public class TemplateCodeGenerator {
 
     /**
      * 添加模板配置
-     * @param templateConfig 模板配置对象
+     * @param templateConfigs 模板配置对象
      */
-    public TemplateCodeGenerator addTemplateConfig(TemplateInfo templateConfig){
+    public TemplateCodeGenerator addTemplateConfigs(TemplateInfo... templateConfigs){
         if(templateConfigList == null){
             templateConfigList = new ArrayList<>();
         }
-        this.templateConfigList.add(templateConfig);
+        this.templateConfigList.addAll(Arrays.asList(templateConfigs));
         return this;
     }
 
@@ -106,6 +108,7 @@ public class TemplateCodeGenerator {
     protected void init(){
 
         this.addInterceptor(new ImproveRenderConfigInterceptor());
+        this.addInterceptor(new WritableRenderInterceptor());
     }
 
     /**

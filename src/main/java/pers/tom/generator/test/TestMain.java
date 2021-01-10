@@ -1,12 +1,12 @@
 package pers.tom.generator.test;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.TemplateCodeGenerator;
+import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.table.factory.jdbc.TableInfosFactory4JDBC;
 import pers.tom.generator.table.factory.jdbc.dialect.MySqlDialect;
+import pers.tom.generator.template.GenericTemplate;
 import pers.tom.generator.template.TemplateInfo;
-import pers.tom.generator.template.interceptor.WritableRenderInterceptor;
 import pers.tom.generator.template.renderer.VelocityRenderer;
 
 /**
@@ -39,25 +39,23 @@ public class TestMain {
         dataSource.setPassword("root");
         factory.setDataSource(dataSource);
         codeGenerator.setTableInfosFactory(factory);
+//        ReverseTableInfosFactory factory = new ReverseTableInfosFactory();
+
+        codeGenerator.setTableInfosFactory(factory);
 
         //设置模板渲染器
         codeGenerator.setTemplateRenderer(new VelocityRenderer());
 
-        //添加写入文件拦截器
-        codeGenerator.addInterceptor(new WritableRenderInterceptor());
-
         //添加使用的模板
-        TemplateInfo entity = new TemplateInfo("entity", "src\\main\\resources\\generic-templates\\entity.vm");
+        TemplateInfo entity = GenericTemplate.ENTITY.getTemplateInfo();
         entity.putProperty("lombok", true);
 
-        codeGenerator.addTemplateConfig(entity);
-        codeGenerator.addTemplateConfig(new TemplateInfo("mapper", "src\\main\\resources\\generic-templates\\mapper.vm"));
-        codeGenerator.addTemplateConfig(new TemplateInfo("service", "src\\main\\resources\\generic-templates\\service.vm"));
-        codeGenerator.addTemplateConfig(new TemplateInfo("serviceImpl", "src\\main\\resources\\generic-templates\\serviceImpl.vm"));
-        codeGenerator.addTemplateConfig(new TemplateInfo("controller", "src\\main\\resources\\generic-templates\\controller.vm"));
-        codeGenerator.addTemplateConfig(new TemplateInfo("mapper", "src\\main\\resources\\generic-templates\\mapper.vm"));
+        codeGenerator.addTemplateConfigs(entity);
+        codeGenerator.addTemplateConfigs(GenericTemplate.getTemplateInfos("mapper", "mapperXml", "service"));
 
         //生成
-        codeGenerator.generate();
+//        codeGenerator.generate();
+
+        System.out.println();
     }
 }
