@@ -31,7 +31,6 @@ public class ImproveRenderConfigInterceptor implements TemplateRenderInterceptor
         config.addPackage(templateId, packageInfo);
         config.addFileName(templateId, fileName);
 
-        //可能会需要处理名字
         config.addParam("NameUtils", NameUtils.class);
         config.addParam("date", LocalDate.now().toString());
         return true;

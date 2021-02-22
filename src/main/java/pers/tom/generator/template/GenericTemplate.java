@@ -46,6 +46,17 @@ public enum GenericTemplate {
         this.templateInfo = templateInfo;
     }
 
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+
+    public TemplateInfo getTemplateInfo() {
+        return templateInfo;
+    }
+
+
     public static TemplateInfo[] getTemplateInfos(GenericTemplate... genericTemplates){
         int len = genericTemplates.length;
         TemplateInfo[] infos = new TemplateInfo[len];
@@ -64,17 +75,5 @@ public enum GenericTemplate {
         }
         return infos;
     }
-
-
-    public String getTemplateId() {
-        return templateId;
-    }
-
-
-    public TemplateInfo getTemplateInfo() {
-        return templateInfo;
-    }
-
-
 
 }

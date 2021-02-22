@@ -9,7 +9,7 @@ import java.util.Map;
  *              一个类型对应一个java类型
  * @date 2021/1/7 13:57
  */
-public class MappingRelationTypeHandler implements TypeHandler{
+public abstract class MappingRelationTypeHandler implements TypeHandler{
 
     /**缓存类型映射*/
     protected Map<String, Class<?>> typeMappingMap;
