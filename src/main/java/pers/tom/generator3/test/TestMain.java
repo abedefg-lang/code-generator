@@ -2,8 +2,8 @@ package pers.tom.generator3.test;
 
 import pers.tom.generator3.executor.TemplateRenderTaskExecutor;
 import pers.tom.generator3.executor.TemplateRenderTaskExecutorImpl;
-import pers.tom.generator3.task.TemplateRenderTask;
-import pers.tom.generator3.task.template.TemplateInfo;
+import pers.tom.generator3.executor.handler.WritableRenderResultHandler;
+import pers.tom.generator3.executor.renderer.CompositeRenderer;
 
 /**
  * @author lijia
@@ -13,9 +13,12 @@ import pers.tom.generator3.task.template.TemplateInfo;
 public class TestMain {
 
     public static void main(String[] args) {
-        TemplateRenderTaskExecutor executor = new TemplateRenderTaskExecutorImpl(new TemplateRendererImpl(), new ResultHandler());
-        TemplateRenderTask renderTask = new TemplateRenderTask(new TemplateInfo().setName("entity"), null);
 
-        executor.execute(renderTask);
+        CompositeRenderer compositeRenderer = new CompositeRenderer();
+
+        TemplateRenderTaskExecutor executor = new TemplateRenderTaskExecutorImpl(compositeRenderer, new WritableRenderResultHandler());
+
+        executor.execute(null);
+
     }
 }

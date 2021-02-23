@@ -10,6 +10,9 @@ import pers.tom.generator3.task.template.TemplateInfo;
  */
 public interface TemplateRenderer {
 
+    /**默认字符集*/
+    String DEFAULT_ENCODING = "UTF-8";
+
     /**
      * 判断该渲染器是否支持该模板
      * @param templateInfo 模板信息

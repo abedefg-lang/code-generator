@@ -14,4 +14,8 @@ public class TemplateInfo {
 
     /**模板名称*/
     private String name;
+
+    /**模板路径*/
+    private String templatePath;
+
 }
