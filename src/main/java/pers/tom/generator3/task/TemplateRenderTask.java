@@ -1,6 +1,7 @@
 package pers.tom.generator3.task;
 
 import lombok.Data;
+import org.springframework.lang.NonNull;
 import pers.tom.generator3.task.data.TemplateRenderData;
 import pers.tom.generator3.task.template.TemplateInfo;
 
@@ -23,7 +24,8 @@ public class TemplateRenderTask {
     private Object renderResult;
 
 
-    public TemplateRenderTask(TemplateInfo templateInfo, TemplateRenderData renderData){
+    public TemplateRenderTask(@NonNull TemplateInfo templateInfo,
+                              @NonNull TemplateRenderData renderData){
         this.templateInfo = templateInfo;
         this.renderData = renderData;
     }

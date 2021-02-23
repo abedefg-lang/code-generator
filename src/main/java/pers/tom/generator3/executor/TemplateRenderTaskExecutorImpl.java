@@ -3,6 +3,7 @@ package pers.tom.generator3.executor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.lang.NonNull;
+import pers.tom.generator3.task.template.TemplateInfo;
 import pers.tom.generator3.utils.CollectionUtils2;
 import pers.tom.generator3.executor.handler.TemplateRenderResultHandler;
 import pers.tom.generator3.executor.interceptor.TemplateRenderInterceptor;
@@ -34,8 +35,6 @@ public class TemplateRenderTaskExecutorImpl implements TemplateRenderTaskExecuto
 
     public TemplateRenderTaskExecutorImpl(@NonNull TemplateRenderer renderer,
                                           @NonNull TemplateRenderResultHandler renderResultHandler){
-
-
         this.renderer = renderer;
         this.renderResultHandler = renderResultHandler;
     }
@@ -47,9 +46,10 @@ public class TemplateRenderTaskExecutorImpl implements TemplateRenderTaskExecuto
             //执行前置渲染
             if(this.applyRreRender(renderTask)){
 
+                TemplateInfo templateInfo = renderTask.getTemplateInfo();
                 //判断渲染器是否支持该模板
-                if(!renderer.support(renderTask.getTemplateInfo())){
-                    throw new RuntimeException(renderer.getClass() + ", 不支持渲染模板 : " + renderTask.getTemplateInfo().getName());
+                if(!renderer.support(templateInfo)){
+                    throw new RuntimeException(renderer.getClass().getName() + " 不支持渲染模板 : " + templateInfo.getName());
                 }
                 //执行渲染
                 renderer.render(renderTask);
