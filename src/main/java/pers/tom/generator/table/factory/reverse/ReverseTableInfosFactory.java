@@ -7,7 +7,7 @@ import org.springframework.util.CollectionUtils;
 import pers.tom.generator.table.TableInfo;
 import pers.tom.generator.table.factory.TableInfosFactory;
 import pers.tom.generator.table.factory.reverse.parser.EntityClassParser;
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 import pers.tom.generator.template.interceptor.TemplateRenderInterceptor;
 
 import java.util.*;
@@ -93,7 +93,7 @@ public class ReverseTableInfosFactory implements TableInfosFactory, TemplateRend
 
 
     @Override
-    public boolean preRender(TemplateRenderConfig config) {
+    public boolean preRender(TemplateRenderContext config) {
 
         //通过当前渲染的表获取出对应的class
         TableInfo table = config.getTable();

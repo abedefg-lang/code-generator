@@ -1,7 +1,7 @@
 package pers.tom.generator.template.renderer;
 
 
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 
 /**
  * @author lijia
@@ -18,5 +18,5 @@ public interface TemplateRenderer {
      * @param config 渲染配置
      * @return 返回渲染结果
      */
-    Object render(String templatePath, TemplateRenderConfig config);
+    Object render(String templatePath, TemplateRenderContext config);
 }

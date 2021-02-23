@@ -2,7 +2,7 @@ package pers.tom.generator.table.factory.jdbc.dialect;
 
 /**
  * @author tom
- * @description 方言 数据库语句
+ * @description 数据库方言  不同数据库语句 字段很可能不同
  * @date 2021/1/6 23:06
  */
 public interface Dialect {

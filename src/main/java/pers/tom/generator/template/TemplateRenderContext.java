@@ -10,12 +10,12 @@ import java.util.Map;
 
 /**
  * @author tom
- * @description 模板渲染的参数  对Map进行包装
+ * @description 渲染模板的上下文
  * @date 2021/1/5 23:28
  */
 @Data
 @Accessors(chain = true)
-public class TemplateRenderConfig {
+public class TemplateRenderContext {
 
     /**全局配置*/
     private GlobalConfig global;
@@ -36,18 +36,18 @@ public class TemplateRenderConfig {
     private Map<String, Object> paramMap;
 
 
-    public TemplateRenderConfig(){
+    public TemplateRenderContext(){
         this(null);
     }
 
-    public TemplateRenderConfig(GlobalConfig global){
+    public TemplateRenderContext(GlobalConfig global){
         this.global = global;
         this.packageMap = new HashMap<>();
         this.fileNameMap = new HashMap<>();
         this.paramMap = new HashMap<>();
     }
 
-    public TemplateRenderConfig addPackage(String templateId, String packageInfo){
+    public TemplateRenderContext addPackage(String templateId, String packageInfo){
         packageMap.put(templateId, packageInfo);
         return this;
     }
@@ -60,7 +60,7 @@ public class TemplateRenderConfig {
         return packageMap.remove(templateId);
     }
 
-    public TemplateRenderConfig addFileName(String templateId, String fileName){
+    public TemplateRenderContext addFileName(String templateId, String fileName){
         fileNameMap.put(templateId, fileName);
         return this;
     }
@@ -74,7 +74,7 @@ public class TemplateRenderConfig {
     }
 
 
-    public TemplateRenderConfig addParam(String key, Object value){
+    public TemplateRenderContext addParam(String key, Object value){
         paramMap.put(key, value);
         return this;
     }

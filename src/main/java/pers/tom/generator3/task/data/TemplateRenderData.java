@@ -1,4 +1,4 @@
-package pers.tom.generator2.render.data;
+package pers.tom.generator3.task.data;
 
 import java.util.Map;
 

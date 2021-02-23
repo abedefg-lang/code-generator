@@ -1,6 +1,6 @@
 package pers.tom.generator.template.interceptor;
 
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 
 /**
  * @author tom
@@ -11,19 +11,19 @@ public interface TemplateRenderInterceptor {
 
     /**
      * 渲染前置处理
-     * @param config 渲染配置
+     * @param context 渲染上下文
      * @return 返回是否执行渲染
      */
-    default boolean preRender(TemplateRenderConfig config){
+    default boolean preRender(TemplateRenderContext context){
         return true;
     }
 
     /**
      * 渲染后置处理
      * @param renderResult 渲染结果
-     * @param param 渲染参数
+     * @param context 渲染上下文
      */
-    default void postRender(Object renderResult, TemplateRenderConfig param){
+    default void postRender(Object renderResult, TemplateRenderContext context){
 
     }
 

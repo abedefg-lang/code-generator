@@ -1,8 +1,8 @@
-package pers.tom.generator2.render.task;
+package pers.tom.generator3.task;
 
 import lombok.Data;
-import pers.tom.generator2.render.data.TemplateRenderData;
-import pers.tom.generator2.template.TemplateInfo;
+import pers.tom.generator3.task.data.TemplateRenderData;
+import pers.tom.generator3.task.template.TemplateInfo;
 
 /**
  * @author tom
@@ -21,4 +21,10 @@ public class TemplateRenderTask {
 
     /**渲染结果*/
     private Object renderResult;
+
+
+    public TemplateRenderTask(TemplateInfo templateInfo, TemplateRenderData renderData){
+        this.templateInfo = templateInfo;
+        this.renderData = renderData;
+    }
 }

@@ -3,7 +3,7 @@ package pers.tom.generator.template.interceptor;
 import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.table.TableInfo;
 import pers.tom.generator.template.TemplateInfo;
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 import pers.tom.generator.utils.NameUtils;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class ImproveRenderConfigInterceptor implements TemplateRenderInterceptor {
 
     @Override
-    public boolean preRender(TemplateRenderConfig config) {
+    public boolean preRender(TemplateRenderContext config) {
         GlobalConfig globalConfig = config.getGlobal();
 
         //获取当前渲染的表与模板  添加package fileName

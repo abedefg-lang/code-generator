@@ -1,0 +1,605 @@
+Index: src/main/java/pers/tom/generator/test/TestMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.test;\r\n\r\nimport com.mysql.cj.jdbc.MysqlDataSource;\r\nimport pers.tom.generator.TemplateCodeGenerator;\r\nimport pers.tom.generator.config.GlobalConfig;\r\nimport pers.tom.generator.table.factory.jdbc.TableInfosFactory4JDBC;\r\nimport pers.tom.generator.table.factory.jdbc.dialect.MySqlDialect;\r\nimport pers.tom.generator.template.GenericTemplate;\r\nimport pers.tom.generator.template.TemplateInfo;\r\nimport pers.tom.generator.template.renderer.VelocityRenderer;\r\n\r\n/**\r\n * @author tom\r\n * @description\r\n * @date 2021/1/7 21:52\r\n */\r\npublic class TestMain {\r\n\r\n    public static void main(String[] args) {\r\n        TemplateCodeGenerator codeGenerator = new TemplateCodeGenerator();\r\n\r\n        //设置全局配置\r\n        GlobalConfig globalConfig = new GlobalConfig();\r\n        globalConfig.setAuthor(\"tom\");\r\n        globalConfig.setParentPackage(\"com.test\");\r\n        globalConfig.setOverwriteFile(true);\r\n        globalConfig.setMybatisPlusModel(true);\r\n        globalConfig.setSpringModel(true);\r\n        codeGenerator.setGlobalConfig(globalConfig);\r\n\r\n        //设置TableInfosFactory\r\n        TableInfosFactory4JDBC factory = new TableInfosFactory4JDBC();\r\n        factory.setConvertToHump(true);\r\n        factory.setDialect(new MySqlDialect());\r\n        factory.setNamePatterns(\".*\");//设置匹配规则 全表匹配\r\n        MysqlDataSource dataSource = new MysqlDataSource();\r\n        dataSource.setUrl(\"jdbc:mysql://127.0.0.1:3306/test?serverTimezone=CST&useUnicode=true&characterEncoding=utf-8&useSSL=false\");\r\n        dataSource.setUser(\"root\");\r\n        dataSource.setPassword(\"root\");\r\n        factory.setDataSource(dataSource);\r\n        codeGenerator.setTableInfosFactory(factory);\r\n//        ReverseTableInfosFactory factory = new ReverseTableInfosFactory();\r\n\r\n        codeGenerator.setTableInfosFactory(factory);\r\n\r\n        //设置模板渲染器\r\n        codeGenerator.setTemplateRenderer(new VelocityRenderer());\r\n\r\n        //添加使用的模板\r\n        TemplateInfo entity = GenericTemplate.ENTITY.getTemplateInfo();\r\n        entity.putProperty(\"lombok\", true);\r\n\r\n        codeGenerator.addTemplateConfigs(entity);\r\n        codeGenerator.addTemplateConfigs(GenericTemplate.getTemplateInfos(\"mapper\", \"mapperXml\", \"service\"));\r\n\r\n        //生成\r\n//        codeGenerator.generate();\r\n\r\n        System.out.println();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/test/TestMain.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/test/TestMain.java	(date 1613787895124)
+@@ -20,7 +20,7 @@
+         TemplateCodeGenerator codeGenerator = new TemplateCodeGenerator();
+ 
+         //设置全局配置
+-        GlobalConfig globalConfig = new GlobalConfig();
++        GlobalConfig globalConfig = GlobalConfig.getDefaultGlobalConfig();
+         globalConfig.setAuthor("tom");
+         globalConfig.setParentPackage("com.test");
+         globalConfig.setOverwriteFile(true);
+@@ -39,7 +39,6 @@
+         dataSource.setPassword("root");
+         factory.setDataSource(dataSource);
+         codeGenerator.setTableInfosFactory(factory);
+-//        ReverseTableInfosFactory factory = new ReverseTableInfosFactory();
+ 
+         codeGenerator.setTableInfosFactory(factory);
+ 
+@@ -54,8 +53,6 @@
+         codeGenerator.addTemplateConfigs(GenericTemplate.getTemplateInfos("mapper", "mapperXml", "service"));
+ 
+         //生成
+-//        codeGenerator.generate();
+-
+-        System.out.println();
++        codeGenerator.generate();
+     }
+ }
+Index: target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>com\\utils\\NameUtils.class\r\ncom\\tablesource\\dialect\\info\\ColumnInfo.class\r\ncom\\utils\\StringArrayUtils.class\r\ncom\\utils\\file\\FileUtils.class\r\ncom\\generator\\builder\\CodeGeneratorBuilder.class\r\ncom\\generator\\config\\ModelConfig.class\r\ncom\\template\\BasicTemplate.class\r\ncom\\template\\render\\VelocityRender.class\r\ncom\\tablesource\\dialect\\Dialect.class\r\ncom\\generator\\TemplateCodeGenerator.class\r\ncom\\tablesource\\dialect\\AbstractDialect.class\r\ncom\\generator\\AbstractCodeGenerator.class\r\ncom\\tablesource\\dialect\\MySqlDialect.class\r\ncom\\template\\render\\FreemarkerRender.class\r\ncom\\utils\\converter\\StringConverter.class\r\ncom\\utils\\TypeMappingUtil.class\r\ncom\\tablesource\\dialect\\info\\TableInfo.class\r\ncom\\tablesource\\TableSource.class\r\ncom\\utils\\converter\\Converter.class\r\ncom\\template\\TemplateConfig.class\r\ncom\\template\\TemplateConfig$SimpleFactory.class\r\ncom\\tablesource\\nameconverter\\NameConverter$1.class\r\ncom\\tablesource\\nameconverter\\CamelNameConverter.class\r\ncom\\template\\render\\TemplateRenderRegistry.class\r\ncom\\generator\\config\\GlobalConfig.class\r\ncom\\template\\render\\TemplateRender.class\r\ncom\\generator\\CodeGenerator.class\r\ncom\\generator\\builder\\TemplateCodeGeneratorBuilder.class\r\ncom\\test\\Test.class\r\ncom\\tablesource\\nameconverter\\NameConverter.class\r\ncom\\utils\\converter\\StringConverterRegistry.class\r\ncom\\utils\\reflect\\ReflectUtils.class\r\ncom\\generator\\builder\\XmlTemplateCodeGeneratorBuilder.class\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(date 1610329937343)
+@@ -1,33 +1,24 @@
+-com\utils\NameUtils.class
+-com\tablesource\dialect\info\ColumnInfo.class
+-com\utils\StringArrayUtils.class
+-com\utils\file\FileUtils.class
+-com\generator\builder\CodeGeneratorBuilder.class
+-com\generator\config\ModelConfig.class
+-com\template\BasicTemplate.class
+-com\template\render\VelocityRender.class
+-com\tablesource\dialect\Dialect.class
+-com\generator\TemplateCodeGenerator.class
+-com\tablesource\dialect\AbstractDialect.class
+-com\generator\AbstractCodeGenerator.class
+-com\tablesource\dialect\MySqlDialect.class
+-com\template\render\FreemarkerRender.class
+-com\utils\converter\StringConverter.class
+-com\utils\TypeMappingUtil.class
+-com\tablesource\dialect\info\TableInfo.class
+-com\tablesource\TableSource.class
+-com\utils\converter\Converter.class
+-com\template\TemplateConfig.class
+-com\template\TemplateConfig$SimpleFactory.class
+-com\tablesource\nameconverter\NameConverter$1.class
+-com\tablesource\nameconverter\CamelNameConverter.class
+-com\template\render\TemplateRenderRegistry.class
+-com\generator\config\GlobalConfig.class
+-com\template\render\TemplateRender.class
+-com\generator\CodeGenerator.class
+-com\generator\builder\TemplateCodeGeneratorBuilder.class
+-com\test\Test.class
+-com\tablesource\nameconverter\NameConverter.class
+-com\utils\converter\StringConverterRegistry.class
+-com\utils\reflect\ReflectUtils.class
+-com\generator\builder\XmlTemplateCodeGeneratorBuilder.class
++pers\tom\generator\table\factory\reverse\parser\EntityClassParser.class
++pers\tom\generator\table\factory\jdbc\TableInfosFactory4JDBC.class
++pers\tom\generator\table\typehandler\MappingRelationTypeHandler.class
++pers\tom\generator\table\typehandler\TypeHandler.class
++pers\tom\generator\table\factory\reverse\ReverseTableInfosFactory.class
++pers\tom\generator\template\interceptor\ImproveRenderConfigInterceptor.class
++pers\tom\generator\template\interceptor\TemplateRenderInterceptor.class
++pers\tom\generator\utils\NameUtils.class
++pers\tom\generator\table\typehandler\DbTypeHandler.class
++pers\tom\generator\test\TestMain.class
++pers\tom\generator\table\ColumnInfo.class
++pers\tom\generator\table\factory\jdbc\dialect\MySqlDialect.class
++pers\tom\generator\template\renderer\TemplateRenderer.class
++pers\tom\generator\template\interceptor\WritableRenderInterceptor.class
++pers\tom\generator\table\factory\jdbc\dialect\Dialect.class
++pers\tom\generator\template\TemplateRenderConfig.class
++pers\tom\generator\config\GlobalConfig.class
++pers\tom\generator\utils\StringArrayUtils.class
++pers\tom\generator\template\GenericTemplate.class
++pers\tom\generator\table\TableInfo.class
++pers\tom\generator\template\renderer\VelocityRenderer.class
++pers\tom\generator\table\factory\TableInfosFactory.class
++pers\tom\generator\template\TemplateInfo.class
++pers\tom\generator\TemplateCodeGenerator.class
+Index: target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>D:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\dialect\\info\\TableInfo.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\file\\FileUtils.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\builder\\TemplateCodeGeneratorBuilder.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\render\\TemplateRenderRegistry.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\converter\\StringConverterRegistry.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\config\\ModelConfig.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\reflect\\ReflectUtils.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\builder\\CodeGeneratorBuilder.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\dialect\\MySqlDialect.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\render\\TemplateRender.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\TemplateConfig.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\NameUtils.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\AbstractCodeGenerator.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\TableSource.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\nameconverter\\CamelNameConverter.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\converter\\StringConverter.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\render\\FreemarkerRender.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\config\\GlobalConfig.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\test\\Test.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\BasicTemplate.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\template\\render\\VelocityRender.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\StringArrayUtils.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\builder\\XmlTemplateCodeGeneratorBuilder.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\nameconverter\\NameConverter.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\TypeMappingUtil.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\dialect\\Dialect.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\utils\\converter\\Converter.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\CodeGenerator.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\dialect\\AbstractDialect.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\generator\\TemplateCodeGenerator.java\r\nD:\\work\\git\\Git\\git-source\\code-generator\\src\\main\\java\\com\\tablesource\\dialect\\info\\ColumnInfo.java\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(date 1610329937344)
+@@ -1,31 +1,24 @@
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\info\TableInfo.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\file\FileUtils.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\builder\TemplateCodeGeneratorBuilder.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\TemplateRenderRegistry.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\converter\StringConverterRegistry.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\config\ModelConfig.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\reflect\ReflectUtils.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\builder\CodeGeneratorBuilder.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\MySqlDialect.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\TemplateRender.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\TemplateConfig.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\NameUtils.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\AbstractCodeGenerator.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\TableSource.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\nameconverter\CamelNameConverter.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\converter\StringConverter.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\FreemarkerRender.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\config\GlobalConfig.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\test\Test.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\BasicTemplate.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\template\render\VelocityRender.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\StringArrayUtils.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\builder\XmlTemplateCodeGeneratorBuilder.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\nameconverter\NameConverter.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\TypeMappingUtil.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\Dialect.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\utils\converter\Converter.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\CodeGenerator.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\AbstractDialect.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\generator\TemplateCodeGenerator.java
+-D:\work\git\Git\git-source\code-generator\src\main\java\com\tablesource\dialect\info\ColumnInfo.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\typehandler\TypeHandler.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\interceptor\TemplateRenderInterceptor.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\interceptor\WritableRenderInterceptor.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\reverse\ReverseTableInfosFactory.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\utils\StringArrayUtils.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\reverse\parser\EntityClassParser.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\utils\NameUtils.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\renderer\TemplateRenderer.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\TemplateCodeGenerator.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\typehandler\DbTypeHandler.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\test\TestMain.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\interceptor\ImproveRenderConfigInterceptor.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\jdbc\dialect\Dialect.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\jdbc\dialect\MySqlDialect.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\jdbc\TableInfosFactory4JDBC.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\factory\TableInfosFactory.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\config\GlobalConfig.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\typehandler\MappingRelationTypeHandler.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\ColumnInfo.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\TemplateInfo.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\table\TableInfo.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\renderer\VelocityRenderer.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\GenericTemplate.java
++D:\workspace\git\code-generator\src\main\java\pers\tom\generator\template\TemplateRenderConfig.java
+Index: src/main/java/pers/tom/generator/table/factory/jdbc/dialect/Dialect.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.table.factory.jdbc.dialect;\r\n\r\n/**\r\n * @author tom\r\n * @description 方言 数据库语句\r\n * @date 2021/1/6 23:06\r\n */\r\npublic interface Dialect {\r\n\r\n    /**\r\n     * 获取查询表信息的sql\r\n     * @return 返回sql\r\n     */\r\n    String showTablesSql();\r\n\r\n    /**\r\n     * 获取查询指定表下面的字段信息的sql\r\n     * @param tableName 指定表名\r\n     * @return 返回sql\r\n     */\r\n    String showColumnsSql(String tableName);\r\n\r\n    /**\r\n     * 获取查询表名称的字段\r\n     * @return 返回字段\r\n     */\r\n    String getTableNameField();\r\n\r\n    /**\r\n     * 获取查询表注释的字段\r\n     * @return 返回字段\r\n     */\r\n    String getTableCommentField();\r\n\r\n    /**\r\n     * 获取查询字段名称的字段\r\n     * @return 返回字段\r\n     */\r\n    String getColumnNameField();\r\n\r\n    /**\r\n     * 获取查询字段类型名称的字段\r\n     * @return 返回字段\r\n     */\r\n    String getColumnTypeField();\r\n\r\n    /**\r\n     * 获取查询字段注释的字段\r\n     * @return 返回字段\r\n     */\r\n    String getColumnCommentField();\r\n\r\n    /**\r\n     * 获取查询字段key的字段\r\n     * @return 返回字段\r\n     */\r\n    String getColumnKeyField();\r\n\r\n    /**\r\n     * 判断某个key是否是主键\r\n     * @param key 主键\r\n     * @return 返回boolean\r\n     */\r\n    boolean isPrimaryKey(String key);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/table/factory/jdbc/dialect/Dialect.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/table/factory/jdbc/dialect/Dialect.java	(date 1613787630598)
+@@ -2,7 +2,7 @@
+ 
+ /**
+  * @author tom
+- * @description 方言 数据库语句
++ * @description 数据库方言  不同数据库语句 字段很可能不同
+  * @date 2021/1/6 23:06
+  */
+ public interface Dialect {
+Index: src/main/java/pers/tom/generator/table/factory/reverse/ReverseTableInfosFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.table.factory.reverse;\r\n\r\nimport cn.hutool.core.lang.ClassScanner;\r\nimport lombok.Data;\r\nimport lombok.experimental.Accessors;\r\nimport org.springframework.util.CollectionUtils;\r\nimport pers.tom.generator.table.TableInfo;\r\nimport pers.tom.generator.table.factory.TableInfosFactory;\r\nimport pers.tom.generator.table.factory.reverse.parser.EntityClassParser;\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\nimport pers.tom.generator.template.interceptor.TemplateRenderInterceptor;\r\n\r\nimport java.util.*;\r\n\r\n/**\r\n * @author tom\r\n * @description 逆向的tableInfos工厂  只有实体类还没有表 需要通过解析实体类获取tableInfo\r\n *              由于entity已经存在了 只需要直接从mapper开始生成\r\n *              但是会需要entity的包名与文件名  需要在渲染前添加进entity的包名\r\n * @date 2021/1/7 13:37\r\n */\r\n@Data\r\n@Accessors(chain = true)\r\npublic class ReverseTableInfosFactory implements TableInfosFactory, TemplateRenderInterceptor {\r\n\r\n    /**需要生成的entityClass*/\r\n    private Set<Class<?>> entityClasses;\r\n\r\n    /**将tableInfo中的className与Class关联*/\r\n    private Map<String, Class<?>> entityClassMap;\r\n\r\n    /**实体类解析器*/\r\n    private EntityClassParser entityParser;\r\n\r\n    /**需要知道其它模板使用获取entity信息用的id*/\r\n    private String entityTemplateId;\r\n\r\n\r\n    public ReverseTableInfosFactory(){\r\n\r\n        //初始化默认entityTemplateId\r\n        this.entityTemplateId = \"entity\";\r\n        this.entityClasses = new HashSet<>();\r\n    }\r\n\r\n    @Override\r\n    public List<TableInfo> getTableInfos() {\r\n\r\n        Objects.requireNonNull(entityParser, \"entityParser不能为null\");\r\n        if(!CollectionUtils.isEmpty(entityClasses)){\r\n\r\n            this.entityClassMap = new HashMap<>(entityClasses.size());\r\n\r\n            //开始解析\r\n            TableInfo table;\r\n            List<TableInfo> tableInfos = new ArrayList<>();\r\n            for(Class<?> entityClass : entityClasses){\r\n                table = entityParser.parse(entityClass);\r\n                if(table != null){\r\n\r\n                    //table中的className与当前class关联\r\n                    entityClassMap.put(table.getClassName(), entityClass);\r\n                    tableInfos.add(table);\r\n                }\r\n            }\r\n            return tableInfos;\r\n        }\r\n        return Collections.emptyList();\r\n    }\r\n\r\n    /**\r\n     * 添加entityClasses\r\n     * @param entityClasses entityClasses\r\n     */\r\n    public ReverseTableInfosFactory addEntityClasses(Class<?>... entityClasses){\r\n        this.entityClasses.addAll(Arrays.asList(entityClasses));\r\n        return this;\r\n    }\r\n\r\n    /**\r\n     * 扫描指定包下的全部class\r\n     * @param basePackages basePackages\r\n     */\r\n    public ReverseTableInfosFactory scan(String... basePackages){\r\n\r\n        if(basePackages != null){\r\n            for(String basePackage : basePackages){\r\n                this.entityClasses.addAll(ClassScanner.scanPackage(basePackage));\r\n            }\r\n        }\r\n        return this;\r\n    }\r\n\r\n\r\n    @Override\r\n    public boolean preRender(TemplateRenderConfig config) {\r\n\r\n        //通过当前渲染的表获取出对应的class\r\n        TableInfo table = config.getTable();\r\n        Class<?> entityClass = entityClassMap.get(table.getClassName());\r\n\r\n        //如果该entityClass不存在不进行生成\r\n        if(entityClass != null){\r\n            config.addPackage(entityTemplateId, entityClass.getPackage().getName());\r\n            config.addFileName(entityTemplateId, entityClass.getSimpleName());\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/table/factory/reverse/ReverseTableInfosFactory.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/table/factory/reverse/ReverseTableInfosFactory.java	(date 1613787895301)
+@@ -7,7 +7,7 @@
+ import pers.tom.generator.table.TableInfo;
+ import pers.tom.generator.table.factory.TableInfosFactory;
+ import pers.tom.generator.table.factory.reverse.parser.EntityClassParser;
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ import pers.tom.generator.template.interceptor.TemplateRenderInterceptor;
+ 
+ import java.util.*;
+@@ -93,7 +93,7 @@
+ 
+ 
+     @Override
+-    public boolean preRender(TemplateRenderConfig config) {
++    public boolean preRender(TemplateRenderContext config) {
+ 
+         //通过当前渲染的表获取出对应的class
+         TableInfo table = config.getTable();
+Index: src/main/java/pers/tom/generator/template/interceptor/TemplateRenderInterceptor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template.interceptor;\r\n\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\n\r\n/**\r\n * @author tom\r\n * @description 模板渲染拦截器  在渲染之前后渲染之后都会执行该拦截器\r\n * @date 2021/1/8 21:28\r\n */\r\npublic interface TemplateRenderInterceptor {\r\n\r\n    /**\r\n     * 渲染前置处理\r\n     * @param config 渲染配置\r\n     * @return 返回是否执行渲染\r\n     */\r\n    default boolean preRender(TemplateRenderConfig config){\r\n        return true;\r\n    }\r\n\r\n    /**\r\n     * 渲染后置处理\r\n     * @param renderResult 渲染结果\r\n     * @param param 渲染参数\r\n     */\r\n    default void postRender(Object renderResult, TemplateRenderConfig param){\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/template/interceptor/TemplateRenderInterceptor.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/interceptor/TemplateRenderInterceptor.java	(date 1613787895325)
+@@ -1,6 +1,6 @@
+ package pers.tom.generator.template.interceptor;
+ 
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ 
+ /**
+  * @author tom
+@@ -11,19 +11,19 @@
+ 
+     /**
+      * 渲染前置处理
+-     * @param config 渲染配置
++     * @param context 渲染上下文
+      * @return 返回是否执行渲染
+      */
+-    default boolean preRender(TemplateRenderConfig config){
++    default boolean preRender(TemplateRenderContext context){
+         return true;
+     }
+ 
+     /**
+      * 渲染后置处理
+      * @param renderResult 渲染结果
+-     * @param param 渲染参数
++     * @param context 渲染上下文
+      */
+-    default void postRender(Object renderResult, TemplateRenderConfig param){
++    default void postRender(Object renderResult, TemplateRenderContext context){
+ 
+     }
+ 
+Index: src/main/java/pers/tom/generator/template/interceptor/ImproveRenderConfigInterceptor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template.interceptor;\r\n\r\nimport pers.tom.generator.config.GlobalConfig;\r\nimport pers.tom.generator.table.TableInfo;\r\nimport pers.tom.generator.template.TemplateInfo;\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\nimport pers.tom.generator.utils.NameUtils;\r\n\r\nimport java.time.LocalDate;\r\n\r\n\r\n/**\r\n * @author tom\r\n * @description 完善渲染配置拦截器   在渲染前需要完善必要的参数(包名 文件名)\r\n * @date 2021/1/8 22:30\r\n */\r\npublic class ImproveRenderConfigInterceptor implements TemplateRenderInterceptor {\r\n\r\n    @Override\r\n    public boolean preRender(TemplateRenderConfig config) {\r\n        GlobalConfig globalConfig = config.getGlobal();\r\n\r\n        //获取当前渲染的表与模板  添加package fileName\r\n        TableInfo tableInfo = config.getTable();\r\n        TemplateInfo templateConfig = config.getTemplate();\r\n        String templateId = templateConfig.getId();\r\n\r\n        //获取文件名 包名\r\n        String packageInfo = templateConfig.getCompletePackage(globalConfig.getParentPackage());\r\n        String fileName = templateConfig.getRealFileName(tableInfo.getClassName());\r\n        config.addPackage(templateId, packageInfo);\r\n        config.addFileName(templateId, fileName);\r\n\r\n        //可能会需要处理名字\r\n        config.addParam(\"NameUtils\", NameUtils.class);\r\n        config.addParam(\"date\", LocalDate.now().toString());\r\n        return true;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/template/interceptor/ImproveRenderConfigInterceptor.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/interceptor/ImproveRenderConfigInterceptor.java	(date 1613787895140)
+@@ -3,7 +3,7 @@
+ import pers.tom.generator.config.GlobalConfig;
+ import pers.tom.generator.table.TableInfo;
+ import pers.tom.generator.template.TemplateInfo;
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ import pers.tom.generator.utils.NameUtils;
+ 
+ import java.time.LocalDate;
+@@ -17,7 +17,7 @@
+ public class ImproveRenderConfigInterceptor implements TemplateRenderInterceptor {
+ 
+     @Override
+-    public boolean preRender(TemplateRenderConfig config) {
++    public boolean preRender(TemplateRenderContext config) {
+         GlobalConfig globalConfig = config.getGlobal();
+ 
+         //获取当前渲染的表与模板  添加package fileName
+Index: target/maven-archiver/pom.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Generated by Maven\r\n#Sun Oct 18 07:59:34 CST 2020\r\nversion=1.0-SNAPSHOT\r\ngroupId=com.utils\r\nartifactId=code-generator\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>GBK
+===================================================================
+--- target/maven-archiver/pom.properties	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ target/maven-archiver/pom.properties	(date 1610329954035)
+@@ -1,5 +1,5 @@
+ #Generated by Maven
+-#Sun Oct 18 07:59:34 CST 2020
++#Mon Jan 11 09:52:34 CST 2021
+ version=1.0-SNAPSHOT
+ groupId=com.utils
+ artifactId=code-generator
+Index: .idea/code-generator.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/code-generator.iml	(date 1610329964472)
++++ .idea/code-generator.iml	(date 1610329964472)
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4" />
+\ No newline at end of file
+Index: src/main/java/pers/tom/generator/template/TemplateRenderConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template;\r\n\r\nimport pers.tom.generator.config.GlobalConfig;\r\nimport pers.tom.generator.table.TableInfo;\r\nimport lombok.Data;\r\nimport lombok.experimental.Accessors;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\n/**\r\n * @author tom\r\n * @description 模板渲染的参数  对Map进行包装\r\n * @date 2021/1/5 23:28\r\n */\r\n@Data\r\n@Accessors(chain = true)\r\npublic class TemplateRenderConfig {\r\n\r\n    /**全局配置*/\r\n    private GlobalConfig global;\r\n\r\n    /**当前渲染的表*/\r\n    private TableInfo table;\r\n\r\n    /**当前渲染的模板*/\r\n    private TemplateInfo template;\r\n\r\n    /**已经渲染过的包名  key是对应的模板id*/\r\n    private Map<String, String> packageMap;\r\n\r\n    /**已经渲染过的文件名  key是对应的模板id*/\r\n    private Map<String, String> fileNameMap;\r\n\r\n    /**参数map存储自定义的参数 */\r\n    private Map<String, Object> paramMap;\r\n\r\n\r\n    public TemplateRenderConfig(){\r\n        this(null);\r\n    }\r\n\r\n    public TemplateRenderConfig(GlobalConfig global){\r\n        this.global = global;\r\n        this.packageMap = new HashMap<>();\r\n        this.fileNameMap = new HashMap<>();\r\n        this.paramMap = new HashMap<>();\r\n    }\r\n\r\n    public TemplateRenderConfig addPackage(String templateId, String packageInfo){\r\n        packageMap.put(templateId, packageInfo);\r\n        return this;\r\n    }\r\n\r\n    public String getPackage(String templateId){\r\n        return packageMap.get(templateId);\r\n    }\r\n\r\n    public String removePackage(String templateId){\r\n        return packageMap.remove(templateId);\r\n    }\r\n\r\n    public TemplateRenderConfig addFileName(String templateId, String fileName){\r\n        fileNameMap.put(templateId, fileName);\r\n        return this;\r\n    }\r\n\r\n    public String getFileName(String templateId){\r\n        return fileNameMap.get(templateId);\r\n    }\r\n\r\n    public String removeFileName(String templateId){\r\n        return fileNameMap.remove(templateId);\r\n    }\r\n\r\n\r\n    public TemplateRenderConfig addParam(String key, Object value){\r\n        paramMap.put(key, value);\r\n        return this;\r\n    }\r\n\r\n    public Object getParam(String key){\r\n        return paramMap.get(key);\r\n    }\r\n\r\n    public String removeParam(String key){\r\n        return fileNameMap.remove(key);\r\n    }\r\n\r\n    /**\r\n     * 将属性添加到paramMap中  然后返回paramMap\r\n     * @return 返回合并之后的Map\r\n     */\r\n    public Map<String, Object> mergeParam(){\r\n        paramMap.put(\"global\", global);\r\n        paramMap.put(\"packageMap\", packageMap);\r\n        paramMap.put(\"fileNameMap\", fileNameMap);\r\n        paramMap.put(\"table\", table);\r\n        paramMap.put(\"template\", template);\r\n        return this.paramMap;\r\n    }\r\n\r\n}\r\n
+===================================================================
+--- src/main/java/pers/tom/generator/template/TemplateRenderConfig.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/TemplateRenderContext.java	(date 1613787895312)
+@@ -10,12 +10,12 @@
+ 
+ /**
+  * @author tom
+- * @description 模板渲染的参数  对Map进行包装
++ * @description 渲染模板的上下文
+  * @date 2021/1/5 23:28
+  */
+ @Data
+ @Accessors(chain = true)
+-public class TemplateRenderConfig {
++public class TemplateRenderContext {
+ 
+     /**全局配置*/
+     private GlobalConfig global;
+@@ -36,18 +36,18 @@
+     private Map<String, Object> paramMap;
+ 
+ 
+-    public TemplateRenderConfig(){
++    public TemplateRenderContext(){
+         this(null);
+     }
+ 
+-    public TemplateRenderConfig(GlobalConfig global){
++    public TemplateRenderContext(GlobalConfig global){
+         this.global = global;
+         this.packageMap = new HashMap<>();
+         this.fileNameMap = new HashMap<>();
+         this.paramMap = new HashMap<>();
+     }
+ 
+-    public TemplateRenderConfig addPackage(String templateId, String packageInfo){
++    public TemplateRenderContext addPackage(String templateId, String packageInfo){
+         packageMap.put(templateId, packageInfo);
+         return this;
+     }
+@@ -60,7 +60,7 @@
+         return packageMap.remove(templateId);
+     }
+ 
+-    public TemplateRenderConfig addFileName(String templateId, String fileName){
++    public TemplateRenderContext addFileName(String templateId, String fileName){
+         fileNameMap.put(templateId, fileName);
+         return this;
+     }
+@@ -74,7 +74,7 @@
+     }
+ 
+ 
+-    public TemplateRenderConfig addParam(String key, Object value){
++    public TemplateRenderContext addParam(String key, Object value){
+         paramMap.put(key, value);
+         return this;
+     }
+Index: src/main/java/pers/tom/generator/template/renderer/VelocityRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template.renderer;\r\n\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\nimport org.apache.velocity.Template;\r\nimport org.apache.velocity.VelocityContext;\r\nimport org.apache.velocity.app.Velocity;\r\n\r\nimport java.io.StringWriter;\r\nimport java.util.Map;\r\n\r\n/**\r\n * @author tom\r\n * @description velocity模板渲染器\r\n * @date 2021/1/9 21:52\r\n */\r\npublic class VelocityRenderer implements TemplateRenderer {\r\n\r\n    private final VelocityContext context;\r\n\r\n    public VelocityRenderer(){\r\n        this.context = new VelocityContext();\r\n    }\r\n\r\n    @Override\r\n    public String render(String templatePath, TemplateRenderConfig config) {\r\n\r\n        this.addProperties(config);\r\n        Template template = Velocity.getTemplate(templatePath, DEFAULT_ENCODING);\r\n        StringWriter writer = new StringWriter();\r\n        template.merge(context, writer);\r\n        return writer.toString();\r\n    }\r\n\r\n    private void addProperties(TemplateRenderConfig renderConfig){\r\n        Map<String, Object> paramMap = renderConfig.mergeParam();\r\n        for(Map.Entry<String, Object> entry : paramMap.entrySet()){\r\n            context.put(entry.getKey(), entry.getValue());\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/template/renderer/VelocityRenderer.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/renderer/VelocityRenderer.java	(date 1613787895156)
+@@ -1,6 +1,6 @@
+ package pers.tom.generator.template.renderer;
+ 
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ import org.apache.velocity.Template;
+ import org.apache.velocity.VelocityContext;
+ import org.apache.velocity.app.Velocity;
+@@ -22,7 +22,7 @@
+     }
+ 
+     @Override
+-    public String render(String templatePath, TemplateRenderConfig config) {
++    public String render(String templatePath, TemplateRenderContext config) {
+ 
+         this.addProperties(config);
+         Template template = Velocity.getTemplate(templatePath, DEFAULT_ENCODING);
+@@ -31,7 +31,7 @@
+         return writer.toString();
+     }
+ 
+-    private void addProperties(TemplateRenderConfig renderConfig){
++    private void addProperties(TemplateRenderContext renderConfig){
+         Map<String, Object> paramMap = renderConfig.mergeParam();
+         for(Map.Entry<String, Object> entry : paramMap.entrySet()){
+             context.put(entry.getKey(), entry.getValue());
+Index: src/main/java/pers/tom/generator/template/interceptor/WritableRenderInterceptor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template.interceptor;\r\n\r\nimport pers.tom.generator.config.GlobalConfig;\r\nimport pers.tom.generator.template.TemplateInfo;\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\n\r\nimport java.io.BufferedWriter;\r\nimport java.io.File;\r\nimport java.io.FileWriter;\r\n\r\n/**\r\n * @author tom\r\n * @description 可写入的拦截器  在渲染之后实现写入文件\r\n * @date 2021/1/8 22:36\r\n */\r\npublic class WritableRenderInterceptor implements TemplateRenderInterceptor {\r\n\r\n    /**\r\n     * 渲染前可以通过包名 文件名拼接出写入路径\r\n     * 判断是否能够写入文件(当文件不存在 或者 可以覆盖文件时)\r\n     * @param config 渲染配置\r\n     */\r\n    @Override\r\n    public boolean preRender(TemplateRenderConfig config) {\r\n        GlobalConfig global = config.getGlobal();\r\n        File writeFile = new File(this.getOutputPath(config));\r\n\r\n        //当文件不存在 或者 可以覆盖文件时才进行渲染\r\n        return !writeFile.exists() || global.isOverwriteFile();\r\n    }\r\n\r\n    @Override\r\n    public void postRender(Object content, TemplateRenderConfig config) {\r\n\r\n        //获取输出路径\r\n        File writeFile = new File(this.getOutputPath(config));\r\n\r\n        //如果父文件夹不存在进行创建\r\n        if(!writeFile.getParentFile().exists()){\r\n            writeFile.getParentFile().mkdirs();\r\n        }\r\n\r\n        //写入文件\r\n        try(FileWriter writer = new FileWriter(writeFile);\r\n            BufferedWriter bw = new BufferedWriter(writer)){\r\n            bw.write(content.toString());\r\n            bw.flush();\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * 获取数据路径\r\n     * @param param 参数\r\n     * @return 返回路径\r\n     */\r\n    private String getOutputPath(TemplateRenderConfig param){\r\n\r\n        //获取包名 文件名\r\n        GlobalConfig global = param.getGlobal();\r\n        TemplateInfo template = param.getTemplate();\r\n        String templateId = template.getId();\r\n        String packageInfo = param.getPackage(templateId);\r\n        String fileName = param.getFileName(templateId);\r\n\r\n        //拼接输出路径\r\n        String separator = File.separator;\r\n        return global.getOutputRootPath()+separator+packageInfo.replace(\".\", separator)+separator+fileName+\".\"+template.getTargetFileSuffix();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/template/interceptor/WritableRenderInterceptor.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/interceptor/WritableRenderInterceptor.java	(date 1613787895108)
+@@ -2,7 +2,7 @@
+ 
+ import pers.tom.generator.config.GlobalConfig;
+ import pers.tom.generator.template.TemplateInfo;
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ 
+ import java.io.BufferedWriter;
+ import java.io.File;
+@@ -21,7 +21,7 @@
+      * @param config 渲染配置
+      */
+     @Override
+-    public boolean preRender(TemplateRenderConfig config) {
++    public boolean preRender(TemplateRenderContext config) {
+         GlobalConfig global = config.getGlobal();
+         File writeFile = new File(this.getOutputPath(config));
+ 
+@@ -30,7 +30,7 @@
+     }
+ 
+     @Override
+-    public void postRender(Object content, TemplateRenderConfig config) {
++    public void postRender(Object content, TemplateRenderContext config) {
+ 
+         //获取输出路径
+         File writeFile = new File(this.getOutputPath(config));
+@@ -55,7 +55,7 @@
+      * @param param 参数
+      * @return 返回路径
+      */
+-    private String getOutputPath(TemplateRenderConfig param){
++    private String getOutputPath(TemplateRenderContext param){
+ 
+         //获取包名 文件名
+         GlobalConfig global = param.getGlobal();
+Index: src/main/java/pers/tom/generator/TemplateCodeGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator;\r\n\r\nimport lombok.Data;\r\nimport lombok.experimental.Accessors;\r\nimport org.apache.commons.collections.CollectionUtils;\r\nimport pers.tom.generator.config.GlobalConfig;\r\nimport pers.tom.generator.table.TableInfo;\r\nimport pers.tom.generator.table.factory.TableInfosFactory;\r\nimport pers.tom.generator.template.TemplateInfo;\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\nimport pers.tom.generator.template.interceptor.ImproveRenderConfigInterceptor;\r\nimport pers.tom.generator.template.interceptor.TemplateRenderInterceptor;\r\nimport pers.tom.generator.template.interceptor.WritableRenderInterceptor;\r\nimport pers.tom.generator.template.renderer.TemplateRenderer;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\nimport java.util.Objects;\r\n\r\n/**\r\n * @author tom\r\n * @description 基于模板生成代码\r\n * @date 2021/1/4 22:38\r\n */\r\n@Data\r\n@Accessors(chain = true)\r\npublic class TemplateCodeGenerator {\r\n\r\n    /**全局配置*/\r\n    private GlobalConfig globalConfig;\r\n\r\n    /**tableInfosFactory*/\r\n    private TableInfosFactory tableInfosFactory;\r\n\r\n    /**模板渲染器*/\r\n    private TemplateRenderer templateRenderer;\r\n\r\n    /**需要使用到的模板*/\r\n    private List<TemplateInfo> templateConfigList;\r\n\r\n    /**渲染拦截器*/\r\n    private List<TemplateRenderInterceptor> renderInterceptors;\r\n\r\n    public TemplateCodeGenerator(){\r\n        this.init();\r\n    }\r\n\r\n    /**\r\n     * 核心生成方法\r\n     */\r\n    public void generate() {\r\n\r\n        //创建之前检查属性是否合法\r\n        this.preGenerate();\r\n\r\n        //执行生成逻辑\r\n        if(globalConfig.isOpen() && !CollectionUtils.isEmpty(templateConfigList)){\r\n\r\n            List<TableInfo> tableInfos = tableInfosFactory.getTableInfos();\r\n            if(!CollectionUtils.isEmpty(tableInfos)){\r\n\r\n                //进行渲染  需要构建渲染参数\r\n                TemplateRenderConfig config = new TemplateRenderConfig(globalConfig);\r\n                for(TableInfo table : tableInfos){\r\n                    config.setTable(table);\r\n                    for(TemplateInfo template : templateConfigList){\r\n                        config.setTemplate(template);\r\n\r\n                        //渲染前置处理  渲染  渲染后置处理\r\n                        if(this.applyPreRender(config)){\r\n                            Object renderResult = templateRenderer.render(template.getTemplatePath(), config);\r\n                            this.applePostRender(renderResult, config);\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * 添加模板配置\r\n     * @param templateConfigs 模板配置对象\r\n     */\r\n    public TemplateCodeGenerator addTemplateConfigs(TemplateInfo... templateConfigs){\r\n        if(templateConfigList == null){\r\n            templateConfigList = new ArrayList<>();\r\n        }\r\n        this.templateConfigList.addAll(Arrays.asList(templateConfigs));\r\n        return this;\r\n    }\r\n\r\n    /**\r\n     * 添加拦截器\r\n     * @param interceptor 拦截器\r\n     */\r\n    public TemplateCodeGenerator addInterceptor(TemplateRenderInterceptor interceptor){\r\n        if(renderInterceptors == null){\r\n            renderInterceptors = new ArrayList<>(4);\r\n        }\r\n        this.renderInterceptors.add(interceptor);\r\n        return this;\r\n    }\r\n\r\n    /**\r\n     * 初始化\r\n     */\r\n    protected void init(){\r\n\r\n        this.addInterceptor(new ImproveRenderConfigInterceptor());\r\n        this.addInterceptor(new WritableRenderInterceptor());\r\n    }\r\n\r\n    /**\r\n     * 生成前置逻辑\r\n     */\r\n    protected void preGenerate(){\r\n\r\n        //检查tableInfosFactory\r\n        Objects.requireNonNull(tableInfosFactory, \"tableInfosFactory不能为null\");\r\n\r\n        //检查templateRender\r\n        Objects.requireNonNull(templateRenderer, \"templateRenderer不能为null\");\r\n\r\n        //如果globalConfig为null 获取默认的globalConfig\r\n        if(globalConfig == null){\r\n            globalConfig = new GlobalConfig();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * 执行渲染前置处理\r\n     * @param config 渲染配置\r\n     * @return 返回是否能够执行渲染逻辑\r\n     */\r\n    private boolean applyPreRender(TemplateRenderConfig config){\r\n\r\n        if(!CollectionUtils.isEmpty(renderInterceptors)){\r\n            for(TemplateRenderInterceptor interceptor : renderInterceptors){\r\n\r\n                //当某个拦截器返回false的时候直接返回\r\n                if(!interceptor.preRender(config)){\r\n                    return false;\r\n                }\r\n            }\r\n        }\r\n        return true;\r\n    }\r\n\r\n    /**\r\n     * 执行渲染后置处理\r\n     * @param renderResult 渲染结果\r\n     * @param config 渲染配置\r\n     */\r\n    private void applePostRender(Object renderResult, TemplateRenderConfig config){\r\n\r\n        if(!CollectionUtils.isEmpty(renderInterceptors)){\r\n            for(TemplateRenderInterceptor interceptor : renderInterceptors){\r\n                interceptor.postRender(renderResult, config);\r\n            }\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/TemplateCodeGenerator.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/TemplateCodeGenerator.java	(date 1613787895284)
+@@ -7,7 +7,7 @@
+ import pers.tom.generator.table.TableInfo;
+ import pers.tom.generator.table.factory.TableInfosFactory;
+ import pers.tom.generator.template.TemplateInfo;
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ import pers.tom.generator.template.interceptor.ImproveRenderConfigInterceptor;
+ import pers.tom.generator.template.interceptor.TemplateRenderInterceptor;
+ import pers.tom.generator.template.interceptor.WritableRenderInterceptor;
+@@ -51,7 +51,7 @@
+      */
+     public void generate() {
+ 
+-        //创建之前检查属性是否合法
++        //生成之前检查属性是否合法
+         this.preGenerate();
+ 
+         //执行生成逻辑
+@@ -61,7 +61,7 @@
+             if(!CollectionUtils.isEmpty(tableInfos)){
+ 
+                 //进行渲染  需要构建渲染参数
+-                TemplateRenderConfig config = new TemplateRenderConfig(globalConfig);
++                TemplateRenderContext config = new TemplateRenderContext(globalConfig);
+                 for(TableInfo table : tableInfos){
+                     config.setTable(table);
+                     for(TemplateInfo template : templateConfigList){
+@@ -124,7 +124,7 @@
+ 
+         //如果globalConfig为null 获取默认的globalConfig
+         if(globalConfig == null){
+-            globalConfig = new GlobalConfig();
++            globalConfig = GlobalConfig.getDefaultGlobalConfig();
+         }
+     }
+ 
+@@ -133,7 +133,7 @@
+      * @param config 渲染配置
+      * @return 返回是否能够执行渲染逻辑
+      */
+-    private boolean applyPreRender(TemplateRenderConfig config){
++    private boolean applyPreRender(TemplateRenderContext config){
+ 
+         if(!CollectionUtils.isEmpty(renderInterceptors)){
+             for(TemplateRenderInterceptor interceptor : renderInterceptors){
+@@ -152,7 +152,7 @@
+      * @param renderResult 渲染结果
+      * @param config 渲染配置
+      */
+-    private void applePostRender(Object renderResult, TemplateRenderConfig config){
++    private void applePostRender(Object renderResult, TemplateRenderContext config){
+ 
+         if(!CollectionUtils.isEmpty(renderInterceptors)){
+             for(TemplateRenderInterceptor interceptor : renderInterceptors){
+Index: src/main/java/pers/tom/generator/template/renderer/TemplateRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.template.renderer;\r\n\r\n\r\nimport pers.tom.generator.template.TemplateRenderConfig;\r\n\r\n/**\r\n * @author lijia\r\n * @description 模板渲染器\r\n * @date 2021/1/9 20:51\r\n */\r\npublic interface TemplateRenderer {\r\n\r\n    String DEFAULT_ENCODING = \"UTF-8\";\r\n\r\n    /**\r\n     * 核心渲染方法\r\n     * @param templatePath 模板路径\r\n     * @param config 渲染配置\r\n     * @return 返回渲染结果\r\n     */\r\n    Object render(String templatePath, TemplateRenderConfig config);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/template/renderer/TemplateRenderer.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/template/renderer/TemplateRenderer.java	(date 1613787895261)
+@@ -1,7 +1,7 @@
+ package pers.tom.generator.template.renderer;
+ 
+ 
+-import pers.tom.generator.template.TemplateRenderConfig;
++import pers.tom.generator.template.TemplateRenderContext;
+ 
+ /**
+  * @author lijia
+@@ -18,5 +18,5 @@
+      * @param config 渲染配置
+      * @return 返回渲染结果
+      */
+-    Object render(String templatePath, TemplateRenderConfig config);
++    Object render(String templatePath, TemplateRenderContext config);
+ }
+Index: src/main/java/pers/tom/generator/config/GlobalConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.config;\r\n\r\nimport lombok.Data;\r\nimport lombok.experimental.Accessors;\r\n\r\n/**\r\n * @author tom\r\n * @description 全局配置对象\r\n * @date 2021/1/4 22:38\r\n */\r\n@Data\r\n@Accessors(chain = true)\r\npublic class GlobalConfig {\r\n\r\n    /**是否开启*/\r\n    private boolean open;\r\n\r\n    /**代码写入的根路径  默认是项目的根路径*/\r\n    private String outputRootPath;\r\n\r\n    /**代码存放的父级包  默认时以com为父级包*/\r\n    private String parentPackage;\r\n\r\n    /**当文件已经存在时  是否重写文件*/\r\n    private boolean overwriteFile;\r\n\r\n    /**作者*/\r\n    private String author;\r\n\r\n    /**是否使用mybatisPlus*/\r\n    private boolean mybatisPlusModel;\r\n\r\n    /**是否使用spring*/\r\n    private boolean springModel;\r\n\r\n    public GlobalConfig(){\r\n\r\n        //初始化设置默认值\r\n        this.open = true;\r\n        this.outputRootPath = System.getProperty(\"user.dir\");\r\n        this.parentPackage = \"com\";\r\n        this.author = \"\";\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/config/GlobalConfig.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/config/GlobalConfig.java	(date 1613787895274)
+@@ -33,13 +33,22 @@
+     /**是否使用spring*/
+     private boolean springModel;
+ 
+-    public GlobalConfig(){
++
++    /**
++     * 获取默认的全局配置
++     * @return 返回全局配置
++     */
++    public static GlobalConfig getDefaultGlobalConfig(){
++        GlobalConfig global = new GlobalConfig();
+ 
+-        //初始化设置默认值
+-        this.open = true;
+-        this.outputRootPath = System.getProperty("user.dir");
+-        this.parentPackage = "com";
+-        this.author = "";
++        global.setOpen(true);
++        //默认输出路径为项目根路径
++        global.setOutputRootPath(System.getProperty("user.dir"));
++        //默认包名为com
++        global.setParentPackage("com");
++        global.setAuthor("");
++
++        return global;
+     }
+ 
+ }
+Index: src/main/java/pers/tom/generator/utils/StringArrayUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator.utils;\r\n\r\nimport org.apache.commons.lang.StringUtils;\r\n\r\n/**\r\n * string数组的工具类\r\n */\r\npublic class StringArrayUtils {\r\n\r\n    /**\r\n     * 判断一个数组是否null 或者没有元素\r\n     */\r\n    public static boolean isEmpty(String[] array){\r\n        return array == null || array.length == 0;\r\n    }\r\n\r\n\r\n    /**\r\n     * 将数组中的所有字符串执行trim\r\n     */\r\n    public static String[] trim(String[] array){\r\n        if(!isEmpty(array)){\r\n            String[] result = new String[array.length];\r\n            String str;\r\n            for(int i = 0 ; i < array.length ; i ++){\r\n                str = array[i];\r\n                result[i] = StringUtils.isEmpty(str) ? str : str.trim();\r\n            }\r\n            return result;\r\n        }\r\n        return array;\r\n    }\r\n\r\n    /**\r\n     * 判断一个字符串时候能够匹配上一个pattern数组中的某一个pattern\r\n     */\r\n    public static boolean isMatches(String[] patterns, String str){\r\n        if(!isEmpty(patterns) && !StringUtils.isEmpty(str)){\r\n            for(String pattern : patterns){\r\n                if(str.matches(pattern)){\r\n                    return true;\r\n                }\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator/utils/StringArrayUtils.java	(revision 38eb09c7b877076c3baf9f15223a3a022c616891)
++++ src/main/java/pers/tom/generator/utils/StringArrayUtils.java	(date 1613787630614)
+@@ -3,7 +3,9 @@
+ import org.apache.commons.lang.StringUtils;
+ 
+ /**
+- * string数组的工具类
++ * @author tom
++ * @description string 数组的工具类
++ * @date 2021/1/6 23:02
+  */
+ public class StringArrayUtils {
+ 
+@@ -32,7 +34,7 @@
+     }
+ 
+     /**
+-     * 判断一个字符串时候能够匹配上一个pattern数组中的某一个pattern
++     * 判断一个字符串是否能够匹配上一个patterns中的某一个pattern
+      */
+     public static boolean isMatches(String[] patterns, String str){
+         if(!isEmpty(patterns) && !StringUtils.isEmpty(str)){

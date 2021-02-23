@@ -2,7 +2,7 @@ package pers.tom.generator.template.interceptor;
 
 import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.template.TemplateInfo;
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,7 +21,7 @@ public class WritableRenderInterceptor implements TemplateRenderInterceptor {
      * @param config 渲染配置
      */
     @Override
-    public boolean preRender(TemplateRenderConfig config) {
+    public boolean preRender(TemplateRenderContext config) {
         GlobalConfig global = config.getGlobal();
         File writeFile = new File(this.getOutputPath(config));
 
@@ -30,7 +30,7 @@ public class WritableRenderInterceptor implements TemplateRenderInterceptor {
     }
 
     @Override
-    public void postRender(Object content, TemplateRenderConfig config) {
+    public void postRender(Object content, TemplateRenderContext config) {
 
         //获取输出路径
         File writeFile = new File(this.getOutputPath(config));
@@ -55,7 +55,7 @@ public class WritableRenderInterceptor implements TemplateRenderInterceptor {
      * @param param 参数
      * @return 返回路径
      */
-    private String getOutputPath(TemplateRenderConfig param){
+    private String getOutputPath(TemplateRenderContext param){
 
         //获取包名 文件名
         GlobalConfig global = param.getGlobal();

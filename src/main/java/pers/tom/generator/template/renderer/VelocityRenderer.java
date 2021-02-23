@@ -1,6 +1,6 @@
 package pers.tom.generator.template.renderer;
 
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -22,7 +22,7 @@ public class VelocityRenderer implements TemplateRenderer {
     }
 
     @Override
-    public String render(String templatePath, TemplateRenderConfig config) {
+    public String render(String templatePath, TemplateRenderContext config) {
 
         this.addProperties(config);
         Template template = Velocity.getTemplate(templatePath, DEFAULT_ENCODING);
@@ -31,7 +31,7 @@ public class VelocityRenderer implements TemplateRenderer {
         return writer.toString();
     }
 
-    private void addProperties(TemplateRenderConfig renderConfig){
+    private void addProperties(TemplateRenderContext renderConfig){
         Map<String, Object> paramMap = renderConfig.mergeParam();
         for(Map.Entry<String, Object> entry : paramMap.entrySet()){
             context.put(entry.getKey(), entry.getValue());

@@ -7,7 +7,7 @@ import pers.tom.generator.config.GlobalConfig;
 import pers.tom.generator.table.TableInfo;
 import pers.tom.generator.table.factory.TableInfosFactory;
 import pers.tom.generator.template.TemplateInfo;
-import pers.tom.generator.template.TemplateRenderConfig;
+import pers.tom.generator.template.TemplateRenderContext;
 import pers.tom.generator.template.interceptor.ImproveRenderConfigInterceptor;
 import pers.tom.generator.template.interceptor.TemplateRenderInterceptor;
 import pers.tom.generator.template.interceptor.WritableRenderInterceptor;
@@ -51,7 +51,7 @@ public class TemplateCodeGenerator {
      */
     public void generate() {
 
-        //创建之前检查属性是否合法
+        //生成之前检查属性是否合法
         this.preGenerate();
 
         //执行生成逻辑
@@ -61,7 +61,7 @@ public class TemplateCodeGenerator {
             if(!CollectionUtils.isEmpty(tableInfos)){
 
                 //进行渲染  需要构建渲染参数
-                TemplateRenderConfig config = new TemplateRenderConfig(globalConfig);
+                TemplateRenderContext config = new TemplateRenderContext(globalConfig);
                 for(TableInfo table : tableInfos){
                     config.setTable(table);
                     for(TemplateInfo template : templateConfigList){
@@ -124,7 +124,7 @@ public class TemplateCodeGenerator {
 
         //如果globalConfig为null 获取默认的globalConfig
         if(globalConfig == null){
-            globalConfig = new GlobalConfig();
+            globalConfig = GlobalConfig.getDefaultGlobalConfig();
         }
     }
 
@@ -133,7 +133,7 @@ public class TemplateCodeGenerator {
      * @param config 渲染配置
      * @return 返回是否能够执行渲染逻辑
      */
-    private boolean applyPreRender(TemplateRenderConfig config){
+    private boolean applyPreRender(TemplateRenderContext config){
 
         if(!CollectionUtils.isEmpty(renderInterceptors)){
             for(TemplateRenderInterceptor interceptor : renderInterceptors){
@@ -152,7 +152,7 @@ public class TemplateCodeGenerator {
      * @param renderResult 渲染结果
      * @param config 渲染配置
      */
-    private void applePostRender(Object renderResult, TemplateRenderConfig config){
+    private void applePostRender(Object renderResult, TemplateRenderContext config){
 
         if(!CollectionUtils.isEmpty(renderInterceptors)){
             for(TemplateRenderInterceptor interceptor : renderInterceptors){
@@ -160,5 +160,7 @@ public class TemplateCodeGenerator {
             }
         }
     }
+
+
 
 }

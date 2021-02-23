@@ -3,7 +3,9 @@ package pers.tom.generator.utils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * string数组的工具类
+ * @author tom
+ * @description string 数组的工具类
+ * @date 2021/1/6 23:02
  */
 public class StringArrayUtils {
 
@@ -32,7 +34,7 @@ public class StringArrayUtils {
     }
 
     /**
-     * 判断一个字符串时候能够匹配上一个pattern数组中的某一个pattern
+     * 判断一个字符串是否能够匹配上一个patterns中的某一个pattern
      */
     public static boolean isMatches(String[] patterns, String str){
         if(!isEmpty(patterns) && !StringUtils.isEmpty(str)){

@@ -33,13 +33,22 @@ public class GlobalConfig {
     /**是否使用spring*/
     private boolean springModel;
 
-    public GlobalConfig(){
 
-        //初始化设置默认值
-        this.open = true;
-        this.outputRootPath = System.getProperty("user.dir");
-        this.parentPackage = "com";
-        this.author = "";
+    /**
+     * 获取默认的全局配置
+     * @return 返回全局配置
+     */
+    public static GlobalConfig getDefaultGlobalConfig(){
+        GlobalConfig global = new GlobalConfig();
+
+        global.setOpen(true);
+        //默认输出路径为项目根路径
+        global.setOutputRootPath(System.getProperty("user.dir"));
+        //默认包名为com
+        global.setParentPackage("com");
+        global.setAuthor("");
+
+        return global;
     }
 
 }
