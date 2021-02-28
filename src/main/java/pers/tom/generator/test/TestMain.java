@@ -56,6 +56,5 @@ public class TestMain {
 //
 //        //生成
 //        codeGenerator.generate();
-        TemplateRenderTaskExecutor taskExecutor = new TemplateRenderTaskExecutorImpl(null, null);
     }
 }

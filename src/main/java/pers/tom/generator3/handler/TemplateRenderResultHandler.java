@@ -1,4 +1,4 @@
-package pers.tom.generator3.executor.handler;
+package pers.tom.generator3.handler;
 
 import pers.tom.generator3.task.TemplateRenderTask;
 

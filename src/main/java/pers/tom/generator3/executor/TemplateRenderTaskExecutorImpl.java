@@ -4,11 +4,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.lang.NonNull;
 import pers.tom.generator3.task.template.TemplateInfo;
-import pers.tom.generator3.utils.CollectionUtils2;
-import pers.tom.generator3.executor.handler.TemplateRenderResultHandler;
+import pers.tom.generator4.utils.CollectionUtils2;
 import pers.tom.generator3.executor.interceptor.TemplateRenderInterceptor;
 import pers.tom.generator3.executor.renderer.TemplateRenderer;
-import pers.tom.generator3.task.CompletedRenderTaskRegistry;
 import pers.tom.generator3.task.TemplateRenderTask;
 
 import java.util.ArrayList;
@@ -29,18 +27,14 @@ public class TemplateRenderTaskExecutorImpl implements TemplateRenderTaskExecuto
     /**渲染器*/
     private TemplateRenderer renderer;
 
-    /**渲染结果处理器*/
-    private TemplateRenderResultHandler renderResultHandler;
 
 
-    public TemplateRenderTaskExecutorImpl(@NonNull TemplateRenderer renderer,
-                                          @NonNull TemplateRenderResultHandler renderResultHandler){
+    public TemplateRenderTaskExecutorImpl(@NonNull TemplateRenderer renderer){
         this.renderer = renderer;
-        this.renderResultHandler = renderResultHandler;
     }
 
     @Override
-    public void execute(TemplateRenderTask renderTask) {
+    public boolean execute(TemplateRenderTask renderTask) {
 
         if(renderTask != null){
             //执行前置渲染
@@ -55,12 +49,12 @@ public class TemplateRenderTaskExecutorImpl implements TemplateRenderTaskExecuto
                 renderer.render(renderTask);
                 //执行后置渲染
                 this.applyPostRender(renderTask);
-                //处理渲染结果
-                renderResultHandler.handle(renderTask);
-                //注册该任务
-                CompletedRenderTaskRegistry.register(renderTask);
             }
+
+            return renderTask.getRenderResult() != null;
         }
+
+        return false;
     }
 
 

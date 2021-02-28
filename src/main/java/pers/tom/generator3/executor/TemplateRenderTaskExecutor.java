@@ -13,5 +13,5 @@ public interface TemplateRenderTaskExecutor {
      * 核心执行方法
      * @param renderTask 渲染任务
      */
-    void execute(TemplateRenderTask renderTask);
+    boolean execute(TemplateRenderTask renderTask);
 }

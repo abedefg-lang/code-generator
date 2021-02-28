@@ -1,4 +1,4 @@
-package pers.tom.generator3.utils;
+package pers.tom.generator4.utils;
 
 import java.util.Collection;
 
