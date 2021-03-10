@@ -16,13 +16,13 @@ public class JavaFileTemplate extends FileTemplate {
     }
 
     @Override
-    protected String getWritePath(RenderData renderData) {
-        return null;
+    public boolean support(RenderData renderData) {
+        return renderData instanceof JavaRenderData;
     }
 
     @Override
-    public boolean support(RenderData renderData) {
-        return renderData instanceof JavaRenderData;
+    protected String getWritePath(RenderData renderData) {
+        return null;
     }
 
 }

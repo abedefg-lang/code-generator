@@ -2,6 +2,7 @@ package pers.tom.generator5.template.filetemplate;
 
 import lombok.Getter;
 import org.springframework.lang.NonNull;
+import pers.tom.generator5.exception.DataFormatNotSupportedException;
 import pers.tom.generator5.template.filetemplate.engine.TemplateEngine;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderresult.FileRenderResult;
@@ -25,7 +26,7 @@ public abstract class FileTemplate implements Template {
     /**模板引擎*/
     protected final TemplateEngine engine;
 
-    /**输出根路径*/
+    /**文件输出根路径*/
     protected final String outputRootPath;
 
     public FileTemplate(@NonNull String templatePath,
@@ -37,13 +38,13 @@ public abstract class FileTemplate implements Template {
     }
 
     @Override
-    public FileRenderResult rendering(@NonNull RenderData renderData) {
+    public FileRenderResult rendering(@NonNull RenderData renderData) throws DataFormatNotSupportedException {
 
         if(support(renderData)){
             String writePath = this.getWritePath(renderData);
             return new FileRenderResult(this.executeEngine(renderData), writePath);
         }
-        throw new RuntimeException(templatePath + " 不支持 " + renderData.getClass() + " 渲染数据");
+        throw new DataFormatNotSupportedException(this, renderData);
     }
 
     /**
@@ -58,7 +59,7 @@ public abstract class FileTemplate implements Template {
      * @param renderData 渲染数据
      * @return 返回内容
      */
-    private String executeEngine(RenderData renderData){
+    protected String executeEngine(RenderData renderData){
 
         //构建map
         Map<String, Object> map = new HashMap<>(4);
