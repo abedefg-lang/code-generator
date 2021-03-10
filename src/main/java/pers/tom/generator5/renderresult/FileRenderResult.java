@@ -1,16 +1,22 @@
 package pers.tom.generator5.renderresult;
 
+import org.springframework.lang.NonNull;
+
 /**
  * @author lijia
- * @description 可写入的渲染结果
+ * @description 文件形式的渲染结果
  * @date 2021-03-09 11:22
  */
-public class WritableRenderResult implements RenderResult{
+public class FileRenderResult implements RenderResult{
 
     private final String content;
 
-    public WritableRenderResult(String content){
+    private final String writePath;
+
+    public FileRenderResult(@NonNull String content,
+                            @NonNull String writePath){
         this.content = content;
+        this.writePath = writePath;
     }
 
     @Override
@@ -23,6 +29,6 @@ public class WritableRenderResult implements RenderResult{
      * @return 返回path
      */
     public String getWritePath(){
-        return null;
+        return this.writePath;
     }
 }

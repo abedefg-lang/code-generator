@@ -1,8 +1,9 @@
-package pers.tom.generator5.renderdata;
+package pers.tom.generator5.renderdata.java;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.lang.NonNull;
+import pers.tom.generator5.renderdata.RenderData;
 
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 @Data
 @Accessors(chain = true)
-public class JavaRenderData implements RenderData{
+public class JavaRenderData implements RenderData {
 
     /**包名*/
     private String packageName;
