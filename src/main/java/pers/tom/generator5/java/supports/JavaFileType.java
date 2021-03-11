@@ -1,4 +1,4 @@
-package pers.tom.generator5.renderdata.java;
+package pers.tom.generator5.java.supports;
 
 /**
  * @author lijia

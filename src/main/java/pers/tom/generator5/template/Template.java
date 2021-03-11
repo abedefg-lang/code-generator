@@ -1,6 +1,6 @@
 package pers.tom.generator5.template;
 
-import pers.tom.generator5.exception.DataFormatNotSupportedException;
+import pers.tom.generator5.exception.RenderException;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderresult.RenderResult;
 
@@ -9,20 +9,14 @@ import pers.tom.generator5.renderresult.RenderResult;
  * @description 模板
  * @date 2021-03-09 11:08
  */
-public interface Template {
+public interface Template<DATA extends RenderData> {
 
-    /**
-     * 判断该模板是否支持这种格式的渲染数据
-     * @param renderData 渲染数据
-     * @return 返回boolean
-     */
-    boolean support(RenderData renderData);
 
     /**
      * 模板渲染逻辑
      * @param renderData 渲染数据
      * @return 渲染结果
-     * @throws DataFormatNotSupportedException 在渲染前会执行support方法 如果不支持会抛出该异常
+     * @throws RenderException 渲染异常
      */
-    RenderResult rendering(RenderData renderData) throws DataFormatNotSupportedException;
+    RenderResult rendering(DATA renderData) throws RenderException;
 }

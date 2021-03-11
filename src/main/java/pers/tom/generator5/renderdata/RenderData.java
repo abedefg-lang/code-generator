@@ -7,11 +7,11 @@ package pers.tom.generator5.renderdata;
  */
 public interface RenderData {
 
-    /**
-     * 不同的渲染数据可能会属于同一个资源  这个时候它们都属于同一个分组
-     * 分组的作用主要是用于当前的数据会依赖之前数据的情况
-     * @return 返回分组名称
-     */
-    String getGroupName();
+//    /**
+//     * 不同的渲染数据可能会属于同一个资源  这个时候它们都属于同一个分组
+//     * 分组的作用主要是用于当前的数据会依赖之前数据的情况
+//     * @return 返回分组名称
+//     */
+//    String getGroupName();
 
 }

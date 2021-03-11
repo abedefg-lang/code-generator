@@ -1,4 +1,4 @@
-package pers.tom.generator5.template.filetemplate.engine;
+package pers.tom.generator5.template.engine;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

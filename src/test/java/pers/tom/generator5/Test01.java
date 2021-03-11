@@ -1,13 +1,8 @@
 package pers.tom.generator5;
 
-
 import org.junit.Test;
-import pers.tom.generator5.exception.DataFormatNotSupportedException;
 
-import pers.tom.generator5.template.filetemplate.FileTemplate;
-import pers.tom.generator5.template.filetemplate.JavaFileTemplate;
-import pers.tom.generator5.template.filetemplate.engine.VelocityEngine;
-
+import java.io.File;
 
 /**
  * @author lijia
@@ -17,8 +12,7 @@ import pers.tom.generator5.template.filetemplate.engine.VelocityEngine;
 public class Test01 {
 
     @Test
-    public void test01() throws DataFormatNotSupportedException {
-        FileTemplate testTemplate = new JavaFileTemplate("src/main/resources/generic-templates/simple.vm", new VelocityEngine(), "");
-        testTemplate.rendering(() -> "");
+    public void test01() {
+
     }
 }
