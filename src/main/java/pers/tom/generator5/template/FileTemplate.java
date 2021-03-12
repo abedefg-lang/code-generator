@@ -1,11 +1,11 @@
 package pers.tom.generator5.template;
 
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.lang.NonNull;
-import pers.tom.generator5.exception.RenderException;
+import pers.tom.generator6.exception.RenderException;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderresult.FileRenderResult;
-import pers.tom.generator5.template.engine.TemplateEngine;
+import pers.tom.generator6.template.engine.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @description 文件形式的模板
  * @date 2021-03-09 11:13
  */
-@Getter
+@Data
 public abstract class FileTemplate<DATA extends RenderData> implements Template<DATA> {
 
     /**文件模板路径 */
@@ -27,19 +27,22 @@ public abstract class FileTemplate<DATA extends RenderData> implements Template<
     @NonNull
     protected final TemplateEngine engine;
 
-    /**文件输出根路径*/
-    @NonNull
-    protected final String outputRootPath;
-
     /**参数map 可以添加自定的参数*/
-    protected final Map<String, Object> paramMap;
+    protected Map<String, Object> paramMap;
 
+    /**文件输出根路径*/
+    protected String outputRootPath;
+
+
+    public FileTemplate(String templatePath, TemplateEngine engine){
+
+        this.templatePath = templatePath;
+        this.engine = engine;
+        this.outputRootPath = System.getProperty("user.dir");
+        this.paramMap = new HashMap<>();
+    }
 
     public FileTemplate(String templatePath, TemplateEngine engine, String outputRootPath){
-
-//        Assert.notNull(templatePath, "templatePath不能为null");
-//        Assert.notNull(engine, "engine不能为null");
-//        Assert.notNull(outputRootPath, "outputRootPath不能为null");
 
         this.templatePath = templatePath;
         this.engine = engine;
