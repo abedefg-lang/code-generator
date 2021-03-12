@@ -3,7 +3,7 @@ package pers.tom.generator5.java.template;
 
 import pers.tom.generator5.java.renderdata.JavaFileRenderData;
 import pers.tom.generator5.template.FileTemplate;
-import pers.tom.generator5.template.engine.TemplateEngine;
+import pers.tom.generator6.template.engine.TemplateEngine;
 
 import java.io.File;
 
@@ -12,9 +12,14 @@ import java.io.File;
  * @description
  * @date 2021-03-09 14:22
  */
-public class JavaFileTemplate extends FileTemplate<JavaFileRenderData> {
+public class JavaFileTemplate<DATA extends JavaFileRenderData> extends FileTemplate<DATA> {
 
-    public JavaFileTemplate(String templatePath, TemplateEngine engine, String outputRootPath) {
+    public JavaFileTemplate(String templatePath, TemplateEngine engine){
+
+        super(templatePath, engine);
+    }
+
+    public JavaFileTemplate(String templatePath, TemplateEngine engine, String outputRootPath){
 
         super(templatePath, engine, outputRootPath);
     }

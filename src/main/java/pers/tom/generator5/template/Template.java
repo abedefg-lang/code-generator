@@ -1,6 +1,6 @@
 package pers.tom.generator5.template;
 
-import pers.tom.generator5.exception.RenderException;
+import pers.tom.generator6.exception.RenderException;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderresult.RenderResult;
 

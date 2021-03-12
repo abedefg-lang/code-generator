@@ -1,4 +1,4 @@
-package pers.tom.generator5.template.engine;
+package pers.tom.generator6.template.engine;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * @author lijia
- * @description velocity 引擎
+ * @description velocity 模板引擎
  * @date 2021-03-09 11:31
  */
 public class VelocityEngine implements TemplateEngine{

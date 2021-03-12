@@ -1,4 +1,4 @@
-package pers.tom.generator5.exception;
+package pers.tom.generator6.exception;
 
 /**
  * @author lijia
