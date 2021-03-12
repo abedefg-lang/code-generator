@@ -2,7 +2,6 @@ package pers.tom.generator6;
 
 import org.junit.Test;
 import pers.tom.generator6.factory.TestRenderDataCollectionFactory;
-import pers.tom.generator6.renderdata.RenderData;
 import pers.tom.generator6.template.FileTemplate;
 import pers.tom.generator6.template.engine.VelocityEngine;
 
@@ -20,8 +19,8 @@ public class TestMain {
 //        TestRenderData testRenderData = new TestRenderData("tom", "18");
 //        codeGenerator.generate(testTemplate, testRenderData, "src/test/java/pers/tom/generator6/codes/test.txt");
 
-
         BatchCodeGenerator batchCodeGenerator = new BatchCodeGenerator();
+
         FileTemplate testTemplate = new FileTemplate("test", "src/test/resources/test.vm", new VelocityEngine());
         TestRenderDataCollectionFactory factory = new TestRenderDataCollectionFactory();
         batchCodeGenerator.batchGenerate(testTemplate, factory, renderData -> {

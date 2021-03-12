@@ -26,8 +26,6 @@ public class BatchCodeGenerator extends CodeGenerator{
                               @NonNull Collection<RenderData> collection,
                               @NonNull FileWritePathGetter writePathGetter){
 
-        Assert.notNull(writePathGetter, "writePathGetter不能为null");
-
         for(RenderData data : collection){
             String writePath = writePathGetter.getWritePath(data);
             generate(template, data, writePath);
