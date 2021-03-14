@@ -1,0 +1,52 @@
+package ${packageName};
+
+import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+#foreach($import in $imports)
+import $import;
+#end
+#if($enableLombok)
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+#end
+
+#if($enableLombok)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+#end
+@TableName("$tableName")
+public ${fileType.typeName} ${className} implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($column in $columns)
+#if($column.comment != "")
+    /**$column.comment*/
+#end
+#if($column.primary)
+    @TableId(value="$column.columnName", type = IdType.AUTO)
+#else
+    @TableField("$column.columnName")
+#end
+    private $column.javaType.getSimpleName() $column.fieldName;
+
+#end
+##当没有开启lombok时生成get set方法
+#if(!$enableLombok)
+#foreach($column in $columns)
+    public void set${column.greatHumpFieldName}(${column.javaType.getSimpleName()} ${column.fieldName}){
+        this.$column.fieldName = $column.fieldName;
+    }
+
+    public ${column.javaType.getSimpleName()} get${column.greatHumpFieldName}(){
+        return this.$column.fieldName;
+    }
+
+#end
+#end
+}

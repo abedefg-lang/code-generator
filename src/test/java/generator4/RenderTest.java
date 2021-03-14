@@ -1,9 +1,7 @@
 package generator4;
 
-
 import org.junit.Test;
-import pers.tom.generator4.template.Template;
-import pers.tom.generator4.template.VelocityTemplate;
+import pers.tom.generator5.TemplateFileGenerator;
 
 /**
  * @author tom
@@ -14,8 +12,6 @@ public class RenderTest {
 
     @Test
     public void test1(){
-        TestRenderData renderData = new TestRenderData("tom", "18");
-        Template template = new VelocityTemplate("test", "src\\test\\resources\\testTemplate.vm");
-        System.out.println(template.rendering(renderData));
+        TemplateFileGenerator.GenerateTask task = new TemplateFileGenerator.GenerateTask(null, null);
     }
 }

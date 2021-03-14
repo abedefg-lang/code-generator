@@ -1,0 +1,192 @@
+Index: src/main/java/pers/tom/generator5/template/FileTemplate.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator5.template;\r\n\r\nimport lombok.Getter;\r\nimport org.springframework.lang.NonNull;\r\nimport pers.tom.generator5.exception.RenderException;\r\nimport pers.tom.generator5.renderdata.RenderData;\r\nimport pers.tom.generator5.renderresult.FileRenderResult;\r\nimport pers.tom.generator5.template.engine.TemplateEngine;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\n\r\n/**\r\n * @author lijia\r\n * @description 文件形式的模板\r\n * @date 2021-03-09 11:13\r\n */\r\n@Getter\r\npublic abstract class FileTemplate<DATA extends RenderData> implements Template<DATA> {\r\n\r\n    /**文件模板路径 */\r\n    @NonNull\r\n    protected final String templatePath;\r\n\r\n    /**模板引擎*/\r\n    @NonNull\r\n    protected final TemplateEngine engine;\r\n\r\n    /**文件输出根路径*/\r\n    @NonNull\r\n    protected final String outputRootPath;\r\n\r\n    /**参数map 可以添加自定的参数*/\r\n    protected final Map<String, Object> paramMap;\r\n\r\n\r\n    public FileTemplate(String templatePath, TemplateEngine engine, String outputRootPath){\r\n\r\n//        Assert.notNull(templatePath, \"templatePath不能为null\");\r\n//        Assert.notNull(engine, \"engine不能为null\");\r\n//        Assert.notNull(outputRootPath, \"outputRootPath不能为null\");\r\n\r\n        this.templatePath = templatePath;\r\n        this.engine = engine;\r\n        this.outputRootPath = outputRootPath;\r\n        this.paramMap = new HashMap<>();\r\n    }\r\n\r\n    @Override\r\n    public FileRenderResult rendering(@NonNull DATA renderData) throws RenderException {\r\n\r\n        String writePath = this.getWritePath(renderData);\r\n        return new FileRenderResult(this.executeEngine(renderData), writePath);\r\n    }\r\n\r\n    /**\r\n     * 添加参数\r\n     * @param key key\r\n     * @param value value\r\n     */\r\n    public void putParam(@NonNull String key,\r\n                         @NonNull Object value){\r\n\r\n        paramMap.put(key, value);\r\n    }\r\n\r\n\r\n    /**\r\n     * 获取写入路径\r\n     * @param renderData 渲染数据\r\n     * @return 返回路径\r\n     */\r\n    protected abstract String getWritePath(DATA renderData);\r\n\r\n    /**\r\n     * 执行模板引擎\r\n     * @param renderData 渲染数据\r\n     * @return 返回内容\r\n     */\r\n    protected String executeEngine(DATA renderData){\r\n\r\n        //构建map\r\n        paramMap.put(\"renderData\", renderData);\r\n        paramMap.put(\"currentTemplate\", this);\r\n\r\n        return engine.execute(templatePath, paramMap);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator5/template/FileTemplate.java	(revision 0f66f34adc45dc5c87863594e33a2319b5f7dfa6)
++++ src/main/java/pers/tom/generator5/template/FileTemplate.java	(date 1615471906600)
+@@ -28,19 +28,14 @@
+     protected final TemplateEngine engine;
+ 
+     /**文件输出根路径*/
+-    @NonNull
+-    protected final String outputRootPath;
++    protected String outputRootPath;
+ 
+     /**参数map 可以添加自定的参数*/
+-    protected final Map<String, Object> paramMap;
++    protected Map<String, Object> paramMap;
+ 
+ 
+     public FileTemplate(String templatePath, TemplateEngine engine, String outputRootPath){
+ 
+-//        Assert.notNull(templatePath, "templatePath不能为null");
+-//        Assert.notNull(engine, "engine不能为null");
+-//        Assert.notNull(outputRootPath, "outputRootPath不能为null");
+-
+         this.templatePath = templatePath;
+         this.engine = engine;
+         this.outputRootPath = outputRootPath;
+Index: src/test/java/generator4/RenderTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package generator4;\r\n\r\n\r\nimport org.junit.Test;\r\nimport pers.tom.generator4.template.Template;\r\nimport pers.tom.generator4.template.VelocityTemplate;\r\n\r\n/**\r\n * @author tom\r\n * @description\r\n * @date 2021/2/28 23:22\r\n */\r\npublic class RenderTest {\r\n\r\n    @Test\r\n    public void test1(){\r\n        TestRenderData renderData = new TestRenderData(\"tom\", \"18\");\r\n        Template template = new VelocityTemplate(\"test\", \"src\\\\test\\\\resources\\\\testTemplate.vm\");\r\n        System.out.println(template.rendering(renderData));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/generator4/RenderTest.java	(revision 0f66f34adc45dc5c87863594e33a2319b5f7dfa6)
++++ src/test/java/generator4/RenderTest.java	(date 1615472675462)
+@@ -1,9 +1,7 @@
+ package generator4;
+ 
+-
+ import org.junit.Test;
+-import pers.tom.generator4.template.Template;
+-import pers.tom.generator4.template.VelocityTemplate;
++import pers.tom.generator5.TemplateFileGenerator;
+ 
+ /**
+  * @author tom
+@@ -14,8 +12,6 @@
+ 
+     @Test
+     public void test1(){
+-        TestRenderData renderData = new TestRenderData("tom", "18");
+-        Template template = new VelocityTemplate("test", "src\\test\\resources\\testTemplate.vm");
+-        System.out.println(template.rendering(renderData));
++        TemplateFileGenerator.GenerateTask task = new TemplateFileGenerator.GenerateTask(null, null);
+     }
+ }
+Index: src/main/java/pers/tom/generator5/TemplateFileGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator5;\r\n\r\nimport lombok.Data;\r\nimport lombok.NonNull;\r\n\r\nimport pers.tom.generator5.renderdata.factory.RenderDataCollectionFactory;\r\nimport pers.tom.generator5.template.FileTemplate;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * @author tom\r\n * @description 代码生成器\r\n * @date 2021/3/11 22:00\r\n */\r\npublic class CodeGenerator {\r\n\r\n    /**渲染任务集合*/\r\n    private List<GenerateTask> taskList;\r\n\r\n    /**当文件已存在时是否可以重写文件*/\r\n    private boolean rewritable;\r\n\r\n    /**\r\n     * 核心生成逻辑\r\n     */\r\n    public void generate(){\r\n\r\n\r\n    }\r\n\r\n\r\n    /**\r\n     * 生成任务对象\r\n     */\r\n    @Data\r\n    public static class GenerateTask{\r\n\r\n        /**需要生成的模板*/\r\n        @NonNull\r\n        private FileTemplate<?> template;\r\n\r\n        /**对应渲染数据集合工厂*/\r\n        @NonNull\r\n        private RenderDataCollectionFactory<?> factory;\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator5/TemplateFileGenerator.java	(revision 0f66f34adc45dc5c87863594e33a2319b5f7dfa6)
++++ src/main/java/pers/tom/generator5/TemplateFileGenerator.java	(date 1615474267222)
+@@ -1,22 +1,28 @@
+ package pers.tom.generator5;
+ 
+ import lombok.Data;
+-import lombok.NonNull;
+-
++import lombok.Getter;
++import org.springframework.lang.NonNull;
++import org.springframework.util.CollectionUtils;
++import pers.tom.generator5.renderdata.RenderData;
+ import pers.tom.generator5.renderdata.factory.RenderDataCollectionFactory;
++import pers.tom.generator5.renderresult.FileRenderResult;
+ import pers.tom.generator5.template.FileTemplate;
+ 
++import java.util.ArrayList;
++import java.util.Collection;
+ import java.util.List;
+ 
+ /**
+  * @author tom
+- * @description 代码生成器
++ * @description 模板文件生成器
+  * @date 2021/3/11 22:00
+  */
+-public class CodeGenerator {
++@Data
++public class TemplateFileGenerator {
+ 
+-    /**渲染任务集合*/
+-    private List<GenerateTask> taskList;
++    /**生成任务集合*/
++    private List<GenerateTask<? extends RenderData>> taskList;
+ 
+     /**当文件已存在时是否可以重写文件*/
+     private boolean rewritable;
+@@ -24,25 +30,51 @@
+     /**
+      * 核心生成逻辑
+      */
+-    public void generate(){
++    public void execute(){
+ 
++        if(!CollectionUtils.isEmpty(taskList)){
+ 
++        }
++    }
++
++    /**
++     * 添加生成任务
++     * @param task task
++     */
++    public void addGenerateTask(@NonNull GenerateTask<?> task){
++        if(taskList == null){
++            taskList = new ArrayList<>();
++        }
++        taskList.add(task);
+     }
+ 
+ 
+     /**
+      * 生成任务对象
+      */
+-    @Data
+-    public static class GenerateTask{
++    @Getter
++    public static class GenerateTask<DATA extends RenderData>{
+ 
+         /**需要生成的模板*/
+-        @NonNull
+-        private FileTemplate<?> template;
++        private final FileTemplate<DATA> template;
+ 
+         /**对应渲染数据集合工厂*/
+-        @NonNull
+-        private RenderDataCollectionFactory<?> factory;
++        private final RenderDataCollectionFactory<DATA> factory;
++
++        public GenerateTask(@NonNull FileTemplate<DATA> template,
++                            @NonNull RenderDataCollectionFactory<DATA> factory) {
++            this.template = template;
++            this.factory = factory;
++        }
+ 
++        public List<FileRenderResult> execute(){
++
++            Collection<DATA> collection = factory.get();
++            List<FileRenderResult> resultList = new ArrayList<>(collection.size());
++            for(DATA data : collection){
++                resultList.add(template.rendering(data));
++            }
++            return resultList;
++        }
+     }
+ }
+Index: src/main/java/pers/tom/generator5/java/template/JavaFileTemplate.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator5.java.template;\r\n\r\n\r\nimport pers.tom.generator5.java.renderdata.JavaFileRenderData;\r\nimport pers.tom.generator5.template.FileTemplate;\r\nimport pers.tom.generator5.template.engine.TemplateEngine;\r\n\r\nimport java.io.File;\r\n\r\n/**\r\n * @author lijia\r\n * @description\r\n * @date 2021-03-09 14:22\r\n */\r\npublic class JavaFileTemplate extends FileTemplate<JavaFileRenderData> {\r\n\r\n    public JavaFileTemplate(String templatePath, TemplateEngine engine, String outputRootPath) {\r\n\r\n        super(templatePath, engine, outputRootPath);\r\n    }\r\n\r\n    @Override\r\n    protected String getWritePath(JavaFileRenderData renderData) {\r\n\r\n        String separator = File.separator;\r\n        return outputRootPath + separator + renderData.getPackageName().replace(\".\", separator) + separator + renderData.getClassName() + \".java\";\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/pers/tom/generator5/java/template/JavaFileTemplate.java	(revision 0f66f34adc45dc5c87863594e33a2319b5f7dfa6)
++++ src/main/java/pers/tom/generator5/java/template/JavaFileTemplate.java	(date 1615471906584)
+@@ -9,13 +9,16 @@
+ 
+ /**
+  * @author lijia
+- * @description
++ * @description java文件模板
+  * @date 2021-03-09 14:22
+  */
+ public class JavaFileTemplate extends FileTemplate<JavaFileRenderData> {
+ 
++    public JavaFileTemplate(String templatePath, TemplateEngine engine){
++        super(templatePath, engine, System.getProperty("user.dir"));
++    }
++
+     public JavaFileTemplate(String templatePath, TemplateEngine engine, String outputRootPath) {
+-
+         super(templatePath, engine, outputRootPath);
+     }
+ 

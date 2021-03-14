@@ -1,8 +1,8 @@
 package pers.tom.generator6.factory;
 
 import pers.tom.generator6.TestRenderData;
-import pers.tom.generator6.renderdata.RenderData;
-import pers.tom.generator6.renderdata.factory.RenderDataCollectionFactory;
+import pers.tom.generator.basic.renderdata.RenderData;
+import pers.tom.generator.basic.renderdata.factory.RenderDataCollectionFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;

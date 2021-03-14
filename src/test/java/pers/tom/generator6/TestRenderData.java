@@ -2,7 +2,7 @@ package pers.tom.generator6;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import pers.tom.generator6.renderdata.RenderData;
+import pers.tom.generator.basic.renderdata.RenderData;
 
 import java.util.HashMap;
 import java.util.Map;

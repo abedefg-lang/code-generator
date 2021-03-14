@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import pers.tom.generator5.renderdata.RenderData;
+import pers.tom.generator.basic.renderdata.JavaFileType;
 
 import java.util.Set;
 

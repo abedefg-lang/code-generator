@@ -1,0 +1,42 @@
+package ${packageName};
+
+import java.io.Serializable;
+#foreach($import in $imports)
+import $import;
+#end
+#if($enableLombok)
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+#end
+
+#if($enableLombok)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+#end
+public ${fileType.typeName} ${className} implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($column in $columns)
+#if($column.comment != "")
+    /**$column.comment*/
+#end
+    private $column.javaType.getSimpleName() $column.fieldName;
+
+#end
+##当没有开启lombok时生成get set方法
+#if(!$enableLombok)
+#foreach($column in $columns)
+    public void set${column.greatHumpFieldName}(${column.javaType.getSimpleName()} ${column.fieldName}){
+        this.$column.fieldName = $column.fieldName;
+    }
+
+    public ${column.javaType.getSimpleName()} get${column.greatHumpFieldName}(){
+        return this.$column.fieldName;
+    }
+
+#end
+#end
+}

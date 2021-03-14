@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import pers.tom.generator6.exception.RenderException;
+import pers.tom.generator.basic.exception.RenderException;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderdata.factory.RenderDataCollectionFactory;
 import pers.tom.generator5.renderresult.RenderResult;

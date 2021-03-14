@@ -1,0 +1,44 @@
+<changelist name="Uncommitted_changes_before_Update_at_2021_3_11_21_54_[Default_Changelist]" date="1615470859577" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021_3_11_21_54_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2021/3/11 21:54 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/TableInfosFactory4JDBC.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/TemplateCodeGenerator.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/TestMain.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/GenericTemplate.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/test-classes/generator4/TestRenderData.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/code-generator-1.0-SNAPSHOT.jar" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/test-classes/generator4/RenderTest.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_2021_2_23_10_02_[Default_Changelist]/ReverseTableInfosFactory.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>

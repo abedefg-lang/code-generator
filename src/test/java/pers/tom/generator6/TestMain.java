@@ -2,8 +2,8 @@ package pers.tom.generator6;
 
 import org.junit.Test;
 import pers.tom.generator6.factory.TestRenderDataCollectionFactory;
-import pers.tom.generator6.template.FileTemplate;
-import pers.tom.generator6.template.engine.VelocityEngine;
+import pers.tom.generator.basic.template.FileTemplate;
+import pers.tom.generator.basic.template.engine.VelocityEngine;
 
 /**
  * @author lijia

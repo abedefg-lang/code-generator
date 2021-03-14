@@ -36,20 +36,20 @@ public abstract class MappingRelationTypeHandler implements TypeHandler{
      * @param javaType java类型
      */
     public void registerMapping(String originalType, Class<?> javaType){
-        this.registerMapping(originalType, javaType, true);
-    }
-
-    /**
-     * 注册映射关系
-     * @param originalType 原来的类型
-     * @param javaType java类型
-     * @param cover 是否允许覆盖  如果不允许覆盖会抛出异常
-     */
-    public void registerMapping(String originalType, Class<?> javaType, boolean cover){
-        if(!cover && typeMappingMap.containsKey(originalType)){
-            throw new RuntimeException("originalType : "+originalType+" 已存在");
-        }
         typeMappingMap.put(originalType, javaType);
     }
+
+//    /**
+//     * 注册映射关系
+//     * @param originalType 原来的类型
+//     * @param javaType java类型
+//     * @param cover 是否允许覆盖  如果不允许覆盖会抛出异常
+//     */
+//    public void registerMapping(String originalType, Class<?> javaType, boolean cover){
+//        if(!cover && typeMappingMap.containsKey(originalType)){
+//            throw new RuntimeException("originalType : "+originalType+" 已存在");
+//        }
+//        typeMappingMap.put(originalType, javaType);
+//    }
 
 }

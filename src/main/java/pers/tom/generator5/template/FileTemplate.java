@@ -2,10 +2,10 @@ package pers.tom.generator5.template;
 
 import lombok.Data;
 import org.springframework.lang.NonNull;
-import pers.tom.generator6.exception.RenderException;
+import pers.tom.generator.basic.exception.RenderException;
 import pers.tom.generator5.renderdata.RenderData;
 import pers.tom.generator5.renderresult.FileRenderResult;
-import pers.tom.generator6.template.engine.TemplateEngine;
+import pers.tom.generator.basic.template.engine.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;

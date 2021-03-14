@@ -29,5 +29,4 @@ public class TableInfo {
     /**主键字段*/
     private ColumnInfo primary;
 
-
 }
