@@ -22,7 +22,9 @@ public class ControllerRenderData extends JavaFileRenderData {
     private ServiceRenderData service;
 
 
-    public ControllerRenderData(String packageName, String className) {
+    public ControllerRenderData(String packageName, String className, ServiceRenderData service) {
         super(packageName, className);
+        this.service = service;
+        this.entity = service.getEntity();
     }
 }

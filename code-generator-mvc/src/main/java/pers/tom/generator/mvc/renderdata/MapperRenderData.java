@@ -20,8 +20,9 @@ public class MapperRenderData extends JavaFileRenderData {
     private EntityRenderData entity;
 
 
-    public MapperRenderData(String packageName, String className) {
+    public MapperRenderData(String packageName, String className, EntityRenderData entity) {
         super(packageName, className);
+        this.entity = entity;
     }
 
 }

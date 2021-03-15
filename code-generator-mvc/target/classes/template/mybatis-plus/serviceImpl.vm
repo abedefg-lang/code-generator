@@ -1,0 +1,22 @@
+package ${packageName};
+
+import ${entity.packageName}.${entity.className};
+import ${mapper.packageName}.${mapper.className};
+import ${service.packageName}.${service.className};
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+#foreach($import in $imports)
+import $import;
+#end
+
+@Service
+public class ${className} extends ServiceImpl<${mapper.className}, ${entity.className}> implements ${service.className}{
+
+    @Autowired
+    private ${mapper.className} ${mapper.smallHumpClassName};
+
+}

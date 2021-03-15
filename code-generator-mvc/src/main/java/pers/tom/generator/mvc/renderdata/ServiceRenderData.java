@@ -23,7 +23,9 @@ public class ServiceRenderData extends JavaFileRenderData {
     private MapperRenderData mapper;
 
 
-    public ServiceRenderData(String packageName, String className) {
+    public ServiceRenderData(String packageName, String className, MapperRenderData mapper) {
         super(packageName, className);
+        this.mapper = mapper;
+        this.entity = mapper.getEntity();
     }
 }

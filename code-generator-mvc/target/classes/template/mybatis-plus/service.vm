@@ -1,0 +1,12 @@
+package ${packageName};
+
+import ${entity.packageName}.${entity.className};
+import com.baomidou.mybatisplus.extension.service.IService;
+
+#foreach($import in $imports)
+import $import;
+#end
+
+public interface ${className} extends IService<${entity.className}>{
+
+}

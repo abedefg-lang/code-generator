@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 #end
 @TableName("$table.tableName")
-public ${fileType.typeName} ${className} implements Serializable{
+public class ${className} implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

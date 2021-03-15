@@ -47,7 +47,15 @@ public class TableInfoFactory4Jdbc implements TableInfoFactory {
 
     public TableInfoFactory4Jdbc(@NonNull DataSource dataSource){
 
+        this(dataSource, new MySqlDialect());
+    }
+
+    public TableInfoFactory4Jdbc(@NonNull DataSource dataSource,
+                                 @NonNull Dialect dialect){
+
         this.dataSource = dataSource;
+        this.dialect = dialect;
+        this.typeHandler = new DbTypeHandler();
     }
 
     @Override

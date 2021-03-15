@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 #end
-@TableName("$tableName")
-public ${fileType.typeName} ${className} implements Serializable{
+@TableName("$table.tableName")
+public class ${className} implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-#foreach($column in $columns)
+#foreach($column in $table.columns)
 #if($column.comment != "")
     /**$column.comment*/
 #end
@@ -38,7 +38,7 @@ public ${fileType.typeName} ${className} implements Serializable{
 #end
 ##当没有开启lombok时生成get set方法
 #if(!$enableLombok)
-#foreach($column in $columns)
+#foreach($column in $table.columns)
     public void set${column.greatHumpFieldName}(${column.javaType.getSimpleName()} ${column.fieldName}){
         this.$column.fieldName = $column.fieldName;
     }
@@ -49,4 +49,5 @@ public ${fileType.typeName} ${className} implements Serializable{
 
 #end
 #end
+
 }

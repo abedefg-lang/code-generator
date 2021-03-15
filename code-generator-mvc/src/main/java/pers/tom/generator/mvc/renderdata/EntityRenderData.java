@@ -29,9 +29,10 @@ public class EntityRenderData extends JavaFileRenderData {
     /**是否使用lombok*/
     private boolean enableLombok;
 
-    public EntityRenderData(String packageName, String className) {
+    public EntityRenderData(String packageName, String className, TableInfo table) {
         super(packageName, className);
         this.enableLombok = true;
+        this.setTable(table);
     }
 
     public void setTable(@NonNull TableInfo table) {
@@ -39,7 +40,7 @@ public class EntityRenderData extends JavaFileRenderData {
         this.table = table;
 
         List<ColumnInfo> columns = table.getColumns();
-        if(CollectionUtils.isEmpty(columns)){
+        if(!CollectionUtils.isEmpty(columns)){
             columns.forEach(columnInfo -> addImportClass(columnInfo.getJavaType()));
         }
     }

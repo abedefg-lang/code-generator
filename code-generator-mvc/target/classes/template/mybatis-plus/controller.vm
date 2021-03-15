@@ -1,0 +1,18 @@
+package ${packageName};
+
+import ${service.packageName}.${service.className};
+import org.springframework.stereotype.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+#foreach($import in $imports)
+import $import;
+#end
+
+@RestController
+@RequestMapping("/api/${entity.smallHumpClassName}")
+public class ${className} {
+
+    @Autowired
+    private ${service.className} ${service.smallHumpClassName};
+}

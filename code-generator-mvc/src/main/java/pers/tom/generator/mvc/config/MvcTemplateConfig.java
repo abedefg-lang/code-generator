@@ -2,7 +2,10 @@ package pers.tom.generator.mvc.config;
 
 import lombok.Data;
 import pers.tom.generator.basic.template.FileTemplate;
-import pers.tom.generator.basic.template.engine.VelocityEngine;
+import pers.tom.generator.basic.template.engine.VelocityTemplateEngine;
+
+import java.util.Properties;
+
 
 /**
  * @author tom
@@ -27,18 +30,6 @@ public class MvcTemplateConfig {
     /**controller模板*/
     private FileTemplate controllerTemplate;
 
-    /**
-     * 获取默认的模板配置
-     * @return config
-     */
-    public static MvcTemplateConfig getDefaultConfig(){
-
-        MvcTemplateConfig config = new MvcTemplateConfig();
-        VelocityEngine engine = new VelocityEngine();
-        config.setEntityTemplate(new FileTemplate("entity", "", engine));
-
-        return config;
-    }
 
     /**
      * 获取mybatisPlus风格的模板配置
@@ -47,8 +38,19 @@ public class MvcTemplateConfig {
     public static MvcTemplateConfig getMybatisPlusStyleConfig(){
 
         MvcTemplateConfig config = new MvcTemplateConfig();
-        VelocityEngine engine = new VelocityEngine();
-        config.setEntityTemplate(new FileTemplate("entity", "", engine));
+
+        //创建模板引擎
+        Properties properties = new Properties();
+        properties.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        VelocityTemplateEngine engine = new VelocityTemplateEngine(properties);
+
+        //设置模板
+        config.setEntityTemplate(new FileTemplate("entity", "template/mybatis-plus/entity.vm", engine));
+        config.setMapperTemplate(new FileTemplate("mapper", "template/mybatis-plus/mapper.vm", engine));
+        config.setServiceTemplate(new FileTemplate("service", "template/mybatis-plus/service.vm", engine));
+        config.setServiceImplTemplate(new FileTemplate("serviceImpl", "template/mybatis-plus/serviceImpl.vm", engine));
+        config.setControllerTemplate(new FileTemplate("controller", "template/mybatis-plus/controller.vm", engine));
+
         return config;
     }
 }

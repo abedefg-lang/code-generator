@@ -1,0 +1,14 @@
+package ${packageName};
+
+import ${entity.packageName}.${entity.className};
+import org.apache.ibatis.annotations.*;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+#foreach($import in $imports)
+import $import;
+#end
+
+@Mapper
+public interface ${className} extends BaseMapper<${entity.className}>{
+
+}

@@ -20,7 +20,7 @@ public class BatchCodeGenerator extends CodeGenerator{
     /**
      * 批量生成
      * @param template 模板
-     * @param collection 渲染数据
+     * @param collection 渲染数据集合
      * @param writePathGetter 由于文件是批量写入 每一个文件的写入路径都不同 所以需要一个获取路径的策略
      */
     public void batchGenerate(@NonNull FileTemplate template,
@@ -28,7 +28,6 @@ public class BatchCodeGenerator extends CodeGenerator{
                               @NonNull FileWritePathGetter writePathGetter){
 
         for(RenderData data : collection){
-            System.out.println(data);
             String writePath = writePathGetter.getWritePath(data);
             if(!StringUtils.isEmpty(writePath)){
                 generate(template, data, writePath);

@@ -4,12 +4,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.Assert;
 import pers.tom.generator.basic.BatchCodeGenerator;
+import pers.tom.generator.basic.JavaFileWritePathGetter;
+import pers.tom.generator.basic.renderdata.RenderData;
 import pers.tom.generator.basic.template.FileTemplate;
 import pers.tom.generator.mvc.config.MvcNamingStyleConfig;
 import pers.tom.generator.mvc.config.MvcPackageConfig;
 import pers.tom.generator.mvc.config.MvcTemplateConfig;
-
+import pers.tom.generator.mvc.renderdata.*;
+import pers.tom.generator.mvc.table.TableInfo;
 import pers.tom.generator.mvc.table.TableInfoFactory;
+
+import java.util.Collection;
 
 
 /**
@@ -20,6 +25,9 @@ import pers.tom.generator.mvc.table.TableInfoFactory;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class MvcCodeGenerator extends BatchCodeGenerator {
+
+    /**写入路径获取器*/
+    private FileWritePathGetter writePathGetter;
 
     /**命名风格配置*/
     private MvcNamingStyleConfig namingStyleConfig;
@@ -38,73 +46,60 @@ public class MvcCodeGenerator extends BatchCodeGenerator {
      */
     public void generate(){
 
-        this.preGenerate();
-
-        //生成entity
-
-    }
-
-
-    /**
-     * 在执行生成逻辑前检查参数
-     */
-    private void preGenerate(){
-
+        //检查非null属性
         Assert.notNull(templateConfig, "templateConfig不能为null");
         Assert.notNull(tableInfoFactory, "tableInfoFactory不能为null");
 
+        //检查可以为null属性 并设置默认值
         if(namingStyleConfig == null){
             namingStyleConfig = MvcNamingStyleConfig.getDefaultConfig();
         }
         if(packageConfig == null){
             packageConfig = MvcPackageConfig.getDefaultConfig();
         }
-
-    }
-
-
-//    private Collection<EntityRenderData> buildEntities(){
-//
-//        Collection<TableInfo> tableInfos = tableInfoFactory.get();
-//        List<EntityRenderData> entities = new ArrayList<>(tableInfos.size());
-//        EntityRenderData entity;
-//        for(TableInfo table : tableInfos){
-//            entity = new EntityRenderData(packageConfig.getEntityPackage(), namingStyleConfig.getEntityName(table.getClassName()));
-//            entity.setTable(table);
-//            entities.add(entity);
-//        }
-//        return entities;
-//    }
-//
-//    private Collection<MapperRenderData> buildMappers(Collection<EntityRenderData> entities){
-//
-//        List<MapperRenderData> mappers = new ArrayList<>(entities.size());
-//        MapperRenderData mapper;
-//        for(EntityRenderData entity : entities){
-//            mapper = new MapperRenderData(packageConfig.getMapperPackage(), namingStyleConfig.getMapperName(entity.getTable().getClassName()));
-//            mapper.setEntity(entity);
-//            mappers.add(mapper);
-//        }
-//        return mappers;
-//    }
-
-//    private Collection<ServiceRenderData> buildServices(Collection<MapperRenderData> mappers){
-//
-//    }
-//
-//    private Collection<ControllerRenderData> buildControllers(Collection<ServiceRenderData> services){
-//
-//    }
-
-    private void doGenerate(){
-
-        //生成entity
-        FileTemplate entityTemplate = templateConfig.getEntityTemplate();
-        if(entityTemplate != null){
-
+        if(writePathGetter == null){
+            writePathGetter = new JavaFileWritePathGetter(System.getProperty("user.dir"));
         }
 
+        //获取需要生成的表 进行生成
+        Collection<TableInfo> tableInfos = tableInfoFactory.get();
+        for(TableInfo table : tableInfos){
+            this.doGenerateSingleTable(table);
+        }
     }
 
+    /**
+     * 生成单个表相关的数据
+     * @param table table
+     */
+    protected void doGenerateSingleTable(TableInfo table){
+
+        //生成entity
+        EntityRenderData entity = new EntityRenderData(packageConfig.getEntityPackage(), namingStyleConfig.getEntityName(table.getClassName()), table);
+        this.doGenerate(templateConfig.getEntityTemplate(), entity);
+
+        //生成mapper
+        MapperRenderData mapper = new MapperRenderData(packageConfig.getMapperPackage(), namingStyleConfig.getMapperName(table.getClassName()), entity);
+        this.doGenerate(templateConfig.getMapperTemplate(), mapper);
+
+        //生成service
+        ServiceRenderData service = new ServiceRenderData(packageConfig.getServicePackage(), namingStyleConfig.getServiceName(table.getClassName()), mapper);
+        this.doGenerate(templateConfig.getServiceTemplate(), service);
+
+        //生成serviceImpl
+        ServiceImplRenderData serviceImpl = new ServiceImplRenderData(packageConfig.getServiceImplPackage(), namingStyleConfig.getServiceImplName(table.getClassName()), service);
+        this.doGenerate(templateConfig.getServiceImplTemplate(), serviceImpl);
+
+        //生成controller
+        ControllerRenderData controller = new ControllerRenderData(packageConfig.getControllerPackage(), namingStyleConfig.getControllerName(table.getClassName()), service);
+        this.doGenerate(templateConfig.getControllerTemplate(), controller);
+    }
+
+
+    private void doGenerate(FileTemplate template, RenderData renderData){
+        if(template != null && renderData != null){
+            generate(template, renderData, writePathGetter.getWritePath(renderData));
+        }
+    }
 
 }
