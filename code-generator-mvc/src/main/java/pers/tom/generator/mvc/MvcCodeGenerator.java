@@ -3,10 +3,11 @@ package pers.tom.generator.mvc;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import pers.tom.generator.basic.BatchCodeGenerator;
 import pers.tom.generator.basic.JavaFileWritePathGetter;
 import pers.tom.generator.basic.renderdata.RenderData;
-import pers.tom.generator.basic.template.FileTemplate;
+import pers.tom.generator.basic.template.Template;
 import pers.tom.generator.mvc.config.MvcNamingStyleConfig;
 import pers.tom.generator.mvc.config.MvcPackageConfig;
 import pers.tom.generator.mvc.config.MvcTemplateConfig;
@@ -46,6 +47,21 @@ public class MvcCodeGenerator extends BatchCodeGenerator {
      */
     public void generate(){
 
+        this.preGenerate();
+
+        //获取需要生成的表 进行生成
+        Collection<TableInfo> tableInfos = tableInfoFactory.get();
+        if(!CollectionUtils.isEmpty(tableInfos)){
+            for(TableInfo table : tableInfos){
+                this.doGenerateSingleTable(table);
+            }
+        }
+    }
+
+    /**
+     * 生成前置操作
+     */
+    protected void preGenerate(){
         //检查非null属性
         Assert.notNull(templateConfig, "templateConfig不能为null");
         Assert.notNull(tableInfoFactory, "tableInfoFactory不能为null");
@@ -59,12 +75,6 @@ public class MvcCodeGenerator extends BatchCodeGenerator {
         }
         if(writePathGetter == null){
             writePathGetter = new JavaFileWritePathGetter(System.getProperty("user.dir"));
-        }
-
-        //获取需要生成的表 进行生成
-        Collection<TableInfo> tableInfos = tableInfoFactory.get();
-        for(TableInfo table : tableInfos){
-            this.doGenerateSingleTable(table);
         }
     }
 
@@ -96,9 +106,9 @@ public class MvcCodeGenerator extends BatchCodeGenerator {
     }
 
 
-    private void doGenerate(FileTemplate template, RenderData renderData){
+    private void doGenerate(Template template, RenderData renderData){
         if(template != null && renderData != null){
-            generate(template, renderData, writePathGetter.getWritePath(renderData));
+            super.generate(template, renderData, writePathGetter.getWritePath(renderData));
         }
     }
 

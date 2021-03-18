@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 import pers.tom.generator.basic.interceptor.TemplateRenderInterceptor;
 import pers.tom.generator.basic.renderdata.RenderData;
-import pers.tom.generator.basic.template.FileTemplate;
+import pers.tom.generator.basic.template.Template;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,19 +33,19 @@ public class CodeGenerator {
      * @param renderData renderData
      * @param writePath 写入路径
      */
-    public void generate(@NonNull FileTemplate template,
+    public void generate(@NonNull Template template,
                          @NonNull RenderData renderData,
                          @NonNull String writePath){
 
         //执行前置 渲染 后置
         if(this.applyPreRendering(template, renderData)){
 
-            String content = template.rendering(renderData.toMap());
+            Object result = template.rendering(renderData.toMap());
 
-            this.applyPostRendering(template, renderData, content);
+            this.applyPostRendering(template, renderData, result);
 
             //写入代码
-            this.writeCode(writePath, content);
+            this.writeCode(writePath, result.toString());
         }
     }
 
@@ -66,7 +66,7 @@ public class CodeGenerator {
      * @param renderData 渲染数据
      * @return 返回true才执行渲染逻辑
      */
-    private boolean applyPreRendering(FileTemplate template, RenderData renderData){
+    private boolean applyPreRendering(Template template, RenderData renderData){
 
         if(!CollectionUtils.isEmpty(interceptorList)){
             for(TemplateRenderInterceptor interceptor : interceptorList){
@@ -82,13 +82,13 @@ public class CodeGenerator {
      * 执行后置处理
      * @param template 模板
      * @param renderData 渲染数据
-     * @param content 渲染内容
+     * @param result 渲染结果
      */
-    private void applyPostRendering(FileTemplate template, RenderData renderData, String content){
+    private void applyPostRendering(Template template, RenderData renderData, Object result){
 
         if(!CollectionUtils.isEmpty(interceptorList)){
             for(TemplateRenderInterceptor interceptor : interceptorList){
-                interceptor.postRendering(template, renderData, content);
+                interceptor.postRendering(template, renderData, result);
             }
         }
     }

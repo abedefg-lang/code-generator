@@ -2,6 +2,7 @@ package pers.tom.generator.mvc.config;
 
 import lombok.Data;
 import pers.tom.generator.basic.template.FileTemplate;
+import pers.tom.generator.basic.template.Template;
 import pers.tom.generator.basic.template.engine.VelocityTemplateEngine;
 
 import java.util.Properties;
@@ -16,19 +17,19 @@ import java.util.Properties;
 public class MvcTemplateConfig {
 
     /**entity模板*/
-    private FileTemplate entityTemplate;
+    private Template entityTemplate;
 
     /**mapper模板*/
-    private FileTemplate mapperTemplate;
+    private Template mapperTemplate;
 
     /**service接口模板*/
-    private FileTemplate serviceTemplate;
+    private Template serviceTemplate;
 
     /**service实现类模板*/
-    private FileTemplate serviceImplTemplate;
+    private Template serviceImplTemplate;
 
     /**controller模板*/
-    private FileTemplate controllerTemplate;
+    private Template controllerTemplate;
 
 
     /**

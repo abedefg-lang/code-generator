@@ -6,6 +6,7 @@ import pers.tom.generator.basic.exception.DataFormatNotSupportException;
 import pers.tom.generator.basic.renderdata.RenderData;
 import pers.tom.generator.basic.renderdata.factory.RenderDataFactory;
 import pers.tom.generator.basic.template.FileTemplate;
+import pers.tom.generator.basic.template.Template;
 
 import java.util.Collection;
 
@@ -23,7 +24,7 @@ public class BatchCodeGenerator extends CodeGenerator{
      * @param collection 渲染数据集合
      * @param writePathGetter 由于文件是批量写入 每一个文件的写入路径都不同 所以需要一个获取路径的策略
      */
-    public void batchGenerate(@NonNull FileTemplate template,
+    public void batchGenerate(@NonNull Template template,
                               @NonNull Collection<RenderData> collection,
                               @NonNull FileWritePathGetter writePathGetter){
 
@@ -37,7 +38,7 @@ public class BatchCodeGenerator extends CodeGenerator{
     }
 
 
-    public void batchGenerate(@NonNull FileTemplate template,
+    public void batchGenerate(@NonNull Template template,
                               @NonNull RenderDataFactory factory,
                               @NonNull FileWritePathGetter writePathGetter){
 

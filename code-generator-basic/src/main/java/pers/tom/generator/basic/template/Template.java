@@ -26,4 +26,6 @@ public interface Template {
      * @throws RenderException 渲染异常
      */
     Object rendering(@NonNull Map<String, Object> renderParam) throws RenderException;
+
+
 }
