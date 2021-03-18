@@ -18,7 +18,7 @@ import java.util.Set;
 public class JavaFileRenderData implements RenderData{
 
     /**包名*/
-    private final String packageName;
+    private String packageName;
 
     /**import的内容*/
     private Set<String> imports;
@@ -27,18 +27,22 @@ public class JavaFileRenderData implements RenderData{
     private JavaFileType fileType;
 
     /**类名*/
-    private final String className;
+    private String className;
 
     /**小驼峰类名*/
-    private final String smallHumpClassName;
+    private String smallHumpClassName;
 
 
-    public JavaFileRenderData(@NonNull String packageName,
-                              @NonNull String className){
+    public JavaFileRenderData(String packageName, String className){
 
         this.packageName = packageName;
         this.imports = new HashSet<>();
         this.fileType = JavaFileType.CLASS;
+        this.setClassName(className);
+    }
+
+
+    public void setClassName(String className){
         this.className = className;
         this.smallHumpClassName = NameUtils.initialLowercase(className);
     }

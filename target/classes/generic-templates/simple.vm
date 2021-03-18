@@ -1,8 +1,0 @@
-package ${renderData.packageName};
-
-
-public ${renderData.type.typeName} ${renderData.className} {
-
-
-
-}

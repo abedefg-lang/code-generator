@@ -1,0 +1,16 @@
+pers\tom\generator\mvc\renderdata\MapperRenderData.class
+pers\tom\generator\mvc\renderdata\ServiceImplRenderData.class
+pers\tom\generator\mvc\table\jdbc\TableInfoFactory4Jdbc.class
+pers\tom\generator\mvc\config\MvcTemplateConfig.class
+pers\tom\generator\mvc\config\MvcPackageConfig.class
+pers\tom\generator\mvc\table\jdbc\DbTypeHandler.class
+pers\tom\generator\mvc\table\TableInfo.class
+pers\tom\generator\mvc\MvcCodeGenerator.class
+pers\tom\generator\mvc\renderdata\ServiceRenderData.class
+pers\tom\generator\mvc\table\jdbc\Dialect.class
+pers\tom\generator\mvc\renderdata\ControllerRenderData.class
+pers\tom\generator\mvc\config\MvcNamingStyleConfig.class
+pers\tom\generator\mvc\table\TableInfoFactory.class
+pers\tom\generator\mvc\renderdata\EntityRenderData.class
+pers\tom\generator\mvc\table\ColumnInfo.class
+pers\tom\generator\mvc\table\jdbc\MySqlDialect.class
