@@ -1,7 +1,5 @@
 package pers.tom.generator.basic.renderdata;
 
-import cn.hutool.core.bean.BeanUtil;
-
 import java.util.Map;
 
 /**
@@ -15,7 +13,5 @@ public interface RenderData {
      * 转换为map格式
      * @return map
      */
-    default Map<String, Object> toMap(){
-        return BeanUtil.beanToMap(this);
-    }
+    Map<String, Object> toMap();
 }

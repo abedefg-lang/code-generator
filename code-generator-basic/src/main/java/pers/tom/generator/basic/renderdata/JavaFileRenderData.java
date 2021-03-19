@@ -1,12 +1,15 @@
 package pers.tom.generator.basic.renderdata;
 
+import cn.hutool.core.bean.BeanUtil;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import pers.tom.generator.basic.utils.NameUtils;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,6 +34,9 @@ public class JavaFileRenderData implements RenderData{
 
     /**小驼峰类名*/
     private String smallHumpClassName;
+
+    /**存储自定义参数*/
+    private Map<String, Object> paramMap;
 
 
     public JavaFileRenderData(String packageName, String className){
@@ -61,6 +67,26 @@ public class JavaFileRenderData implements RenderData{
         if(isNeedImport(className)){
             imports.add(className);
         }
+    }
+
+    /**
+     * 添加参数
+     */
+    public void putParam(String key, Object value){
+        if(paramMap == null){
+            paramMap = new HashMap<>();
+        }
+        paramMap.put(key, value);
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = BeanUtil.beanToMap(this);
+        map.remove("paramMap");
+        if(paramMap != null){
+            map.putAll(paramMap);
+        }
+        return map;
     }
 
     /**
