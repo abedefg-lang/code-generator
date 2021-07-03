@@ -16,7 +16,6 @@ import java.util.Properties;
  */
 public class VelocityTemplateEngine implements TemplateEngine{
 
-
     private final VelocityContext context;
 
     public VelocityTemplateEngine(){

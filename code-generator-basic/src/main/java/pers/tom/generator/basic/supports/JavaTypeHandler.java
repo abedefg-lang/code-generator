@@ -1,6 +1,5 @@
 package pers.tom.generator.basic.supports;
 
-import pers.tom.generator.basic.supports.TypeHandler;
 
 /**
  * @author tom
