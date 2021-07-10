@@ -1,0 +1,41 @@
+Index: src/test/java/pers/tom/generator6/TestMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pers.tom.generator6;\r\n\r\nimport org.junit.Test;\r\nimport pers.tom.generator6.factory.TestRenderDataCollectionFactory;\r\nimport pers.tom.generator.basic.template.FileTemplate;\r\nimport pers.tom.generator.basic.template.engine.VelocityEngine;\r\n\r\n/**\r\n * @author lijia\r\n * @description\r\n * @date 2021-03-12 14:08\r\n */\r\npublic class TestMain {\r\n\r\n    @Test\r\n    public void test(){\r\n//        CodeGenerator codeGenerator = new CodeGenerator();\r\n//        FileTemplate testTemplate = new FileTemplate(\"test\", \"src/test/resources/test.vm\", new VelocityEngine());\r\n//        TestRenderData testRenderData = new TestRenderData(\"tom\", \"18\");\r\n//        codeGenerator.generate(testTemplate, testRenderData, \"src/test/java/pers/tom/generator6/codes/test.txt\");\r\n\r\n        BatchCodeGenerator batchCodeGenerator = new BatchCodeGenerator();\r\n\r\n        FileTemplate testTemplate = new FileTemplate(\"test\", \"src/test/resources/test.vm\", new VelocityEngine());\r\n        TestRenderDataCollectionFactory factory = new TestRenderDataCollectionFactory();\r\n        batchCodeGenerator.batchGenerate(testTemplate, factory, renderData -> {\r\n            TestRenderData testRenderData = (TestRenderData) renderData;\r\n            return \"src/test/java/pers/tom/generator6/codes/\"+testRenderData.getName()+\".txt\";\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/pers/tom/generator6/TestMain.java	(revision d2b9035813f55af775cd0f1fd36458454cbef20e)
++++ src/test/java/pers/tom/generator6/TestMain.java	(date 1623555679238)
+@@ -1,9 +1,8 @@
+ package pers.tom.generator6;
+ 
+ import org.junit.Test;
+-import pers.tom.generator6.factory.TestRenderDataCollectionFactory;
+-import pers.tom.generator.basic.template.FileTemplate;
+-import pers.tom.generator.basic.template.engine.VelocityEngine;
++import pers.tom.generator6.template.Template;
++import pers.tom.generator6.template.VelocityTemplate;
+ 
+ /**
+  * @author lijia
+@@ -14,18 +13,6 @@
+ 
+     @Test
+     public void test(){
+-//        CodeGenerator codeGenerator = new CodeGenerator();
+-//        FileTemplate testTemplate = new FileTemplate("test", "src/test/resources/test.vm", new VelocityEngine());
+-//        TestRenderData testRenderData = new TestRenderData("tom", "18");
+-//        codeGenerator.generate(testTemplate, testRenderData, "src/test/java/pers/tom/generator6/codes/test.txt");
+-
+-        BatchCodeGenerator batchCodeGenerator = new BatchCodeGenerator();
+-
+-        FileTemplate testTemplate = new FileTemplate("test", "src/test/resources/test.vm", new VelocityEngine());
+-        TestRenderDataCollectionFactory factory = new TestRenderDataCollectionFactory();
+-        batchCodeGenerator.batchGenerate(testTemplate, factory, renderData -> {
+-            TestRenderData testRenderData = (TestRenderData) renderData;
+-            return "src/test/java/pers/tom/generator6/codes/"+testRenderData.getName()+".txt";
+-        });
++        Template template = new VelocityTemplate("");
+     }
+ }

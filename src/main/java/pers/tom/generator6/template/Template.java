@@ -2,7 +2,7 @@ package pers.tom.generator6.template;
 
 import org.springframework.lang.NonNull;
 
-import java.io.Writer;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -12,9 +12,12 @@ import java.util.Map;
  */
 public interface Template {
 
+    /**默认字符集*/
+    String DEFAULT_ENCODING = "UTF-8";
+
     /**
-     * 获取当前模板的名称
-     * @return template
+     * 获取模板名称
+     * @return name
      */
     String getName();
 
@@ -23,7 +26,14 @@ public interface Template {
      * @param param 渲染参数
      * @return 渲染结果
      */
-    Object render(Map<String, Object> param);
+    String render(Map<String, Object> param);
+
+    /**
+     * 将结果写入到指定文件
+     * @param param 渲染参数
+     * @param file file
+     */
+    void render(Map<String, Object> param, @NonNull File file);
 
     /**
      * 渲染数据并将结果输出
